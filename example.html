@@ -1,0 +1,38 @@
+<!--
+		 <script src="https://unpkg.com/react@16/umd/react.production.min.js" crossorigin></script>
+		 <script src="https://unpkg.com/react-dom@16/umd/react-dom.production.min.js" crossorigin></script>
+-->
+<script src="https://unpkg.com/react@16/umd/react.development.js"></script>
+<script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script>
+
+
+<body>
+
+	<h1>OpenStad kaartapplicatie</h1>
+
+	<!-- voorbeeld kaart -->
+	<div>
+    <div class="container">
+		  <div class="openstad-component-ideas-on-map" config='{"divId": "ideeen-op-de-kaart", "apiUrl": "http://openstad-api.francesco.denes.nl", "siteId": 2, "map": { "variant": "amaps", "zoom": 16, "clustering": { "isActive": true } } }'></div>
+    </div>
+    <link rel="stylesheet" type="text/css" href="../css/all.css"/>
+    <link rel="stylesheet" type="text/css" href="dist/css/default.css"/>
+		<script src="dist/index.js"></script>
+  </div>
+  <style>
+   body, html {
+     background-color: white;
+   }
+   h1 {
+     background-color: white;
+   }
+   .container {
+     width: calc(100%);
+     background-color: white;
+   }
+  </style>
+
+</body>
+
+
+

@@ -1,0 +1,98 @@
+.openstad-align-right-container {
+  text-align: right;
+}
+
+.openstad-margin-right {
+  margin-right: 15px;
+}
+
+.openstad-button-basics() {
+  position: relative;
+  display: inline-block;
+  padding: 0 15px;
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 44px;
+  border: 0 none;
+  cursor: pointer;
+
+  &:active, &:focus {
+    outline: 0;
+  }
+
+}
+
+
+.openstad-button {
+
+  .openstad-button-basics;
+  background-color: #c4c4c4;
+
+  &:hover {
+    text-decoration: underline;
+    background-color: #aaa;
+  }
+
+}
+
+.openstad-button-blue {
+
+  .openstad-button-basics;
+  color: white;
+  background-color: #164995;
+
+  &:hover {
+    text-decoration: underline;
+    background-color: #003066;
+  }
+
+}
+
+.openstad-close-button {
+  .openstad-close-button-background;
+  position: absolute;
+  top: 20px;
+  right: 15px;
+  width: 20px;
+  height: 20px;
+  background-color: transparent;
+  border: 0 none;
+  cursor: pointer;
+  z-index: 20;
+
+  &:active, &:focus {
+    outline: 0;
+  }
+  
+}
+
+.openstad-default-select {
+  .openstad-arrow-down-black-background;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  height: 44px;
+  padding: 0 20px;
+  padding-right: 40px;
+  border: solid 1px #434343;
+  outline: none;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 44px;
+  text-align: left;
+  background-color: white;
+}
+
+.openstad-default-input {
+	appearance: none;
+	height: 44px;
+	padding: 0 20px;
+	padding-right: 40px;
+	border: solid 1px #434343;
+	outline: none;
+	font-size: 16px;
+	font-weight: 400;
+	line-height: 44px;
+	text-align: left;
+	background-color: white;
+}
