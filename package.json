@@ -22,8 +22,6 @@
     "less": "^3.10.3",
     "less-loader": "^5.0.0",
     "mini-css-extract-plugin": "^0.8.0",
-    "openstad-component": "^1.0.0",
-    "openstad-component-nlmap": "^1.0.0",
     "react": "^16.11.0",
     "react-dom": "^16.11.0",
     "react-proxy-loader": "^0.3.5",
@@ -33,7 +31,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Amsterdam/openstad-component-nlmap.git"
+    "url": "git+https://github.com/Amsterdam/openstad-component-ideas-on-map.git"
   },
   "author": "Niels Vegter",
   "license": "ISC",
@@ -43,6 +41,6 @@
   "homepage": "https://github.com/Amsterdam/openstad-component-nlmap#readme",
   "dependencies": {
     "openstad-component": "git+ssh://git@github.com/Amsterdam/openstad-component.git",
-    "openstad-component-nlmap": "git+ssh://git@github.com/Amsterdam/openstad-component.git"
+    "openstad-component-nlmap": "git+ssh://git@github.com/Amsterdam/openstad-component-nlmap.git"
   }
 }
