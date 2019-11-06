@@ -80,6 +80,24 @@ export default class Map extends OpenStadComponentNLMap {
 	  }
 	}
 
+  showMarkers() {
+	  var self = this;
+    self.markers.forEach((marker) => {
+      self.showMarker(marker)
+    });
+    self.setBoundsAndCenter(self.markers);
+  }
+
+  hideMarkers({ exception }) {
+	  var self = this;
+    self.markers.forEach((marker) => {
+      if (!(exception && marker.data && marker.data.id && exception.id == marker.data.id)) {
+        self.hideMarker(marker)
+      }
+    });
+    self.setBoundsAndCenter([{ lat: exception.location.coordinates[0], lng: exception.location.coordinates[1] }]);
+  }
+
   fadeMarkers({ exception }) {
     let self = this;
     self.markers.forEach((marker) => {
@@ -99,7 +117,7 @@ export default class Map extends OpenStadComponentNLMap {
     let self = this;
     self.markers.forEach((marker) => {
       let visibleParent = self.markerClusterGroup.getVisibleParent(marker);
-      if (visibleParent) {
+      if (visibleParent && marker.visible) {
         let ignore = visibleParent && visibleParent.getAllChildMarkers && visibleParent.getAllChildMarkers().find( m => m.data && m.data.isFaded === false );
         visibleParent.setOpacity(!ignore && marker.data && marker.data.isFaded ? 0.3 : 1);
       }

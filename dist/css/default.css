@@ -144,7 +144,7 @@
   box-sizing: border-box;
   position: relative;
   width: 100%;
-  height: 800px;
+  height: 600px;
 }
 .openstad-component-ideas-on-map h3,
 .openstad-component-ideas-on-map h4 {
@@ -205,6 +205,16 @@
 }
 .openstad-component-ideas-on-map .openstad-component-ideas-on-map-filterbar .openstad-align-right-container {
   flex-grow: 1;
+}
+.openstad-component-ideas-on-map .openstad-component-ideas-on-map-filterbar .openstad-component-backbutton {
+  background-position: center left 0px;
+  background-size: 9px 13px;
+  background-repeat: no-repeat;
+  background-image: url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA2LjM3IDkuOCIgd2lkdGg9IjYuMzciIGhlaWdodD0iOS44Ij48ZGVmcz48c3R5bGU+LmNscy0xe2ZpbGw6IzIzMWYyMDt9PC9zdHlsZT48L2RlZnM+PHRpdGxlPnRlcnVnbmFhcm92ZXJ6aWNodC1waWpsIGxpbmtzPC90aXRsZT48ZyBpZD0iTGF5ZXJfMiIgZGF0YS1uYW1lPSJMYXllciAyIj48ZyBpZD0iSURFRV9ERVRBSUwiIGRhdGEtbmFtZT0iSURFRSBERVRBSUwiPjxwb2x5Z29uIGNsYXNzPSJjbHMtMSIgcG9pbnRzPSI1LjM0IDAgNi4zNCAxLjA5IDIuMTkgNC45IDYuMzcgOC43MSA1LjM4IDkuOCAwIDQuOSA1LjM0IDAiLz48L2c+PC9nPjwvc3ZnPg==);
+  margin-left: 10px;
+  padding-left: 20px;
+  line-height: 44px;
+  cursor: pointer;
 }
 .openstad-component-ideas-on-map .openstad-component-ideas-on-map-info {
   position: absolute;
@@ -341,7 +351,15 @@
   font-weight: bold;
   text-align: center;
 }
-.openstad-component-ideas-on-map.openstad-component-ideas-on-map-idea-details .openstad-component-votebutton button {
+.openstad-component-ideas-on-map .openstad-component-idea-details {
+  width: 700px;
+  margin: 0 auto;
+}
+.openstad-component-ideas-on-map .openstad-component-idea-details .openstad-component-image {
+  width: 700px;
+  height: 375px;
+}
+.openstad-component-ideas-on-map .openstad-component-idea-details .openstad-component-votebutton button {
   width: 118px;
 }
 .openstad-component-ideas-on-map.openstad-component-ideas-on-map-idea-details .openstad-component-ideas-on-map-info,

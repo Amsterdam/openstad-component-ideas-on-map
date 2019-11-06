@@ -111,7 +111,7 @@ export default class IdeasList extends React.Component {
           if (!idea) {
             console.log('idea is undef', i, self.state.ideas);
           }
-          let tmp = self.config.types.find(entry => entry.name == idea.extraData.thema);
+          let tmp = self.config.types.find(entry => idea.extraData && entry.name == idea.extraData.thema);
           let typeColor = tmp && tmp.color || 'black';
           return (
             <div className="openstad-component-info-block-ideas-list-idea" onClick={(event) => self.config.onIdeaClick(event, idea)} key={'info-block-' + i}>

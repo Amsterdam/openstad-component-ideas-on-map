@@ -30,8 +30,6 @@ export default class IdeasForm extends React.Component {
     this.state = {
       formfields: this.config.formfields,
 			ideaId: this.config.ideaId,
-      location: this.config.location,
-      address: this.config.address,
     };
 
     this.handleFieldChange = this.handleFieldChange.bind(this);
@@ -39,21 +37,43 @@ export default class IdeasForm extends React.Component {
   }
 
 	componentDidMount(prevProps, prevState) {
+    // filepond
+		this._loadedFiles = 0;
+    this.files = [
+      "https://unpkg.com/filepond/dist/filepond.js",
+      "https://unpkg.com/filepond-polyfill/dist/filepond-polyfill.js",
+      "https://unpkg.com/filepond-plugin-image-preview/dist/filepond-plugin-image-preview.js",
+      "https://unpkg.com/filepond-plugin-file-validate-type/dist/filepond-plugin-file-validate-type.js",
+      "https://unpkg.com/filepond-plugin-file-validate-size/dist/filepond-plugin-file-validate-size.js",
+      "https://unpkg.com/filepond-plugin-file-poster/dist/filepond-plugin-file-poster.js",
+    ];
+    this.loadNextFile();
 	}
 
+  loadNextFile() {
+    var self = this;
+    var file = self.files[self._loadedFiles];
+    if (file) {
+			let element;
+			element = document.createElement('script');
+			element.src = file;
+			element.async = true;
+			if (element) {
+				element.onload = function() {
+          self.loadNextFile();
+				}
+				document.body.appendChild(element);
+			}
+    }
+		if (self._loadedFiles == self.files.length) {
+      self.fileUploaderInit()
+    }
+		self._loadedFiles++;
+  }
+  
   handleFieldChange(name, value) {
     let state = { ...this.state };
     state.formfields[name] = value;
-    this.setState(state)
-    this.dispatchUpdateEditIdea(state.formfields)
-  }
-
-  // todo: als hadlefieldchange met meerder waarden in een { key: value } formaat gaat werken dan kan deze weg
-  handleLocationChange({location, address}) {
-    let state = { ...this.state };
-    state.formfields['location'] = location;
-    state.formfields['address'] = address;
-    console.log(state);
     this.setState(state)
     this.dispatchUpdateEditIdea(state.formfields)
   }
@@ -235,16 +255,10 @@ export default class IdeasForm extends React.Component {
 
         <form className="openstad-component-form">
 
-				  <input type="hidden" id="extraData" name="extraData" value=""/>
+				  <input type="hidden" id="extraData" name="extraData" value=""/><br/>
+
           
 				  <h1>Kans of knelpunt toevoegen</h1>
-
-          <div className="openstad-component-form-group">
-					  <h2>
-            Een locatie vlakbij
-					  </h2>
-            {self.state.formfields.address || 'Geen adres gevonden'}
-          </div>
 
           <div className="openstad-component-form-group">
 					  <h2>
@@ -294,8 +308,21 @@ export default class IdeasForm extends React.Component {
 						<span id="form-warning-description" className="form-warning">Je beschrijving is te [[langkort]]</span>
           </div>
 
-          {/* <a className="openstad-button openstad-button-blue" onClick={() => self.submitIdea()} ref={el => (self.submitButton = el)}>Versturen</a> */}
-          <a className="openstad-button openstad-button-blue" onClick={() => alert('To do')} ref={el => (self.submitButton = el)}>Versturen</a>
+          <div className="openstad-component-form-group">
+					  <h2>
+						  Afbeelding
+					  </h2>
+					  <div className="form-info">
+						  Let op: Stuur alleen een foto mee die je zelf gemaakt hebt! Foto's van anderen kunnen auteursrechtelijk beschermd zijn. Je hebt toestemming nodig van de fotograaf om die foto te uploaden.
+					  </div>
+						<fieldset className="filepondFieldset2">
+							<span id="form-warning-images" className="form-warning">Het uploaden van images is nog niet afgerond</span>
+							<input type="file" className="imageUploader-gebiedstool filepond-gebiedstool"/>
+						</fieldset>
+            <br/>
+          </div>
+
+          <a className="openstad-button openstad-button-blue" onClick={() => self.submitIdea()} ref={el => (self.submitButton = el)}>Versturen</a>
 
         </form>
 
@@ -303,5 +330,119 @@ export default class IdeasForm extends React.Component {
     );
 
   }
+
+  fileUploaderInit() {
+
+    let self = this;
+
+		var fieldsetElement = document.querySelector('.filepondFieldset2');
+		if (fieldsetElement) {
+			FilePond.registerPlugin(FilePondPluginImagePreview);
+			FilePond.registerPlugin(FilePondPluginFileValidateSize);
+			FilePond.registerPlugin(FilePondPluginFileValidateType);
+			FilePond.registerPlugin(FilePondPluginFilePoster);
+
+			FilePond.setOptions({
+				server: '/image'
+			});
+
+			var filePondSettings = {
+				// set allowed file types with mime types
+				acceptedFileTypes: ['image/*'],
+				allowFileSizeValidation: true,
+				maxFileSize: '5mb',
+				name: 'image',
+				maxFiles: 3,
+				allowBrowse: true,
+				files: [],
+				server: {
+					process: '/image',
+					fetch: '/fetch-image?img='
+				},
+				imageResizeTargetWidth: 80,
+				imageResizeTargetHeight: 80,
+				imageCropAspectRatio: '1:1',
+				labelIdle: "Sleep afbeelding(en) naar deze plek of <span class='filepond--label-action'>KLIK HIER</span>",
+				labelInvalidField: "Field contains invalid files",
+				labelFileWaitingForSize: "Wachtend op grootte",
+				labelFileSizeNotAvailable: "Grootte niet beschikbaar",
+				labelFileCountSingular: "Bestand in lijst",
+				labelFileCountPlural: "Bestanden in lijst",
+				labelFileLoading: "Laden",
+				labelFileAdded: "Toegevoegd", // assistive only
+				labelFileLoadError: "Fout bij het uploaden",
+				labelFileRemoved: "Verwijderd", // assistive only
+				labelFileRemoveError: "Fout bij het verwijderen",
+				labelFileProcessing: "Laden",
+				labelFileProcessingComplete: "Afbeelding geladen",
+				labelFileProcessingAborted: "Upload cancelled",
+				labelFileProcessingError: "Error during upload",
+				labelFileProcessingRevertError: "Error during revert",
+				labelTapToCancel: "tap to cancel",
+				labelTapToRetry: "tap to retry",
+				labelTapToUndo: "tap to undo",
+				labelButtonRemoveItem: "Verwijderen",
+				labelButtonAbortItemLoad: "Abort",
+				labelButtonRetryItemLoad: "Retry",
+				labelButtonAbortItemProcessing: "Verwijder",
+				labelButtonUndoItemProcessing: "Undo",
+				labelButtonRetryItemProcessing: "Retry",
+				labelButtonProcessItem: "Upload"
+			}
+			
+			var imageuploader = FilePond.create(fieldsetElement, filePondSettings);
+			var sortableInstance;
+			var pondEl = document.querySelector('.filepond--root');
+			
+			document.querySelector('.filepond--root').addEventListener('FilePond:processfile', e => {
+				if (e.detail) {
+					console.log('Error uploding file: ', e.detail);
+				}
+				self.fileUploaderUpdateCurrentInput()
+			});
+			
+			document.querySelector('.filepond--root').addEventListener('FilePond:removefile', e => {
+				if (e.detail && e.detail.error) {
+					console.log('Error uploding file: ', e.detail);
+				}
+				self.fileUploaderUpdateCurrentInput()
+			});
+
+			if (self.state.formfields) {
+				imageuploader.addFiles(self.state.formfields.images)
+			}
+
+		}
+
+    self.setState({ ...self.state, imageuploader })
+    
+	}
+	
+
+  fileUploaderUpdateCurrentInput() {
+    let self = this;
+
+		if (self.state.formfields) {
+			self.state.formfields.images = [];
+			if ( this.state.imageuploader && this.state.imageuploader.getFiles ) {
+				var images = this.state.imageuploader.getFiles();
+				images.forEach((image) => {
+					try {
+						var serverId = JSON.parse(image.serverId)
+						self.state.formfields.images.push(serverId.url)
+					} catch(err) { console.log(err) }
+				});
+			}
+		}
+	}
+
+  fileUploaderUploaderAddImages(images) {
+    let self = this;
+
+		if (this.state.imageuploader) {
+			console.log(2, images)
+			this.state.imageuploader.addFiles(images)
+		}
+	}
 
 }

@@ -8,7 +8,7 @@
 
   position: relative;
   width: 100%;
-  height: 800px;
+  height: 600px;
 
   h3, h4 {
     font-weight: bold;
@@ -83,6 +83,14 @@
 		.openstad-align-right-container {
 			flex-grow: 1;
 		}
+
+    .openstad-component-backbutton {
+      .openstad-arrow-left-black-background;
+			margin-left: 10px;
+			padding-left: 20px;
+      line-height: 44px;
+      cursor: pointer;
+    }
 
   }
 
@@ -244,7 +252,15 @@
 
   }
 
-  &.openstad-component-ideas-on-map-idea-details {
+  .openstad-component-idea-details {
+
+    width: 700px;
+    margin: 0 auto;
+
+    .openstad-component-image {
+      width: 700px;
+      height: 375px;
+    }
 
     .openstad-component-votebutton {
       button {
@@ -257,16 +273,19 @@
 
   &.openstad-component-ideas-on-map-idea-details,
   &.openstad-component-ideas-on-map-idea-form {
+
     .openstad-component-ideas-on-map-info {
       left: 0;
       width: 1000px;
       height: calc( 100% - 64px );
     }
+
     .openstad-component-ideas-on-map-map {
       left: 1000px;
       width: calc(100% - 1000px);
       height: calc( 100% - 64px );
     }
+
   }
 
   &.openstad-component-ideas-on-map-default,
@@ -278,11 +297,13 @@
       width: 687px;
       height: calc( 100% - 64px );
     }
+
     .openstad-component-ideas-on-map-map {
       left: 687px;
       width: calc(100% - 687px);
       height: calc( 100% - 64px );
     }
+
   }
 
 }

@@ -77,15 +77,26 @@ export default class InfoBlock extends React.Component {
 
     // new idea
     if (self.state.newIdea) {
+      let button = null;
+      if (self.config.userJWT) {
+        button = (
+          <button className="openstad-button openstad-button-blue" onClick={(event) => self.dispatchNewIdeaClick(event)} ref={el => (self.newIdeaButton = el)}>Nieuwe kans of knelpunt toevoegen</button>
+        );
+      } else {
+        button = (
+          <button onClick={() => { document.location.href = '/login' }} className="openstad-button-blue openstad-not-logged-in-button">Inloggen</button>
+        );
+      }
       newIdeaHTML = (
 			  <div className="openstad-component-info-block-new-idea">
           <button className="openstad-close-button" onClick={(event) => self.dispatchUpdateNewIdea(event, null)} ref={el => (self.resetButton = el)}/>
           <h3>Geselecteerd</h3>
           <p>Een locatie vlakbij</p>
-          <h4>{(self.state.newIdea.address && self.state.newIdea.address._display) || 'Geen adres gevonden'}</h4>
+          <h4>{self.state.newIdea.address}</h4>
+          {/* <h4>{self.state.newIdea.location.coordinates[0]},{self.state.newIdea.location.coordinates[1]}</h4> */}
           <p>Op deze exacte locatie is nog geen kans of knelpunt ingediend. Wellicht heeft een medebewoner wel al in de buurt een melding gedaan waar u aan wilt bijdragen, dit kunt u bekijken in de lijst hieronder. Wilt u een nieuw kans of knelpunt toevoegen? Klik dan hier:</p>
           <div className="openstad-align-right-container">
-            <button className="openstad-button openstad-button-blue" onClick={(event) => self.dispatchNewIdeaClick(event)} ref={el => (self.newIdeaButton = el)}>Nieuwe kans of knelpunt toevoegen</button>
+            {button}
           </div>
         </div>
       );
@@ -98,7 +109,7 @@ export default class InfoBlock extends React.Component {
       let tmp = self.config.types.find(entry => entry.name == idea.extraData.thema);
       let typeColor = tmp && tmp.color || 'black';
       selectedIdeaHTML = (
-			  <div className="openstad-component-info-block-selected-idea" onClick={(event) => self.dispatchSelectedIdeaClick(event)}>
+			  <div className="openstad-component-info-block-selected-idea" onClick={(event) => self.dispatchSelectedIdeaClick(event, self.state.selectedIdea)}>
           <button className="openstad-close-button" onClick={(event) => self.dispatchUpdateSelectedIdea(event, null)} ref={el => (self.resetButton = el)}/>
           <h3>Geselecteerd</h3>
           <div className="openstad-component-info-block-selected-idea-idea">

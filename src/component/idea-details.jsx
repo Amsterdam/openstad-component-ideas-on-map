@@ -47,10 +47,13 @@ export default class IdeasDetails extends React.Component {
 
     return (
 			<div id={self.id} className={self.props.className || 'openstad-component-info-block-idea-details'} ref={el => (self.instance = el)}>
+			  <div className="openstad-component-idea-details">
 
-				<h3>{eval(`self.props.idea.${self.config.titleField}`)}</h3>
-        {voteButton}
+				  <h2>{eval(`self.props.idea.${self.config.titleField}`)}</h2>
+          <div className="openstad-component-image" style={{ backgroundImage: `url(${self.props.idea.image})` }}></div>
+				  <p>{self.props.idea.description}</p>
         
+			  </div>
 			</div>
     );
 
