@@ -1,0 +1,47 @@
+@import 'openstad-images';
+
+// @import './tmp/filepond.css';
+// @import './tmp/form';
+// @import './tmp/main';
+// @import './tmp/trix.css';
+
+.openstad-component-form {
+
+  width: 100%;
+  padding: 0 80px 0 30px;
+
+  .openstad-component-form-group {
+
+    margin-bottom: 40px;
+
+    input, textarea {
+      width: 100%;
+      padding: 9px 7px;
+      border: 1px solid #767676;
+      border-radius: 0;
+    }
+
+    .form-info, .form-warning {
+      position: relative;
+      margin: -16px 0 10px 30px;
+      padding: 0;
+    }
+
+    .form-warning {
+      position: absolute;
+      margin-top: 2px;
+    }
+                                      
+    .form-info::before, .form-warning::before {
+      .openstad-infopin-background;
+	    position: absolute;
+	    top: 0px;
+	    left: -30px;
+	    width: 30px;
+	    height: 30px;
+	    content: "";
+    }
+    
+  }
+
+}

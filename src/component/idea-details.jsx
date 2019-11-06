@@ -1,3 +1,5 @@
+// TODO: dit moet een eigen repo worden
+
 import React from 'react';
 
 'use strict';
@@ -15,9 +17,7 @@ export default class IdeasDetails extends React.Component {
 		this.config = Object.assign(defaultConfig, this.props.config || {})
 		// this.config.onIdeaClick = this.config.onIdeaClick || this.onIdeaClick.bind(this);
 
-    this.state = {
-			ideaId: this.config.ideaId,
-    };
+    this.idea = this.props.idea;
 
   }
 
@@ -28,10 +28,28 @@ export default class IdeasDetails extends React.Component {
 
     let self = this;
 
+    let voteButton = null;
+    if (self.config.userJWT) {
+      voteButton = (
+				<div className="openstad-component-votebutton">
+					<button className="openstad-component-votebutton-button openstad-button-blue" onClick={() => self.doVote()}>
+            eens
+					</button>
+				</div>
+      );
+    } else {
+      voteButton = (
+				<div className="openstad-component-votebutton">
+          <button href="/login" className="openstad-button-blue openstad-not-logged-in-button">Inloggen</button>
+        </div>
+      );
+    }
+
     return (
 			<div id={self.id} className={self.props.className || 'openstad-component-info-block-idea-details'} ref={el => (self.instance = el)}>
 
-				<h3>Idea details</h3>
+				<h3>{eval(`self.props.idea.${self.config.titleField}`)}</h3>
+        {voteButton}
         
 			</div>
     );

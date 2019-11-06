@@ -3,7 +3,11 @@ import ReactDOM from 'react-dom';
 import OpenStadComponent from 'openstad-component/src/index.jsx';
 import Filterbar from './filterbar.jsx';
 import InfoBlock from './info-block.jsx';
+import IdeaForm from './idea-form.jsx';
+import IdeaDetails from './idea-details.jsx';
 import Map from './map.jsx';
+
+// TODO: clean up; ik gebruikte eerst setNewIdea en setSelected, maar nu onNewIdeaClick en onSelectedIdeaClick; trek dat gelijk
 
 'use strict';
 
@@ -21,11 +25,14 @@ export default class OpenStadComponentIdeasOnMap extends OpenStadComponent {
       editMarker: undefined,
       currentPolygon: undefined,
       types: [
-        { name: "Volle afvalcontainer", color: "#FF9100", icon: "" },
-        { name: "Defecte afvalcontainer", color: "#00A03C", icon: "" },
-        { name: "Afval naast afvalcontainer", color: "#00A03C", icon: "" },
-        { name: "Afval op straat", color: "#004699", icon: "" },
-        { name: "Overig", color: "#00A03C", icon: "" },
+        { name: "Auto", color: "#FF9100", icon: "" },
+        { name: "Fiets", color: "#00A03C", icon: "" },
+        { name: "Voetganger", color: "#004699", icon: "" },
+        { name: "Recreëren", color: "#FF9100", icon: "" },
+        { name: "Schoon", color: "#EC0000", icon: "" },
+        { name: "Groen", color: "#004699", icon: "" },
+        { name: "Geluid", color: "#00A03C", icon: "" },
+        { name: "Overig", color: "#EC0000", icon: "" },
       ],
       areas: [
         { name: "Heel West",
@@ -38,10 +45,11 @@ export default class OpenStadComponentIdeasOnMap extends OpenStadComponent {
           value: "Oud West",
           polygon: [{"lng":4.8546816,"lat":52.3568634},{"lng":4.855041,"lat":52.3563261},{"lng":4.858839,"lat":52.3572696},{"lng":4.8625458,"lat":52.3582427},{"lng":4.8646701,"lat":52.3588487},{"lng":4.868731,"lat":52.3597955},{"lng":4.8703188,"lat":52.3601231},{"lng":4.8717136,"lat":52.3604376},{"lng":4.8738218,"lat":52.3609651},{"lng":4.8763055,"lat":52.3607226},{"lng":4.8776842,"lat":52.3608635},{"lng":4.878167,"lat":52.3610044},{"lng":4.8812676,"lat":52.3618856},{"lng":4.8807043,"lat":52.3623966},{"lng":4.8798675,"lat":52.3633663},{"lng":4.8795778,"lat":52.3639428},{"lng":4.8792613,"lat":52.3644931},{"lng":4.8791272,"lat":52.3650598},{"lng":4.8787785,"lat":52.3656691},{"lng":4.8779202,"lat":52.3663734},{"lng":4.8773838,"lat":52.366809},{"lng":4.8772336,"lat":52.3676312},{"lng":4.8769385,"lat":52.3681389},{"lng":4.8754311,"lat":52.3697536},{"lng":4.8746211,"lat":52.3714043},{"lng":4.8744494,"lat":52.3720594},{"lng":4.8744602,"lat":52.3723083},{"lng":4.8752166,"lat":52.3729895},{"lng":4.8745943,"lat":52.3731762},{"lng":4.870925,"lat":52.3724033},{"lng":4.8680175,"lat":52.3717974},{"lng":4.8665959,"lat":52.3715648},{"lng":4.8654211,"lat":52.3703825},{"lng":4.8641176,"lat":52.3689905},{"lng":4.8628623,"lat":52.3676443},{"lng":4.8616499,"lat":52.3662554},{"lng":4.8604268,"lat":52.3648862},{"lng":4.8602505,"lat":52.3647431},{"lng":4.8591448,"lat":52.3634056},{"lng":4.8580772,"lat":52.3621247},{"lng":4.8575783,"lat":52.3615515},{"lng":4.857117,"lat":52.3604245},{"lng":4.856248,"lat":52.3592681},{"lng":4.8555345,"lat":52.3580035},{"lng":4.855299,"lat":52.357674},{"lng":4.855269,"lat":52.3576447},{"lng":4.855115,"lat":52.3574166},{"lng":4.8549071,"lat":52.3571512},{"lng":4.85479,"lat":52.3570018},{"lng":4.8546816,"lat":52.3568634}] },
       ],
-      titleField: 'description',
-      summaryField: 'extraData.solution',
-      typeField: self.config.typeField || 'extraData.categorie',
+      titleField: 'title',
+      summaryField: 'summary',
+      typeField: self.config.typeField || 'extraData.thema',
       areaField: self.config.areaField || 'extraData.gebied',
+      userJWT: self.config.userJWT,
 		};
 		self.config = Object.assign(self.defaultConfig, self.config || {})
 
@@ -52,6 +60,15 @@ export default class OpenStadComponentIdeasOnMap extends OpenStadComponent {
     self.config.map.onMarkerClick = self.config.map.onMarkerClick || self.onMarkerClick.bind(self);
     self.config.map.clustering = self.config.map.clustering || {};
     self.config.map.clustering.onClusterClick = self.config.map.clustering.onClusterClick || self.onClusterClick.bind(self);
+
+    self.state = {
+      ideas: [],
+      status: 'default', // default, idea-selected, location-selected, idea-details, idea-form
+      currentIdea: null,
+      editIdea: {
+        ideaId: null,
+      }
+    }
     
   }
 
@@ -83,14 +100,20 @@ export default class OpenStadComponentIdeasOnMap extends OpenStadComponent {
     });
 
     // handle infoblock changes
-		self.infoblock.instance.addEventListener('removeEditMarker', function(event) {
-      self.removeEditMarker();
-    });
-		self.infoblock.instance.addEventListener('updateSelectedIdea', function(event) {
+		document.addEventListener('updateSelectedIdea', function(event) {
       self.onUpdateSelectedIdea(event.detail.idea);
     });
-		self.infoblock.instance.addEventListener('updateNewIdea', function(event) {
+		document.addEventListener('updateNewIdea', function(event) {
       self.onUpdateNewIdea(event.detail.idea);
+    });
+		document.addEventListener('updateEditIdea', function(event) {
+      self.onUpdateEditIdea(event.detail.idea);
+    });
+		document.addEventListener('selectedIdeaClick', function(event) {
+      self.onSelectedIdeaClick();
+    });
+		document.addEventListener('newIdeaClick', function(event) {
+      self.onNewIdeaClick();
     });
     
 	}
@@ -98,7 +121,7 @@ export default class OpenStadComponentIdeasOnMap extends OpenStadComponent {
   fetchData() {
 
     let self = this;
-    let url = `${self.config.apiUrl  }/api/site/${  self.config.siteId  }/idea?includeQuestions=1`;
+    let url = `${self.config.apiUrl  }/api/site/${  self.config.siteId  }/idea?includeVoteCount=1&includeArguments=1`;
 		
     fetch(url, {
       headers: {
@@ -109,17 +132,27 @@ export default class OpenStadComponentIdeasOnMap extends OpenStadComponent {
         return response.json();
       })
       .then( json => {
+        //let xxx;
         let ideas = json.filter( idea => idea.location )
         self.map.addMarkers(ideas.map( idea => {
+          //if ( idea.id==91 ) xxx = idea
 					let type = idea && eval(`idea.${self.config.typeField}`);
 					let tmp = self.config.types.find(entry => entry.name == type);
 					let color = tmp && tmp.color || 'black';
 					let html = `<svg viewBox="0 0 26 26"><circle cx="13" cy="13" r="13" fill="${color}"/></svg>`;
-					let icon = L.divIcon({ html: html, className: 'icon cluster', iconSize: L.point(26, 26), iconAnchor: [13, 13] });
+          // TODO: je moet hier geen L. gebruiken; hang dat in de map
+					let icon = L.divIcon({ html: html, className: 'openstad-component-ideas-on-map-icon', iconSize: L.point(26, 26), iconAnchor: [13, 13] });
+          // TODO: temp oplosing voor images moet dus beter
+          idea.image = (idea.posterImage && idea.posterImage.key) || (idea.extraData && idea.extraData.images && idea.extraData.images[0]) || "https://stemvanwest.amsterdam.nl/img/placeholders/idea.jpg";
 					return { lat: idea.location.coordinates[0], lng: idea.location.coordinates[1], data: idea, icon }
 				}));
         self.setState({ ideas });
         self.map.setBoundsAndCenter(self.map.markers);
+
+        //self.setState({ ideas, status: 'idea-details', currentIdea: xxx });
+        //self.setNewIdea(null);
+        //self.setSelectedIdea(xxx);
+
 				
       })
       .catch((err) => {
@@ -130,6 +163,7 @@ export default class OpenStadComponentIdeasOnMap extends OpenStadComponent {
   }
 
 	doSearch(searchValue, callback) {
+
 		let self = this;
 
 		let searchResult = { ideas: [], locations: [] };
@@ -143,8 +177,6 @@ export default class OpenStadComponentIdeasOnMap extends OpenStadComponent {
 				})
 			}
 		});
-
-		console.log('search done');
 
 		callback(searchValue, searchResult)
 	}
@@ -187,20 +219,27 @@ export default class OpenStadComponentIdeasOnMap extends OpenStadComponent {
   }
 
   setNewIdea(idea) {
+    let self = this;
     if (idea) {
-      this.map.fadeMarkers({exception: [location, ]});
-      if (this.state.editMarker) {
-        this.updateEditMarker({ lat: idea.location.coordinates[0], lng: idea.location.coordinates[1] });
+      self.map.fadeMarkers({exception: [location, ]});
+      if (self.state.editMarker) {
+        self.updateEditMarker({ lat: idea.location.coordinates[0], lng: idea.location.coordinates[1] });
       } else {
-        this.createEditMarker({ lat: idea.location.coordinates[0], lng: idea.location.coordinates[1] });  
+        self.createEditMarker({ lat: idea.location.coordinates[0], lng: idea.location.coordinates[1] });  
       }
-      this.infoblock.setNewIdea({ location: idea.location });
-      this.infoblock.updateIdeas({ ideas: this.getVisibleIdeas().filter( x => x.id != idea.id ), sortOrder: 'distance', showSortButton: false, center: { lat: idea.location.coordinates[0], lng: idea.location.coordinates[1] }, maxLength: 5 });
+      if (self.infoblock) {
+        self.map.getPointInfo({ lat: idea.location.coordinates[0], lng: idea.location.coordinates[1] }, null, function(json, marker) {
+          self.infoblock.setNewIdea({ location: idea.location, address: json });
+        })
+        self.infoblock.updateIdeas({ ideas: self.getVisibleIdeas().filter( x => x.id != idea.id ), sortOrder: 'distance', showSortButton: false, center: { lat: idea.location.coordinates[0], lng: idea.location.coordinates[1] }, maxLength: 5 });
+      }
     } else {
-      this.map.unfadeAllMarkers();
-      this.removeEditMarker();
-      this.infoblock.setNewIdea(null);
-      this.infoblock.updateIdeas({ ideas: this.getVisibleIdeas(), showSortButton: true });
+      self.map.unfadeAllMarkers();
+      self.removeEditMarker();
+      if (self.infoblock) {
+        self.infoblock.setNewIdea(null);
+        self.infoblock.updateIdeas({ ideas: self.getVisibleIdeas(), showSortButton: true });
+      }
     }
   }
 
@@ -208,23 +247,27 @@ export default class OpenStadComponentIdeasOnMap extends OpenStadComponent {
     this.selectedIdea = idea;
     if (idea) {
       this.map.fadeMarkers({exception: idea});
-      this.infoblock.setSelectedIdea(idea);
-			if (!idea.location) console.log('WTF', idea);
-      this.infoblock.updateIdeas({ ideas: this.getVisibleIdeas().filter( x => x.id != idea.id ), sortOrder: 'distance', showSortButton: false, center: { lat: idea.location.coordinates[0], lng: idea.location.coordinates[1] }, maxLength: 5 });
+      if (this.infoblock) {
+        this.infoblock.setSelectedIdea(idea);
+        this.infoblock.updateIdeas({ ideas: this.getVisibleIdeas().filter( x => x.id != idea.id ), sortOrder: 'distance', showSortButton: false, center: { lat: idea.location.coordinates[0], lng: idea.location.coordinates[1] }, maxLength: 5 });
+      }
     } else {
       this.map.unfadeAllMarkers();
-      this.infoblock.setSelectedIdea(null);
-      this.infoblock.updateIdeas({ ideas: this.getVisibleIdeas(), showSortButton: true });
+      if (this.infoblock) {
+        this.infoblock.setSelectedIdea(null);
+        this.infoblock.updateIdeas({ ideas: this.getVisibleIdeas(), showSortButton: true });
+      }
     }
   }
-
+  
 	onMapClick(event) {
     if (this.selectedIdea || this.state.editMarker) {
-      // als er een select is dan eerst naar niets geselecteerd
+      this.setState({ ...this.state, status: 'default', currentIdea: null });
       this.setSelectedIdea(null);
       this.setNewIdea(null);
       this.infoblock.updateIdeas({ ideas: this.getVisibleIdeas(), showSortButton: true });
     } else {
+      this.setState({ ...this.state, status: 'location-selected', currentIdea: null });
       this.setSelectedIdea(null);
       this.setNewIdea({ id: 'New Idea', location: { coordinates: [ event.latlng.lat, event.latlng.lng ] } });
     }
@@ -232,32 +275,53 @@ export default class OpenStadComponentIdeasOnMap extends OpenStadComponent {
   }
 
 	onMarkerClick(event) {
+    this.setState({ ...this.state, status: 'idea-selected', currentIdea: event.target.data });
     this.setNewIdea(null);
     this.setSelectedIdea(event.target.data);
   }
 
 	onClusterClick(event) {
-    console.log('clustermarkerclick');
+    this.setState({ ...this.state, status: 'default', currentIdea: null });
     this.setNewIdea(null);
     this.setSelectedIdea(null);
-  }
-
-	onUpdateSelectedIdea(idea) {
-    this.setNewIdea(null);
-    this.setSelectedIdea(idea);
-  }
-
-	onUpdateNewIdea(idea) {
-    this.setSelectedIdea(null);
-    this.setNewIdea(idea);
   }
 
   onChangeMapBoundaries() {
     this.map.updateFading();
     if (!( this.selectedIdea || this.state.editMarker )) {
-      this.infoblock.updateIdeas({ ideas: this.getVisibleIdeas(), showSortButton: true });
+      if (this.infoblock) {
+        this.infoblock.updateIdeas({ ideas: this.getVisibleIdeas(), showSortButton: true });
+      }
     }
   }
+
+	onUpdateEditIdea(idea) {
+    this.setState({ ...this.state, editIdea: { ...idea }, currentIdea: idea });
+  }
+
+	onUpdateSelectedIdea(idea) {
+    this.setState({ ...this.state, status: 'default', currentIdea: idea }, function() {
+      this.setNewIdea(null);
+      this.setSelectedIdea(idea);
+    });
+  }
+
+	onUpdateNewIdea(idea) {
+    this.setState({ ...this.state, status: 'default', currentIdea: idea }, function() {
+      this.setSelectedIdea(null);
+      this.setNewIdea(idea);
+    });
+  }
+
+  onSelectedIdeaClick(idea) {
+    this.setState({ ...this.state, status: 'idea-details' }, function() {
+    });
+  };
+  
+  onNewIdeaClick() {
+    this.setState({ ...this.state, status: 'idea-form' }, function() {
+    });
+  };
 
   onChangeTypeFilter(value) {
     let self = this;
@@ -284,10 +348,40 @@ export default class OpenStadComponentIdeasOnMap extends OpenStadComponent {
 
 	render() {
 
+    let infoHTML = null; // todo: ik denk dat dit naar infoblock moet
+    switch(this.state.status) {
+
+      case 'idea-details':
+        let config = { // TODO: niet bij elke render
+          titleField: this.config.titleField,
+          summaryField: this.config.summaryField,
+          typeField: this.config.typeField,
+          areaField: this.config.areaField,
+          userJWT: this.config.userJWT,
+        };
+        infoHTML = (
+			    <IdeaDetails id={this.divId + '-infoblock'} config={config} idea={this.state.currentIdea} key="dfwk fgdfsbbfgd hdg" className="openstad-component-ideas-on-map-info" ref={el => (this.ideadetails = el)}/>
+        );
+        break;
+
+      case 'idea-form':
+        infoHTML = (
+			    <IdeaForm id={this.divId + '-infoblock'} config={{ ...this.config, formfields: { ...this.state.editIdea } }} className="openstad-component-ideas-on-map-info" ref={el => (this.ideaform = el)}/>
+        );
+        break;
+
+      default:
+       infoHTML = (
+			   <InfoBlock id={this.divId + '-infoblock'} config={{ title: this.config.title, titleField: this.config.titleField, summaryField: this.config.summaryField, types: this.config.types }} className="openstad-component-ideas-on-map-info" ref={el => (this.infoblock = el)}/>
+        );
+        break;
+
+    }
+
     return (
-			<div id={this.divId} ref={el => (this.instance = el)}>
+			<div id={this.divId} className={`openstad-component-ideas-on-map openstad-component-ideas-on-map-${this.state.status}`} ref={el => (this.instance = el)}>
 				<Filterbar id={this.divId + '-filterbar'} config={{ types: this.config.types, areas: this.config.areas, doSearchFunction: this.config.doSearchFunction, title: this.config.title }} className="openstad-component-ideas-on-map-filterbar" ref={el => (this.filterbar = el)}/>
-			  <InfoBlock id={this.divId + '-filterbar'} config={ this.config } className="openstad-component-ideas-on-map-info" ref={el => (this.infoblock = el)}/>
+        {infoHTML}
 				<Map id={this.divId + '-map'} className="openstad-component-ideas-on-map-map" config={{ ...this.config.map, types: this.config.types, typeField: this.config.typeField }} ref={el => (this.map = el)}/>
 			</div>
     );

@@ -13,17 +13,16 @@ export default class Map extends OpenStadComponentNLMap {
 		this.defaultConfig = {
       editMarker: undefined,
       currentPolygon: undefined,
-		};
+    };
 		this.config = Object.assign(this.defaultConfig, this.config || {})
 
     // defaults
-    this.config = this.config || {};
     // this.config.onMapClick = this.config.onMapClick || this.onMapClick.bind(this);
     // this.config.onMarkerClick = this.config.onMarkerClick || this.onMarkerClick.bind(this);
-    this.config.clustering = this.config.clustering || {};
     this.config.clustering.iconCreateFunction = this.config.clustering.createClusterIcon || this.createClusterIcon.bind(this);
     this.config.clustering.showCoverageOnHover = typeof this.config.showCoverageOnHover != 'undefined' ? this.config.showCoverageOnHover : false;
     this.config.clustering.onClusterAnimationEnd = this.config.clustering.onClusterAnimationEnd || this.onClusterAnimationEnd.bind(this);
+    this.config.clustering.maxClusterRadius = 30; // default is 80
 
   }
 
@@ -72,11 +71,11 @@ export default class Map extends OpenStadComponentNLMap {
 
       html += '<text x="18" y="21" text-anchor="middle" class="openstad-component-ideas-on-map-icon openstad-component-ideas-on-map-icon-text">' + count + '</text></svg>';
 
-      return L.divIcon({ html: html, className: 'icon cluster', iconSize: L.point(36, 36), iconAnchor: [18, 18], isFaded });
+      return L.divIcon({ html: html, className: 'openstad-component-ideas-on-map-icon-cluster', iconSize: L.point(36, 36), iconAnchor: [18, 18], isFaded });
 
     } else {
 
-		  return L.divIcon({ html: count, className: 'icon cluster', iconSize: L.point(20, 20), iconAnchor: [20, 10] });
+		  return L.divIcon({ html: count, className: 'openstad-component-ideas-on-map-icon-cluster', iconSize: L.point(20, 20), iconAnchor: [20, 10] });
 
 	  }
 	}

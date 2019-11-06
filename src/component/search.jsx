@@ -55,7 +55,7 @@ export default class Search extends React.Component {
 	}
 
 	updateSearchResult(searchValue, searchResult) {
-		console.log('update', searchValue, searchResult);
+		// console.log('update', searchValue, searchResult);
     this.setState({...this.state, searchValue, searchResult, showSuggestions: searchValue.length >= 3 ? true : false });
 	}
 
@@ -66,7 +66,6 @@ export default class Search extends React.Component {
 	render() {
 
     let self = this;
-		console.log('render', this.state);
 
 		let suggestionsHTML = null;
 		if (self.state.showSuggestions) {

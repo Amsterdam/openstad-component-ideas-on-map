@@ -12,7 +12,8 @@ export default class IdeasList extends React.Component {
 		let defaultConfig = {
       titleField: 'title',
       summaryField: 'summary',
-      sortOptions: [{ value: 'random', name: 'Random' }, { value: 'ranking', name: 'Ranking' }, { value: 'newest', name: 'Nieuwste eerst' }, { value: 'oldest', name: 'Oudste eerst' }, { value: 'distance', name: 'Afstand' }],
+      // sortOptions: [{ value: 'random', name: 'Random' }, { value: 'ranking', name: 'Ranking' }, { value: 'newest', name: 'Nieuwste eerst' }, { value: 'oldest', name: 'Oudste eerst' }, { value: 'distance', name: 'Afstand' }],
+      sortOptions: [{ value: 'newest', name: 'Nieuwste eerst' }, { value: 'oldest', name: 'Oudste eerst' }],
       showSortButton: true,
       defaultSortOrder: 'newest',
 		};
@@ -93,26 +94,49 @@ export default class IdeasList extends React.Component {
           </select>
         </div>
       );
+    } else {
+      sortSelector = (<div style={{height: 20}}></div>)
     }
+
+    let titleHML = (<h3 className="openstad-title">{self.props.title} ({self.state.ideas.length})</h3>);
 
     return (
 			<div id={self.id} className={self.props.className || 'openstad-component-info-block-ideas-list'} ref={el => (self.instance = el)}>
 
         {sortSelector}
 
+        {titleHML}
+
         { self.state.ideas.map((idea, i) => {
           if (!idea) {
             console.log('idea is undef', i, self.state.ideas);
           }
+          let tmp = self.config.types.find(entry => entry.name == idea.extraData.thema);
+          let typeColor = tmp && tmp.color || 'black';
           return (
-            <div className="openstad-component-info-block-ideas-list-idea" onClick={() => self.config.onIdeaClick(idea)} key={'info-block-' + i}>
-              { eval(`idea.${self.config.titleField}`) }({ idea.id })<br/>
-              { eval(`idea.${self.config.summaryField}`) }<br/>
-              { idea._distance }<br/>
+            <div className="openstad-component-info-block-ideas-list-idea" onClick={(event) => self.config.onIdeaClick(event, idea)} key={'info-block-' + i}>
+              <div className="openstad-component-image" style={{ backgroundImage: `url(${idea.image})` }}></div>
+              <div className="openstad-component-content">
+                <h4>{ eval(`idea.${self.config.titleField}`) }</h4>
+                <div className="openstad-summary">
+                  { eval(`idea.${self.config.summaryField}`) }
+                </div>
+                <div className="openstad-stats">
+                <div className="openstad-likes">
+                  {idea.yes || 0}
+                </div>
+                <div className="openstad-reactions">
+                  {idea.argCount || 0}
+                </div>
+                <div className="openstad-type" style={{ borderColor: typeColor }}>
+                  <div className="openstad-type-content"></div>
+                </div>
+                </div>
+              </div>
+              <div className="openstad-clear-both"></div>
             </div>
           );
         })}
-        
 			</div>
     );
 

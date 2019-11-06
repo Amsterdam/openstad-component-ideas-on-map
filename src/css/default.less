@@ -1,4 +1,5 @@
 @import 'openstad-elements';
+@import 'openstad-formelements';
 @import 'openstad-images';
 
 .openstad-component-ideas-on-map {
@@ -7,7 +8,7 @@
 
   position: relative;
   width: 100%;
-  height: 600px;
+  height: 800px;
 
   h3, h4 {
     font-weight: bold;
@@ -30,7 +31,7 @@
 		
     width: 100%;
     padding: 10px 15px;
-    background-color: #e6e6e6;
+    background-color: #f5f5f5;
 
 		.openstad-component-search {
 
@@ -87,13 +88,19 @@
 
   .openstad-component-ideas-on-map-info {
 
+    h3 {
+      margin-bottom: 10px;
+    }
+
+    .openstad-component-image {
+      background-repeat: no-repeat;
+      background-size: cover;
+    }
+
     position: absolute;
     top: 64px;
-    left: 0;
-    width: 30%;
-    height: 100%;
     padding-top: 10px;
-    font-size: 14px;
+    font-size: 16px;
     line-height: 1.5em;
     overflow-x: hidden;
     overflow-y: auto;
@@ -103,47 +110,179 @@
     .openstad-component-info-block-selected-idea {
       position: relative;
       width: 100%;
-      padding: 20px 15px;
-      background-color: #e6e6e6;
+      padding: 20px 20px;
+      background-color: #f5f5f5;
+
+      .openstad-component-info-block-selected-idea-idea {
+        position: relative;
+        width: calc(100% + 30px);
+        padding: 0 20px;
+        margin: 0 -20px -10px -20px;
+        cursor: pointer;
+
+        .openstad-stats {
+          width: calc(100% - 227px);
+        }
+
+      }
+
     }
 
     .openstad-component-info-block-new-idea {
     }
 
     .openstad-component-info-block-selected-idea {
+			cursor: pointer;
     }
 
     .openstad-component-info-block-ideas-list {
 
+      .openstad-title {
+        padding: 0 20px;
+      }
+
+
       .openstad-component-info-block-ideas-list-idea {
+
+        position: relative;
         width: 100%;
-        padding: 20px 15px 00 15px;
+        padding: 15px 20px 0 20px;
         background-color: white;
         cursor: pointer;
+        border-bottom: 1px solid #e6e6e6;
+
       }
-      
+
+    }
+
+    .openstad-component-info-block-new-idea,
+    .openstad-component-info-block-selected-idea, 
+    .openstad-component-info-block-ideas-list {
+
+      h4 {
+        margin-bottom: 5px;
+      }
+
+      .openstad-component-image {
+        float: left;
+        width: 177px;
+        height: 133px;
+        margin-right: 20px;
+        margin-bottom: 15px;
+      }
+
+      .openstad-summary {
+        height: 75px;
+        padding-right: 20px;
+        overflow: hidden;
+      }
+
+      .openstad-stats {
+        position: absolute;
+        width: calc(100% - 237px);
+        height: 20px;
+        left: 217px;
+        bottom: 13px;
+
+        .openstad-likes {
+          .openstad-thumbs-up-black-background();
+          background-position: 0px -1px;
+          float: left;
+          width: 70px;
+          padding-left: 30px;
+          line-height: 25px;
+        }
+
+        .openstad-reactions {
+          .openstad-reactions-black-background();
+          float: left;
+          width: 70px;
+          padding-left: 30px;
+          line-height: 25px;
+        }
+
+        .openstad-type {
+          position: absolute;
+          bottom: 0;
+          right: 0;
+          width: 30px;
+          height: 30px;
+          border-width: 20px;
+          border-style: solid;
+          border-radius: 20px;
+
+          .openstad-type-content {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 30px;
+            height: 30px;
+          }
+
+        }
+
+        
+      }
+    }
+
+    .openstad-component-ideas-on-map-map {
+
+      position: absolute !important;
+      top: 64px;
+
+      .openstad-component-ideas-on-map-icon {
+
+        &.openstad-component-ideas-on-map-icon-text {
+          font-size: 12px;
+          font-weight: bold;
+          text-align: center;
+        }
+
+      }
+
     }
 
   }
 
-  .openstad-component-ideas-on-map-map {
+  &.openstad-component-ideas-on-map-idea-details {
 
-    position: absolute !important;
-    top: 64px;
-    left: 30%;
-    width: calc(100% - 30%);
-    height: 100%;
-
-    .openstad-component-ideas-on-map-icon {
-
-      &.openstad-component-ideas-on-map-icon-text {
-        font-size: 12px;
-        font-weight: bold;
-        text-align: center;
+    .openstad-component-votebutton {
+      button {
+        width: 118px;
       }
-
     }
 
+  }
+
+
+  &.openstad-component-ideas-on-map-idea-details,
+  &.openstad-component-ideas-on-map-idea-form {
+    .openstad-component-ideas-on-map-info {
+      left: 0;
+      width: 1000px;
+      height: calc( 100% - 64px );
+    }
+    .openstad-component-ideas-on-map-map {
+      left: 1000px;
+      width: calc(100% - 1000px);
+      height: calc( 100% - 64px );
+    }
+  }
+
+  &.openstad-component-ideas-on-map-default,
+  &.openstad-component-ideas-on-map-idea-selected,
+  &.openstad-component-ideas-on-map-location-selected {
+
+    .openstad-component-ideas-on-map-info {
+      left: 0;
+      width: 687px;
+      height: calc( 100% - 64px );
+    }
+    .openstad-component-ideas-on-map-map {
+      left: 687px;
+      width: calc(100% - 687px);
+      height: calc( 100% - 64px );
+    }
   }
 
 }
