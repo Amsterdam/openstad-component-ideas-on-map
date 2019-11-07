@@ -1,5 +1,5 @@
 import React from 'react';
-// TODO: import OpenStadComponentTextarea from './openstad-component-formelements/textarea.jsx';
+import OpenStadComponentImageUpload from './openstad-component-formelements/image-upload.jsx';
 
 'use strict';
 
@@ -16,6 +16,8 @@ export default class IdeasForm extends React.Component {
         title: '',
         summary: '',
         description: '',
+        type: '',
+        theme: '',
         images: [],
       },
       titleMinLength: 10,
@@ -25,7 +27,18 @@ export default class IdeasForm extends React.Component {
       descriptionMinLength: 140,
       descriptionMaxLength: 5000,
     };
-		this.config = Object.assign(defaultConfig, this.props.config || {})
+
+    // todo: normaal oplossen
+    let formfields = Object.assign(defaultConfig.formfields, this.props.config.formfields);
+		this.config = Object.assign(defaultConfig, this.props.config, this.config || {})
+		this.config.formfields = formfields;
+
+    // this.config.formfields.title = 'Morbi scelerisque';
+		// this.config.formfields.summary = 'Morbi scelerisque, libero in rutrum tincidunt, dui sapien feugiat justo, eget egestas ligula nulla nec erat. maecenas tempus tempor eros. ';
+		// this.config.formfields.description = 'Morbi scelerisque, libero in rutrum tincidunt, dui sapien feugiat justo, eget egestas ligula nulla nec erat. maecenas tempus tempor eros. donec a justo. curabitur tellus. pellentesque risus. fusce at arcu. ut lacinia mi vel lectus. phasellus imperdiet. fusce luctus lacus a odio. in et turpis at libero tristique vulputate. sed varius ipsum. suspendisse potenti. suspendisse potenti. donec tempus arcu quis metus.';
+		// this.config.formfields.type = 'Kans';
+		// this.config.formfields.theme = 'Groen';
+		// this.config.formfields.images = [];
 
     this.state = {
       formfields: this.config.formfields,
@@ -71,73 +84,70 @@ export default class IdeasForm extends React.Component {
 	  var isValid = true;
 
 	  // location
-	  // if (document.querySelector('#location').value) {
-		//   document.querySelector('#form-warning-location').style.display = 'none';
-	  // } else {
-		//   document.querySelector('#form-warning-location').style.display = 'block';
-		//   isValid = false;
-	  // }
+	  if (self.state.formfields['location']) {
+			self['form-warning-location'].style.display = 'none';
+		} else {
+			self['form-warning-location'].style.display = 'block';
+			isValid = false;
+		}
 
 	  // title
-    console.log(self.titleField.value.length,this.config.titleMinLength);
-	  if (self.titleField.value.length < this.config.titleMinLength) {
+	  if (self.state.formfields['title'].length < this.config.titleMinLength) {
       // todo: dit moet niet met querySelector maar met self.whatever
-		  document.querySelector('#form-warning-title').style.display = 'block';
-		  document.querySelector('#form-warning-title').innerHTML = document.querySelector('#form-warning-title').innerHTML.replace('[[langkort]]', 'kort');
+		  self['form-warning-title'].style.display = 'block';
+		  self['form-warning-title'].innerHTML = self['form-warning-title'].innerHTML.replace('[[langkort]]', 'kort');
 		  isValid = false;
-	  } else if (self.titleField.value.length > this.config.titleMaxLength) {
-		  document.querySelector('#form-warning-title').style.display = 'block';
-		  document.querySelector('#form-warning-title').innerHTML = document.querySelector('#form-warning-title').innerHTML.replace('[[langkort]]', 'lang');
+	  } else if (self.state.formfields['title'].length > this.config.titleMaxLength) {
+		  self['form-warning-title'].style.display = 'block';
+		  self['form-warning-title'].innerHTML = self['form-warning-title'].innerHTML.replace('[[langkort]]', 'lang');
 		  isValid = false;
 	  } else {
-		  document.querySelector('#form-warning-title').style.display = 'none';
+		  self['form-warning-title'].style.display = 'none';
 	  }
 
 	  // summary
-	  if (self.summaryField.value.length < this.config.summaryMinLength) {
+	  if (self.state.formfields['summary'].length < this.config.summaryMinLength) {
       // todo: dit moet niet met querySelector maar met self.whatever
-		  document.querySelector('#form-warning-summary').style.display = 'block';
-		  document.querySelector('#form-warning-summary').innerHTML = document.querySelector('#form-warning-summary').innerHTML.replace('[[langkort]]', 'kort');
+		  self['form-warning-summary'].style.display = 'block';
+		  self['form-warning-summary'].innerHTML = self['form-warning-summary'].innerHTML.replace('[[langkort]]', 'kort');
 		  isValid = false;
-	  } else if (self.summaryField.value.length > this.config.summaryMaxLength) {
-		  document.querySelector('#form-warning-summary').style.display = 'block';
-		  document.querySelector('#form-warning-summary').innerHTML = document.querySelector('#form-warning-summary').innerHTML.replace('[[langkort]]', 'lang');
+	  } else if (self.state.formfields['summary'].length > this.config.summaryMaxLength) {
+		  self['form-warning-summary'].style.display = 'block';
+		  self['form-warning-summary'].innerHTML = self['form-warning-summary'].innerHTML.replace('[[langkort]]', 'lang');
 		  isValid = false;
 	  } else {
-		  document.querySelector('#form-warning-summary').style.display = 'none';
+		  self['form-warning-summary'].style.display = 'none';
 	  }
 
 	  // description
-	  if (self.descriptionField.value.length < this.config.descriptionMinLength) {
+	  if (self.state.formfields['description'].length < this.config.descriptionMinLength) {
       // todo: dit moet niet met querySelector maar met self.whatever
-		  document.querySelector('#form-warning-description').style.display = 'block';
-		  document.querySelector('#form-warning-description').innerHTML = document.querySelector('#form-warning-description').innerHTML.replace('[[langkort]]', 'kort');
+		  self['form-warning-description'].style.display = 'block';
+		  self['form-warning-description'].innerHTML = self['form-warning-description'].innerHTML.replace('[[langkort]]', 'kort');
 		  isValid = false;
-	  } else if (self.descriptionField.value.length > this.config.descriptionMaxLength) {
-		  document.querySelector('#form-warning-description').style.display = 'block';
-		  document.querySelector('#form-warning-description').innerHTML = document.querySelector('#form-warning-description').innerHTML.replace('[[langkort]]', 'lang');
+	  } else if (self.state.formfields['description'].length > this.config.descriptionMaxLength) {
+		  self['form-warning-description'].style.display = 'block';
+		  self['form-warning-description'].innerHTML = self['form-warning-description'].innerHTML.replace('[[langkort]]', 'lang');
 		  isValid = false;
 	  } else {
-		  document.querySelector('#form-warning-description').style.display = 'none';
+		  self['form-warning-description'].style.display = 'none';
 	  }
 
 	  // type
-	  // if (document.querySelector('#type').value) {
-		//   document.querySelector('#form-warning-type').style.display = 'none';
-	  // } else {
-		//   document.querySelector('#form-warning-type').style.display = 'block';
-		//   openStep(1, document.querySelector('#type').offsetTop - 80);
-		//   isValid = false;
-	  // }
+	  if (!self.state.formfields['type']) {
+		  self['form-warning-type'].style.display = 'block';
+		  isValid = false;
+	  } else {
+		  self['form-warning-type'].style.display = 'none';
+	  }
 
-	  // categorie
-	  // if (document.querySelector('#categorie').value) {
-		//   document.querySelector('#form-warning-categorie').style.display = 'none';
-	  // } else {
-		//   document.querySelector('#form-warning-categorie').style.display = 'block';
-		//   openStep(1, document.querySelector('#categorie').offsetTop - 80);
-		//   isValid = false;
-	  // }
+	  // theme
+	  if (!self.state.formfields['theme']) {
+		  self['form-warning-theme'].style.display = 'block';
+		  isValid = false;
+	  } else {
+		  self['form-warning-theme'].style.display = 'none';
+	  }
 
 	  // images
 	  // document.querySelector('#form-warning-images').style.display = 'none';
@@ -160,69 +170,45 @@ export default class IdeasForm extends React.Component {
   submitIdea() {
 
     var self = this;
-    console.log('validateIdea', self.validateIdea());
-
+    
 	  if ( !self.validateIdea() ) return;
 
-	  if (!userJWT) return showError('Je bent niet ingelogd');
+	  if (!self.config.userJWT) return alert('Je bent niet ingelogd');
 
-	  var url = apiUrl + '/api/site/' + siteId + '/idea';
+	  var url = self.config.apiUrl + '/api/site/' + self.config.siteId + '/idea';
 
 	  var body = {
-			title: 'Nieuw probleem',
-			summary: "Een nieuwe inzending op 'Afval in West'",
-			description: form.querySelector('#description').value,
+			title: self.state.formfields['title'],
+			summary: self.state.formfields['summary'],
+			description: self.state.formfields['description'],
+      location: JSON.stringify({ "type": "Point", ...self.state.formfields['location'] }),
 			extraData: {
-				categorie: form.querySelector('#categorie').value,
-				type: form.querySelector('#type').value,
-				solution: form.querySelector('#solution').value,
-				time: {
-					weekday: JSON.parse(form.querySelector('#weekday').value || '[]'),
-					daypart: JSON.parse(form.querySelector('#daypart').value || '[]'),
-					timeofday: form.querySelector('#timeofday').value,
-				},
-				images: []
+				type: self.state.formfields['type'],
+				theme: self.state.formfields['theme'],
+  			images: self.state.formfields['images'],
 			},
 	  }
 
-	  if (form.querySelector('#location').value) {
-		  body.location = JSON.stringify({
-			  "type": "Point",
-			  "coordinates": JSON.parse(form.querySelector('#location').value)
-		  })
-	  }
-
-	  if ( imageuploader && imageuploader.getFiles ) {
-		  var images = imageuploader.getFiles();
-		  images.forEach(function(image) {
-			  try {
-				  var serverId = JSON.parse(image.serverId)
-				  body.extraData.images.push(serverId.url)
-			  } catch(err) { console.log(err) }
-		  });
-	  }
-
-	  $.ajax({
-		  url: url,
-		  dataType: "json",
-		  crossDomain: true,
-		  method: "POST",
-		  data: body,
-		  beforeSend: function(request) {
-			  request.setRequestHeader("Accept", "application/json");
-			  request.setRequestHeader('X-Authorization', 'Bearer ' + userJWT);
-		  },
-		  success: function(json) {
-			  currentMarker.isInput = false;
-			  currentMarker.idea = json;
-			  currentInput = {};
-			  window.location.hash = '#ideaId=' + json.id;
-			  document.querySelector('#info-block').innerHTML = document.querySelector('#new-idea-result-container').innerHTML;
-		  },
-		  error: function(error) {
-			  showError(error);
-		  }
-	  });
+    fetch(url, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+			  'X-Authorization': 'Bearer ' + self.config.userJWT,
+      },
+      body: JSON.stringify(body) // body data type must match "Content-Type" header
+    })
+      .then((response) => {
+        if (!response.ok) throw Error(response)
+        return response.json();
+      })
+      .then( json => {
+		    var event = new CustomEvent('newIdeaStored', { detail: { idea: json } });
+		    document.dispatchEvent(event);
+      })
+      .catch((err) => {
+        console.log('Niet goed');
+        console.log(err);
+      });
 
   }
   
@@ -244,11 +230,12 @@ export default class IdeasForm extends React.Component {
             Een locatie vlakbij
 					  </h2>
             {self.state.formfields.address || 'Geen adres gevonden'}
+						<div className="form-warning-container"><span className="form-warning" ref={ el => this['form-warning-location'] = el  }>Geen locatie geselecteerd</span></div>
           </div>
 
           <div className="openstad-component-form-group">
 					  <h2>
-						  Titel plan
+						  Titel
 					  </h2>
 					  <div className="form-info">
 						  Geef je voorstel een duidelijke titel, zodat anderen jouw inzending makkelijk kunnen vinden en direct snappen waar het over gaat.
@@ -259,7 +246,43 @@ export default class IdeasForm extends React.Component {
                 <div className="min error visible">Nog minimaal <span>2</span> tekens</div>
                 <div className="max">Je hebt nog <span>0</span> tekens over.</div>
               </div>
-						<span id="form-warning-title" className="form-warning">Je titel is te [[langkort]]</span>
+						  <div className="form-warning-container"><span className="form-warning" ref={ el => this['form-warning-title'] = el  }>Je titel is te [[langkort]]</span></div>
+          </div>
+
+          <div className="openstad-component-form-group">
+					  <h2>
+						  Kans of knelpunt?
+					  </h2>
+					  <div className="form-info">
+						  Wilt u deze inzending bestempelen als een kans of als een knelpunt voor de wijk?
+					  </div>
+            <select className="openstad-default-select" value={this.state.formfields.type} onChange={() => this.handleFieldChange('type', self.typeField.value)} ref={el => (self.typeField = el)}>
+              <option value="">Maak een keuze</option>
+              <option value="Kans">Kans</option>
+              <option value="Knelpunt">Knelpunt</option>
+            </select>
+						<div className="form-warning-container"><span className="form-warning" ref={ el => this['form-warning-type'] = el  }>Je hebt nog geen keuze gemaakt</span></div>
+          </div>
+
+          <div className="openstad-component-form-group">
+					  <h2>
+						  Thema
+					  </h2>
+					  <div className="form-info">
+						  Bij welk thema hoort uw inzending?
+					  </div>
+            <select className="openstad-default-select" value={this.state.formfields.theme} onChange={() => this.handleFieldChange('theme', self.themeField.value)} ref={el => (self.themeField = el)}>
+              <option value="">Maak een keuze</option>
+              <option value="Auto">Auto</option>
+              <option value="Fiets">Fiets</option>
+              <option value="Voetganger">Voetganger</option>
+              <option value="Recreëren">Recreëren</option>
+              <option value="Schoon">Schoon</option>
+              <option value="Groen">Groen</option>
+              <option value="Geluid">Geluid</option>
+              <option value="Overig">Overig</option>
+            </select>
+						<div className="form-warning-container"><span className="form-warning" ref={ el => this['form-warning-theme'] = el  }>Je hebt geen thema geseleceteerd</span></div>
           </div>
 
           <div className="openstad-component-form-group">
@@ -275,7 +298,7 @@ export default class IdeasForm extends React.Component {
                 <div className="min error visible">Nog minimaal <span>2</span> tekens</div>
                 <div className="max">Je hebt nog <span>0</span> tekens over.</div>
               </div>
-						  <span id="form-warning-summary" className="form-warning">Je samenvatting is te [[langkort]]</span>
+						  <div className="form-warning-container"><span className="form-warning" ref={ el => this['form-warning-summary'] = el  }>Je samenvatting is te [[langkort]]</span></div>
           </div>
 
           <div className="openstad-component-form-group">
@@ -291,11 +314,15 @@ export default class IdeasForm extends React.Component {
                 <div className="min error visible">Nog minimaal <span>2</span> tekens</div>
                 <div className="max">Je hebt nog <span>0</span> tekens over.</div>
               </div>
-						<span id="form-warning-description" className="form-warning">Je beschrijving is te [[langkort]]</span>
+						  <div className="form-warning-container"><span className="form-warning" ref={ el => this['form-warning-description'] = el  }>Je beschrijving is te [[langkort]]</span></div>
           </div>
 
-          {/* <a className="openstad-button openstad-button-blue" onClick={() => self.submitIdea()} ref={el => (self.submitButton = el)}>Versturen</a> */}
-          <a className="openstad-button openstad-button-blue" onClick={() => alert('To do')} ref={el => (self.submitButton = el)}>Versturen</a>
+          <OpenStadComponentImageUpload config={{ title: 'Afbeeldingen', infoText: 'Let op: Stuur alleen een foto mee die je zelf gemaakt hebt! Foto\'s van anderen kunnen auteursrechtelijk beschermd zijn. Je hebt toestemming nodig van de fotograaf om die foto te uploaden.' }} name="images" value={this.state.formfields.title} handleFieldChange={self.handleFieldChange}/>
+
+          <a className="openstad-button openstad-button-blue" onClick={() => self.submitIdea()} ref={el => (self.submitButton = el)}>Versturen</a>
+          <br/>
+          <br/>
+          <br/>
 
         </form>
 

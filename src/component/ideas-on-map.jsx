@@ -47,7 +47,7 @@ export default class OpenStadComponentIdeasOnMap extends OpenStadComponent {
       ],
       titleField: 'title',
       summaryField: 'summary',
-      typeField: self.config.typeField || 'extraData.thema',
+      typeField: self.config.typeField || 'extraData.theme',
       areaField: self.config.areaField || 'extraData.gebied',
       userJWT: self.config.userJWT,
 		};
@@ -90,10 +90,10 @@ export default class OpenStadComponentIdeasOnMap extends OpenStadComponent {
     });
 
     // handle filter changes
-		self.filterbar.instance.addEventListener('typeFilterUpdate', function(event) {
+		document.addEventListener('typeFilterUpdate', function(event) {
       self.onChangeTypeFilter(event.detail.value);
     });
-		self.filterbar.instance.addEventListener('areaFilterUpdate', function(event) {
+		document.addEventListener('areaFilterUpdate', function(event) {
       self.onChangeAreaFilter(event.detail.value);
     });
 
@@ -113,6 +113,16 @@ export default class OpenStadComponentIdeasOnMap extends OpenStadComponent {
 		document.addEventListener('newIdeaClick', function(event) {
       self.onNewIdeaClick();
     });
+
+    // details changes
+		document.addEventListener('ideaLiked', function(event) {
+      self.onIdeaLiked(event.detail);
+    });
+
+    // form changes
+		document.addEventListener('newIdeaStored', function(event) {
+      self.onNewIdeaStored(event.detail.idea);
+    });
     
 	}
 
@@ -130,10 +140,10 @@ export default class OpenStadComponentIdeasOnMap extends OpenStadComponent {
         return response.json();
       })
       .then( json => {
-        // let xxx;
+        //let xxx;
         let ideas = json.filter( idea => idea.location )
         self.map.addMarkers(ideas.map( idea => {
-          // if ( idea.id==5609) xxx = idea
+          //if ( idea.id==5609) xxx = idea
 					let type = idea && eval(`idea.${self.config.typeField}`);
 					let tmp = self.config.types.find(entry => entry.name == type);
 					let color = tmp && tmp.color || 'black';
@@ -148,10 +158,9 @@ export default class OpenStadComponentIdeasOnMap extends OpenStadComponent {
         self.map.setBoundsAndCenter(self.map.markers);
 
         self.setState({ ideas });
-        // self.setState({ ideas }, function (){
-        //   self.showIdeaDetails(xxx);
-        // });
-
+        //self.setState({ ideas }, function (){
+				//  self.showIdeaDetails(xxx);
+				//});
 				
       })
       .catch((err) => {
@@ -330,7 +339,12 @@ export default class OpenStadComponentIdeasOnMap extends OpenStadComponent {
         } else {
           this.setState({ ...this.state, status: 'location-selected', currentIdea: null });
           this.setSelectedIdea(null);
-          this.setNewIdea({ id: 'New Idea', location: { coordinates: [ event.latlng.lat, event.latlng.lng ] } });
+          let newIdea = { id: 'New Idea', location: { coordinates: [ event.latlng.lat, event.latlng.lng ] } };
+          this.setNewIdea(newIdea);
+          // setTimeout( function() {
+		      // var event = new CustomEvent('newIdeaClick', { detail: { newIdea } });
+		      //   document.dispatchEvent(event);
+          // }, 500 );
         }
         this.map.updateFading();
 
@@ -413,6 +427,37 @@ export default class OpenStadComponentIdeasOnMap extends OpenStadComponent {
     this.showIdeaForm();
   };
 
+
+  onNewIdeaStored(idea) {
+    let self = this;
+    self.setNewIdea(null);
+    self.setState({ ideas: [ ...self.state.ideas, idea ] }, function() {
+
+      // todo: dit is een kopie en moet dus in een eigen functie
+      let type = idea && eval(`idea.${self.config.typeField}`);
+			let tmp = self.config.types.find(entry => entry.name == type);
+			let color = tmp && tmp.color || 'black';
+			let html = `<svg viewBox="0 0 26 26"><circle cx="13" cy="13" r="13" fill="${color}"/></svg>`;
+      // TODO: je moet hier geen L. gebruiken; hang dat in de map
+			let icon = L.divIcon({ html: html, className: 'openstad-component-ideas-on-map-icon', iconSize: L.point(26, 26), iconAnchor: [13, 13] });
+      // TODO: temp oplosing voor images moet dus beter
+      idea.image = (idea.posterImage && idea.posterImage.key) || (idea.extraData && idea.extraData.images && idea.extraData.images[0]) || "https://stemvanwest.amsterdam.nl/img/placeholders/idea.jpg";
+      self.map.addMarker({ lat: idea.location.coordinates[0], lng: idea.location.coordinates[1], data: idea, icon });
+
+      this.map.showMarkers(self.markers)
+
+      self.setState({ status: 'idea-selected', currentIdea: idea }, function() {
+        self.setSelectedIdea(idea)
+      })
+
+    })
+  }
+
+  onIdeaLiked(data) {
+    let idea = this.state.ideas.find( idea => idea.id == data.ideaId );
+    idea.yes += data.change;
+  }
+  
   onChangeTypeFilter(value) {
     let self = this;
     self.setSelectedIdea(null);
@@ -435,7 +480,7 @@ export default class OpenStadComponentIdeasOnMap extends OpenStadComponent {
     self.setCurrentPolygon( area && area.polygon );
     self.map.setBoundsAndCenter(area && area.polygon || self.map.markers);
   }
-
+  
 	render() {
 
     let infoHTML = null; // todo: ik denk dat dit naar infoblock moet
@@ -449,6 +494,8 @@ export default class OpenStadComponentIdeasOnMap extends OpenStadComponent {
           summaryField: this.config.summaryField,
           typeField: this.config.typeField,
           areaField: this.config.areaField,
+          apiUrl: this.config.apiUrl,
+          siteId: this.config.siteId,
           userJWT: this.config.userJWT,
         };
         infoHTML = (

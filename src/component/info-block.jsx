@@ -84,7 +84,7 @@ export default class InfoBlock extends React.Component {
         );
       } else {
         button = (
-          <button onClick={() => { document.location.href = '/login' }} className="openstad-button-blue openstad-not-logged-in-button">Inloggen</button>
+          <button onClick={() => { document.location.href = '/oauth/login' }} className="openstad-button-blue openstad-not-logged-in-button">Inloggen</button>
         );
       }
       newIdeaHTML = (
@@ -106,7 +106,7 @@ export default class InfoBlock extends React.Component {
     // selected idea
     if (self.state.selectedIdea) {
       let idea = self.state.selectedIdea;
-      let tmp = self.config.types.find(entry => entry.name == idea.extraData.thema);
+      let tmp = self.config.types.find(entry => entry.name == idea.extraData.theme);
       let typeColor = tmp && tmp.color || 'black';
       selectedIdeaHTML = (
 			  <div className="openstad-component-info-block-selected-idea" onClick={(event) => self.dispatchSelectedIdeaClick(event, self.state.selectedIdea)}>
@@ -138,9 +138,27 @@ export default class InfoBlock extends React.Component {
       title += ' in de buurt';
     }
 
+    let defaultBlockHTML = null;
+    if (!newIdeaHTML && !selectedIdeaHTML) {
+      defaultBlockHTML = (
+			  <div className="openstad-component-info-block-default-block">
+          <div className="openstad-component-info-block-default-block-line openstad-component-line-1">
+            <strong>Selecteer een plaats</strong> op de kaart om een <strong>nieuwe kans of knelpunt toe te voegen</strong>, of hieronder een lijstje met inzendingen in die buurt te zien.
+          </div>
+          <div className="openstad-component-info-block-default-block-line openstad-component-line-2">
+            <strong>Selecteer een inzending</strong> op de kaart om <strong>meer informatie</strong> over de kans of het knelpunt te bekijken.
+          </div>
+          <div className="openstad-component-info-block-default-block-line openstad-component-line-3">
+            Bekijk hieronder de inzendingen die nu zichtbaar zijn op de kaart.
+          </div>
+        </div>
+      );
+    }
+
     // TODO: kan de key weg uit IdeasList
     return (
 			<div id={self.id} className={self.props.className || 'openstad-component-info-block'} ref={el => (self.instance = el)}>
+        {defaultBlockHTML}
         {newIdeaHTML}
         {selectedIdeaHTML}
 			  <IdeasList config={{ ...self.config, onIdeaClick: ( event, idea ) => self.dispatchUpdateSelectedIdea(event, idea) }} ideas={self.state.ideas} title={title} key={`openstad-component-ideas-list-321`} ref={el => (self.list = el)}/>

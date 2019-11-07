@@ -10,7 +10,6 @@ export default class OpenStadComponentFormelement extends React.Component {
 
 		// config
 		let defaultConfig = {
-			name: 'unknown',
 			title: 'Onbekend veld',
       infoText: null,
       minChars: null,
@@ -32,22 +31,18 @@ export default class OpenStadComponentFormelement extends React.Component {
 
     let self = this;
 
-    console.log('==');
-    console.log(elementHTML);
-    console.log(this.config);
-
     let infoHTML = null;
-    if (this.config.infoText) {
-      let infoHTML = (
+    if (self.config.infoText) {
+      infoHTML = (
 				<div className="form-info">
-  				Geef je voorstel een duidelijke titel, zodat anderen jouw inzending makkelijk kunnen vinden en direct snappen waar het over gaat.
+  				{this.config.infoText}
 				</div>
       );
     }
 
     let charsCounterHTML = null;
     if (this.config.minChars && this.config.maxChars) {
-      let charsCounterHTML = (
+      charsCounterHTML = (
         <div id="charsLeftTitle" className="charsLeft">
           <div className="min error visible">Nog minimaal <span>2</span> tekens</div>
           <div className="max">Je hebt nog <span>0</span> tekens over.</div>
@@ -56,7 +51,7 @@ export default class OpenStadComponentFormelement extends React.Component {
     }
 
     return (
-      <div className="form-group">
+      <div className="openstad-component-form-group">
 				<h2>
 					{self.config.title}
 				</h2>

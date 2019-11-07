@@ -33,7 +33,7 @@ export default class Filterbar extends React.Component {
 
 		// dispatch an event
 		var event = new CustomEvent('typeFilterUpdate', { detail: { value: value } });
-		this.instance.dispatchEvent(event);
+		document.dispatchEvent(event);
 
   }
 
@@ -47,7 +47,7 @@ export default class Filterbar extends React.Component {
 
 		// dispatch an event
 		var event = new CustomEvent('areaFilterUpdate', { detail: { value: this.state.areas.find(area => value == area.value) } });
-		this.instance.dispatchEvent(event);
+		document.dispatchEvent(event);
 
   }
 
