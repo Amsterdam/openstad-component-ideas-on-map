@@ -260,7 +260,7 @@ export default class IdeasForm extends React.Component {
           
 				  <h1>Kans of knelpunt toevoegen</h1>
 
-          <div className="openstad-component-form-group">
+          <div className="ocw-form-group">
 					  <h2>
 						  Titel plan
 					  </h2>
@@ -276,7 +276,7 @@ export default class IdeasForm extends React.Component {
 						<span id="form-warning-title" className="form-warning">Je titel is te [[langkort]]</span>
           </div>
 
-          <div className="openstad-component-form-group">
+          <div className="ocw-form-group">
 					  <h2>
 						  Samenvatting
 					  </h2>
@@ -292,7 +292,7 @@ export default class IdeasForm extends React.Component {
 						  <span id="form-warning-summary" className="form-warning">Je samenvatting is te [[langkort]]</span>
           </div>
 
-          <div className="openstad-component-form-group">
+          <div className="ocw-form-group">
 					  <h2>
 						  Beschrijving
 					  </h2>
@@ -308,7 +308,7 @@ export default class IdeasForm extends React.Component {
 						<span id="form-warning-description" className="form-warning">Je beschrijving is te [[langkort]]</span>
           </div>
 
-          <div className="openstad-component-form-group">
+          <div className="ocw-form-group">
 					  <h2>
 						  Afbeelding
 					  </h2>

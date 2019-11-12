@@ -32,17 +32,15 @@ export default class VoteButton extends React.Component {
     console.log('??');
 
     let self = this;
-    let url = `${ self.config.apiUrl }/api/site/${ self.config.siteId }/vote`;
+    let url = `${ self.config.api.url }/api/site/${ self.config.siteId }/vote`;
+		let headers = Object.assign(( self.config.api && self.config.api.headers || {} ), { "Content-type": "application/json" });
 
-    if (!self.config.userJWT) return alert('Log eerst in; anoniem stemmen moet nog.')
+    if (!self.config.api.isUserLoggedIn) return alert('Log eerst in; anoniem stemmen moet nog.')
 
 
     fetch(url, {
       method: 'post',
-      headers: {
-        'Content-Type': 'application/json',
-			  'X-Authorization': 'Bearer ' + self.config.userJWT,
-      },
+      headers,
       body: JSON.stringify({
         ideaId: self.config.ideaId,
         opinion: self.config.opinion,

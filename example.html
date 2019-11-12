@@ -13,7 +13,7 @@
 	<!-- voorbeeld kaart -->
 	<div>
     <div class="container">
-		  <div class="openstad-component-ideas-on-map" config='{"divId": "ideeen-op-de-kaart", "apiUrl": "http://openstad-api.francesco.denes.nl", "userJWT": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjE2MSwiaWF0IjoxNTczMTQyMzU3LCJleHAiOjE1ODg4NjcxNTd9.kw5t_nJpdusUsda5yCk4OKFaTxW1uDeg_6WSDOgF5GQ", "siteId": 14, "map": { "variant": "amaps", "zoom": 16, "clustering": { "isActive": true } } }'></div>
+		  <div class="openstad-component-ideas-on-map" config='{"divId": "ideeen-op-de-kaart","api": {"isUserLoggedIn": true, "url": "http://openstad-api.francesco.denes.nl", "headers": { "X-Authorization": "314" } },"siteId": 14,"map": {"variant": "amaps","zoom": 16,"clustering": {"isActive": true}},"argument": {"descriptionMinLength": 2,"descriptionMaxLength": 15}}'></div>
     </div>
     <link rel="stylesheet" type="text/css" href="../css/all.css"/>
     <link rel="stylesheet" type="text/css" href="dist/css/default.css"/>
@@ -34,6 +34,3 @@
   </style>
 
 </body>
-
-
-

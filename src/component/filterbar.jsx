@@ -60,6 +60,20 @@ export default class Filterbar extends React.Component {
 
     let self = this;
 
+    let areasHTML = null;
+    // TODO: niet state maar config
+    if (self.state.areas && self.state.areas.length) {
+      areasHTML = (
+          <select value={self.state.selectedArea} onChange={() => self.handleAreaChange( self.areaSelector.value )} className="openstad-default-select openstad-margin-right" ref={el => (self.areaSelector = el)}>
+            <option value="0">Geen gebied geselecteerd</option>;
+            { self.state.areas.map((area, i) => {
+              return <option style={{ color: area.color }} value={ area.value } key={'type-option-' + i}>{ area.name }</option>;
+            })}
+          </select>
+      );
+    }
+    
+
     return (
 			<div id={self.id} className={self.props.className || 'openstad-component-filterbar'} ref={el => (self.instance = el)}>
 
@@ -74,12 +88,7 @@ export default class Filterbar extends React.Component {
             })}
           </select>
 
-          <select value={self.state.selectedArea} onChange={() => self.handleAreaChange( self.areaSelector.value )} className="openstad-default-select openstad-margin-right" ref={el => (self.areaSelector = el)}>
-            <option value="0">Geen gebied geselecteerd</option>;
-            { self.state.areas.map((area, i) => {
-              return <option style={{ color: area.color }} value={ area.value } key={'type-option-' + i}>{ area.name }</option>;
-            })}
-          </select>
+          {areasHTML}
 
           <button value="reset" onClick={() => self.resetTypeAndArea()} className="openstad-button" ref={el => (self.resetButton = el)}>Alles tonen</button>
           

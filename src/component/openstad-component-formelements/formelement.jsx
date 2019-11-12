@@ -51,7 +51,7 @@ export default class OpenStadComponentFormelement extends React.Component {
     }
 
     return (
-      <div className="openstad-component-form-group">
+      <div className="ocw-form-group">
 				<h2>
 					{self.config.title}
 				</h2>

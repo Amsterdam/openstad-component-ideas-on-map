@@ -118,9 +118,8 @@ export default class OpenStadComponentImageUpload extends OpenStadComponentForme
 			var pondEl = document.querySelector('.filepond--root');
 
       // tmp
-      self.state.value = ["https://image-server.staging.openstadsdeel.nl/image/85ef5669d9a5db2f0ec2adb6310620be"]
-      self.props.handleFieldChange(self.props.name, self.state.value )
-      
+      //self.state.value = ["https://image-server.staging.openstadsdeel.nl/image/85ef5669d9a5db2f0ec2adb6310620be"]
+      //self.props.handleFieldChange(self.props.name, self.state.value )
 
 			document.querySelector('.filepond--root').addEventListener('FilePond:processfile', e => {
 				if (e.detail) {
@@ -147,7 +146,7 @@ export default class OpenStadComponentImageUpload extends OpenStadComponentForme
   fileUploaderUpdateCurrentInput() {
     let self = this;
 		self.state.value = [];
-		if ( this.imageuploader && this.state.imageuploader.getFiles ) {
+		if ( this.imageuploader && this.imageuploader.getFiles ) {
 			var images = this.imageuploader.getFiles();
 			images.forEach((image) => {
 				try {

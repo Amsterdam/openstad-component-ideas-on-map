@@ -78,7 +78,7 @@ export default class InfoBlock extends React.Component {
     // new idea
     if (self.state.newIdea) {
       let button = null;
-      if (self.config.userJWT) {
+      if (self.config.api.isUserLoggedIn) {
         button = (
           <button className="openstad-button openstad-button-blue" onClick={(event) => self.dispatchNewIdeaClick(event)} ref={el => (self.newIdeaButton = el)}>Nieuwe kans of knelpunt toevoegen</button>
         );
