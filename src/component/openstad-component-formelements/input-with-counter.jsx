@@ -100,7 +100,7 @@ export default class OpenStadComponentFormfieldsInputWithCounter extends React.C
 		}
 
 		if (self.state.showWarning && self.state.warning) {
-			warning = (<div className="osc-form-warning">{self.state.warning}</div>)
+			warning = (<div className="osc-form-warning" ef={ el => this['form-warning-theme'] = el  }>{self.state.warning}</div>)
 		}
 
     let inputHTML = null;

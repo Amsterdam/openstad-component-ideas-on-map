@@ -5,12 +5,17 @@
 // @import './tmp/main';
 // @import './tmp/trix.css';
 
+form.osc-form {
+  overflow: visible;
+}
+
 .osc-form {
 
   width: 100%;
 
   .osc-form-group {
 
+    position: relative;
     margin-bottom: 36px;
 
     input, textarea {
@@ -20,7 +25,9 @@
       border-radius: 0;
     }
 
-    .osc-form-info, .osc-form-warning {
+    .osc-form-info,
+    .osc-form-warning,
+    .osc-form-counter {
       position: relative;
       margin: -16px 0 10px 0;
       padding: 0;
@@ -30,15 +37,11 @@
       margin-left: 30px;
     }
 
-    .osc-form-warning-container {
-      position: relative;
-      height: 24px;
-    }
-
     .osc-form-warning,
     .osc-form-counter {
       position: absolute;
       font-size: 14px;
+      bottom: -35px;
       margin-top: 2px;
       color: #9a9a9a;
     }

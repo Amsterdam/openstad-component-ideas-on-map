@@ -296,7 +296,6 @@ export default class OpenStadComponentIdeasOnMap extends OpenStadComponent {
   }
 
   setNewIdea(idea) {
-    console.log(idea);
     let self = this;
     self.setState({ editIdea: idea }, function() {
       if (idea) {
@@ -431,8 +430,8 @@ export default class OpenStadComponentIdeasOnMap extends OpenStadComponent {
   }
 
 	onUpdateSelectedIdea(idea) {
-    this.setState({ ...this.state, status: 'default', currentIdea: idea }, function() {
-      if (this.state.editIdea) this.setNewIdea(null);
+    if (this.state.editIdea) this.setNewIdea(null);
+    this.setState({ ...this.state, status: 'idea-selected', currentIdea: idea }, function() {
       this.setSelectedIdea(idea);
     });
   }

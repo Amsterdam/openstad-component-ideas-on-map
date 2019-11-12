@@ -23,7 +23,7 @@
   text-decoration: underline;
   background-color: #aaa;
 }
-.ocs-button-blue,
+.osc-button-blue,
 .openstad-button-blue {
   position: relative;
   display: inline-block;
@@ -36,13 +36,13 @@
   color: white;
   background-color: #164995;
 }
-.ocs-button-blue:active,
+.osc-button-blue:active,
 .openstad-button-blue:active,
-.ocs-button-blue:focus,
+.osc-button-blue:focus,
 .openstad-button-blue:focus {
   outline: 0;
 }
-.ocs-button-blue:hover,
+.osc-button-blue:hover,
 .openstad-button-blue:hover {
   text-decoration: underline;
   background-color: #003066;
@@ -165,10 +165,14 @@
 .openstad-component-number-button .openstad-component-number-button-text:hover {
   text-decoration: underline;
 }
+form.osc-form {
+  overflow: visible;
+}
 .osc-form {
   width: 100%;
 }
 .osc-form .osc-form-group {
+  position: relative;
   margin-bottom: 36px;
 }
 .osc-form .osc-form-group input,
@@ -179,7 +183,8 @@
   border-radius: 0;
 }
 .osc-form .osc-form-group .osc-form-info,
-.osc-form .osc-form-group .osc-form-warning {
+.osc-form .osc-form-group .osc-form-warning,
+.osc-form .osc-form-group .osc-form-counter {
   position: relative;
   margin: -16px 0 10px 0;
   padding: 0;
@@ -187,14 +192,11 @@
 .osc-form .osc-form-group .osc-form-info {
   margin-left: 30px;
 }
-.osc-form .osc-form-group .osc-form-warning-container {
-  position: relative;
-  height: 24px;
-}
 .osc-form .osc-form-group .osc-form-warning,
 .osc-form .osc-form-group .osc-form-counter {
   position: absolute;
   font-size: 14px;
+  bottom: -35px;
   margin-top: 2px;
   color: #9a9a9a;
 }
@@ -221,6 +223,9 @@
   list-style-type: none;
   padding: 0;
   margin: 0;
+}
+.openstad-component-reactions .osc-reaction-form .openstad-align-right-container {
+  margin-top: -30px;
 }
 .openstad-component-reactions .osc-reaction {
   position: relative;
@@ -615,7 +620,7 @@
 }
 .openstad-component-ideas-on-map .openstad-component-idea-details .openstad-component-details-sharebuttons ul a {
   display: block;
-  font-size: 2;
+  font-size: 0;
   line-height: 0;
   width: 30px;
   height: 30px;
@@ -648,6 +653,9 @@
 .openstad-component-ideas-on-map .openstad-component-idea-details .openstad-component-details-summary,
 .openstad-component-ideas-on-map .openstad-component-idea-details .openstad-component-details-description {
   width: 700px;
+}
+.openstad-component-ideas-on-map .openstad-component-idea-details .openstad-component-details-summary {
+  font-weight: 600;
 }
 .openstad-component-ideas-on-map .openstad-component-ideas-on-map-idea-form .osc-form {
   width: 700px;

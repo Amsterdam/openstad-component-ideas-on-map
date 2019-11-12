@@ -223,7 +223,7 @@ export default class IdeasForm extends React.Component {
             Een locatie vlakbij
 					  </h2>
             {self.state.formfields.address || 'Geen adres gevonden'}
-						<div className="osc-form-warning-container"><span className="osc-form-warning" style={{ display: 'none' }} ref={ el => this['form-warning-location'] = el  }>Geen locatie geselecteerd</span></div>
+						<div className="osc-form-warning" style={{ display: 'none' }} ref={ el => this['form-warning-location'] = el  }>Geen locatie geselecteerd</div>
           </div>
 
           <div className="osc-form-group">
@@ -248,7 +248,7 @@ export default class IdeasForm extends React.Component {
               <option value="Kans">Kans</option>
               <option value="Knelpunt">Knelpunt</option>
             </select>
-						<div className="osc-form-warning-container"><span className="osc-form-warning" style={{ display: 'none' }} ref={ el => this['form-warning-type'] = el  }>Je hebt nog geen keuze gemaakt</span></div>
+						<div className="osc-form-warning" style={{ display: 'none' }} ref={ el => this['form-warning-type'] = el  }>Je hebt nog geen keuze gemaakt</div>
           </div>
 
           <div className="osc-form-group">
@@ -269,7 +269,7 @@ export default class IdeasForm extends React.Component {
               <option value="Geluid">Geluid</option>
               <option value="Overig">Overig</option>
             </select>
-						<div className="osc-form-warning-container"><span className="osc-form-warning" style={{ display: 'none' }} ref={ el => this['form-warning-theme'] = el  }>Je hebt geen thema geseleceteerd</span></div>
+						<div className="osc-form-warning" style={{ display: 'none' }} ref={ el => this['form-warning-theme'] = el  }>Je hebt geen thema geseleceteerd</div>
           </div>
 
           <div className="osc-form-group">
@@ -294,6 +294,8 @@ export default class IdeasForm extends React.Component {
 
           <OpenStadComponentImageUpload config={{ title: 'Afbeeldingen', infoText: 'Let op: Stuur alleen een foto mee die je zelf gemaakt hebt! Foto\'s van anderen kunnen auteursrechtelijk beschermd zijn. Je hebt toestemming nodig van de fotograaf om die foto te uploaden.' }} name="images" value={this.state.formfields.title} handleFieldChange={self.handleFieldChange}/>
 
+          <br/>
+          <br/>
           <a className="openstad-button openstad-button-blue" onClick={() => self.submitIdea()} ref={el => (self.submitButton = el)}>Versturen</a>
           <br/>
           <br/>

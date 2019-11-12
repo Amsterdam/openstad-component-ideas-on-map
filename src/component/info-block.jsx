@@ -84,7 +84,7 @@ export default class InfoBlock extends React.Component {
         );
       } else {
         button = (
-          <button onClick={() => { document.location.href = '/oauth/login' }} className="openstad-button-blue openstad-not-logged-in-button">Inloggen</button>
+          <button onClick={() => { document.location.href = '/oauth/login?returnTo=' + encodeURIComponent(document.location.href) }} className="openstad-button-blue openstad-not-logged-in-button">Inloggen</button>
         );
       }
       newIdeaHTML = (

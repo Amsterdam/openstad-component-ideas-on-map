@@ -95,7 +95,7 @@ export default class OpenStadComponentReactions extends React.Component {
     // todo: config of je ingelogd moet zijn
     let submitButtonHTML = (
       <div className="openstad-align-right-container">
-        <button onClick={() => { document.location.href = '/oauth/login' }} className="openstad-button-blue openstad-not-logged-in-button">Inloggen</button>
+        <button onClick={() => { document.location.href = '/oauth/login?returnTo=' + encodeURIComponent(document.location.href) }} className="osc-button-blue openstad-not-logged-in-button">Inloggen</button>
       </div>
     );
     if (self.config.api.isUserLoggedIn) {

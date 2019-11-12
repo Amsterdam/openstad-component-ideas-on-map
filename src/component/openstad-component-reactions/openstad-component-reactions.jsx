@@ -105,6 +105,7 @@ export default class OpenStadComponentReactions extends React.Component {
         <OpenStadComponentReactionForm config={config}/>
 				
 				{reactions}
+        <br/><br/>
 				
 			</div>
     );
