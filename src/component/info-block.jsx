@@ -23,6 +23,7 @@ export default class InfoBlock extends React.Component {
       selectedIdea: undefined,
       newIdea: undefined,
       ideas: [],
+      mobileState: props.mobileState || 'closed',
     };
 
   }
@@ -32,6 +33,7 @@ export default class InfoBlock extends React.Component {
   }
 
   updateIdeas({ ideas = this.state.ideas, sortOrder = this.state.currentSortOrder, showSortButton, center = { lat: 52.37104644463586, lng: 4.900402911007405 }, maxLength }) {
+    this.setState({ ideas });
     this.list.updateIdeas({ ideas, sortOrder, showSortButton, center, maxLength });
   }
 
@@ -60,10 +62,22 @@ export default class InfoBlock extends React.Component {
 		var event = new CustomEvent('selectedIdeaClick', { detail: { idea } });
 		document.dispatchEvent(event);
   };
+
+  dispatchOnIdeaClick(e, idea) {
+    e.stopPropagation();
+		var event = new CustomEvent('ideaClick', { detail: { idea } });
+		document.dispatchEvent(event);
+  }
   
   dispatchNewIdeaClick(e) {
     e.stopPropagation();
 		var event = new CustomEvent('newIdeaClick', { detail: {} });
+		document.dispatchEvent(event);
+  };
+  
+  dispatchClickMobileSwitcher(e) {
+    e.stopPropagation();
+		var event = new CustomEvent('clickMobileSwitcher', { detail: {} });
 		document.dispatchEvent(event);
   };
   
@@ -73,7 +87,9 @@ export default class InfoBlock extends React.Component {
 
     let newIdeaHTML = null;
     let selectedIdeaHTML = null;
-    let title = self.config.title || null;
+    let titleAddition = '';
+    let mobileSwitcherHTML = null;
+    let mobileTitle = '';
 
     // new idea
     if (self.state.newIdea) {
@@ -100,13 +116,14 @@ export default class InfoBlock extends React.Component {
           </div>
         </div>
       );
-      title += ' in de buurt';
+      titleAddition = 'in de buurt';
+      mobileTitle = 'Meer details en acties';
     }
 
     // selected idea
     if (self.state.selectedIdea) {
       let idea = self.state.selectedIdea;
-      let tmp = self.config.types.find(entry => entry.name == idea.extraData.theme);
+      let tmp = self.config.types.find(entry => idea.extraData && entry.name == idea.extraData.theme);
       let typeColor = tmp && tmp.color || 'black';
       selectedIdeaHTML = (
 			  <div className="openstad-component-info-block-selected-idea" onClick={(event) => self.dispatchSelectedIdeaClick(event, self.state.selectedIdea)}>
@@ -135,8 +152,11 @@ export default class InfoBlock extends React.Component {
           </div>
         </div>
       );
-      title += ' in de buurt';
+      titleAddition = 'in de buurt';
+      mobileTitle = 'Meer details';
     }
+
+    if (!titleAddition) titleAddition = 'in dit gebied';
 
     let defaultBlockHTML = null;
     if (!newIdeaHTML && !selectedIdeaHTML) {
@@ -153,15 +173,30 @@ export default class InfoBlock extends React.Component {
           </div>
         </div>
       );
+      mobileTitle = `${self.config.title} in dit gebied (${self.state.ideas && self.state.ideas.length || 0})`;
     }
+
+    console.log(self.state.mobileState);
+    if (self.state.mobileState == 'opened') {
+      mobileTitle = 'Terug naar de kaart';
+    }
+
+    mobileSwitcherHTML = (
+      <div className="osc-mobile-switcher" onClick={ e => self.dispatchClickMobileSwitcher(e) }>
+        {mobileTitle}
+      </div>
+    );
 
     // TODO: kan de key weg uit IdeasList
     return (
 			<div id={self.id} className={self.props.className || 'openstad-component-info-block'} ref={el => (self.instance = el)}>
-        {defaultBlockHTML}
-        {newIdeaHTML}
-        {selectedIdeaHTML}
-			  <IdeasList config={{ ...self.config, onIdeaClick: ( event, idea ) => self.dispatchUpdateSelectedIdea(event, idea) }} ideas={self.state.ideas} title={title} key={`openstad-component-ideas-list-321`} ref={el => (self.list = el)}/>
+        {mobileSwitcherHTML}
+			  <div className="osc-info-content">
+          {defaultBlockHTML}
+          {newIdeaHTML}
+          {selectedIdeaHTML}
+			    <IdeasList config={{ ...self.config, onIdeaClick: ( event, idea ) => self.dispatchOnIdeaClick(event, idea) }} ideas={self.state.ideas} title={self.config.title + ' ' + titleAddition} key={`openstad-component-ideas-list-321`} ref={el => (self.list = el)}/>
+			  </div>
 			</div>
 
     );

@@ -14,7 +14,7 @@ export default class Map extends OpenStadComponentNLMap {
       editMarker: undefined,
       currentPolygon: undefined,
     };
-		this.config = Object.assign(this.defaultConfig, this.config || {})
+		this.config = Object.assign(this.defaultConfig, this.config, props.config || {})
 
     // defaults
     // this.config.onMapClick = this.config.onMapClick || this.onMapClick.bind(this);
@@ -85,17 +85,17 @@ export default class Map extends OpenStadComponentNLMap {
     self.markers.forEach((marker) => {
       self.showMarker(marker)
     });
-    self.setBoundsAndCenter(self.markers);
+    self.setBoundsAndCenter(self.config.polygon || self.map.markers);
   }
 
   hideMarkers({ exception }) {
 	  var self = this;
+    if (exception) self.setBoundsAndCenter([{ lat: exception.location.coordinates[0], lng: exception.location.coordinates[1] }]);
     self.markers.forEach((marker) => {
       if (!(exception && marker.data && marker.data.id && exception.id == marker.data.id)) {
         self.hideMarker(marker)
       }
     });
-    self.setBoundsAndCenter([{ lat: exception.location.coordinates[0], lng: exception.location.coordinates[1] }]);
   }
 
   fadeMarkers({ exception }) {

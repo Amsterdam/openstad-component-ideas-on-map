@@ -99,7 +99,6 @@ export default class IdeasForm extends React.Component {
 	  // }
 
 	  // title
-    console.log(self.titleField.value.length,this.config.titleMinLength);
 	  if (self.titleField.value.length < this.config.titleMinLength) {
       // todo: dit moet niet met querySelector maar met self.whatever
 		  document.querySelector('#form-warning-title').style.display = 'block';
@@ -180,7 +179,6 @@ export default class IdeasForm extends React.Component {
   submitIdea() {
 
     var self = this;
-    console.log('validateIdea', self.validateIdea());
 
 	  if ( !self.validateIdea() ) return;
 

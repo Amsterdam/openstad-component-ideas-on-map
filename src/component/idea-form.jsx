@@ -88,7 +88,6 @@ export default class IdeasForm extends React.Component {
     let state = { ...this.state };
     state.formfields['location'] = location;
     state.formfields['address'] = address;
-    console.log(state);
     this.setState(state)
     this.dispatchUpdateEditIdea(state.formfields)
   }

@@ -85,7 +85,7 @@ export default class IdeasList extends React.Component {
     let sortSelector = null;
     if (this.state.showSortButton) {
       sortSelector = (
-        <div className="openstad-align-right-container openstad-margin-right">
+        <div className="osc-sort openstad-align-right-container openstad-margin-right">
           Sorteer op:&nbsp;&nbsp;&nbsp;&nbsp;
           <select value={self.state.currentSortOrder} onChange={() => self.setSortOrder({ sortOrder: self.sortSelector.value })} className="openstad-default-select" ref={el => (self.sortSelector = el)}>
             { self.config.sortOptions.map((option, i) => {
@@ -115,8 +115,8 @@ export default class IdeasList extends React.Component {
           let typeColor = tmp && tmp.color || 'black';
           return (
             <div className="openstad-component-info-block-ideas-list-idea" onClick={(event) => self.config.onIdeaClick(event, idea)} key={'info-block-' + i}>
-              <div className="openstad-component-image" style={{ backgroundImage: `url(${idea.image})` }}></div>
               <div className="openstad-component-content">
+                <div className="openstad-component-image" style={{ backgroundImage: `url(${idea.image})` }}></div>
                 <h4>{ eval(`idea.${self.config.titleField}`) }</h4>
                 <div className="openstad-summary">
                   { eval(`idea.${self.config.summaryField}`) }

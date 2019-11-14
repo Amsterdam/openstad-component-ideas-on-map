@@ -29,8 +29,6 @@ export default class VoteButton extends React.Component {
 
   doVote() {
 
-    console.log('??');
-
     let self = this;
     let url = `${ self.config.api.url }/api/site/${ self.config.siteId }/vote`;
 		let headers = Object.assign(( self.config.api && self.config.api.headers || {} ), { "Content-type": "application/json" });

@@ -39,7 +39,7 @@ export default class OpenStadComponentFormfieldsInputWithCounter extends React.C
 			state.isValid = false;
 		}
 		if (this.state.valueLength > this.config.maxLength) {
-			state.warning = `Je ${this.config.name} is te kort`;
+			state.warning = `Je ${this.config.name} is te lang`;
 			state.isValid = false;
 		}
 		state.showWarning = true;

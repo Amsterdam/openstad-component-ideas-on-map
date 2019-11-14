@@ -7,10 +7,10 @@
 .openstad-button {
   position: relative;
   display: inline-block;
-  padding: 0 15px;
+  padding: 12px 15px;
   font-size: 16px;
   font-weight: 600;
-  line-height: 44px;
+  line-height: 20px;
   border: 0 none;
   cursor: pointer;
   background-color: #c4c4c4;
@@ -27,10 +27,10 @@
 .openstad-button-blue {
   position: relative;
   display: inline-block;
-  padding: 0 15px;
+  padding: 12px 15px;
   font-size: 16px;
   font-weight: 600;
-  line-height: 44px;
+  line-height: 20px;
   border: 0 none;
   cursor: pointer;
   color: white;
@@ -144,10 +144,10 @@
 .openstad-component-number-button .openstad-component-number-button-text {
   position: relative;
   display: inline-block;
-  padding: 0 15px;
+  padding: 12px 15px;
   font-size: 16px;
   font-weight: 600;
-  line-height: 44px;
+  line-height: 20px;
   border: 0 none;
   cursor: pointer;
   display: block;
@@ -341,17 +341,94 @@ form.osc-form {
   font-size: 16px;
 }
 .openstad-component-ideas-on-map .openstad-component-ideas-on-map-filterbar {
+  height: 64px;
+  width: 100%;
+}
+.openstad-component-ideas-on-map .openstad-component-ideas-on-map-info {
+  position: absolute;
+  left: 0;
+  top: 64px;
+  width: 687px;
+  bottom: 0;
+}
+.openstad-component-ideas-on-map .openstad-component-ideas-on-map-map {
+  position: absolute;
+  top: 64px;
+  left: 687px;
+  right: 0;
+  bottom: 0;
+}
+@media only screen and (max-width: 700px) {
+  .openstad-component-ideas-on-map .openstad-component-ideas-on-map-filterbar {
+    height: 44px;
+  }
+  .openstad-component-ideas-on-map .openstad-component-ideas-on-map-info {
+    top: auto;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    height: 64px;
+  }
+  .openstad-component-ideas-on-map .openstad-component-ideas-on-map-map {
+    top: 44px;
+    left: 0;
+    bottom: 64px;
+    width: 100%;
+    height: auto;
+  }
+  .openstad-component-ideas-on-map.osc-mobile-opened .openstad-component-ideas-on-map-info {
+    top: 128px;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    height: auto;
+  }
+  .openstad-component-ideas-on-map.osc-mobile-opened .openstad-component-ideas-on-map-map {
+    top: 64px;
+    left: 0;
+    width: 100%;
+    height: 64px;
+  }
+}
+.openstad-component-ideas-on-map.openstad-component-ideas-on-map-idea-details .openstad-component-ideas-on-map-info,
+.openstad-component-ideas-on-map.openstad-component-ideas-on-map-idea-form .openstad-component-ideas-on-map-info {
+  width: 1100px;
+}
+.openstad-component-ideas-on-map.openstad-component-ideas-on-map-idea-details .openstad-component-ideas-on-map-map,
+.openstad-component-ideas-on-map.openstad-component-ideas-on-map-idea-form .openstad-component-ideas-on-map-map {
+  left: 1100px;
+}
+@media only screen and (max-width: 700px) {
+  .openstad-component-ideas-on-map.openstad-component-ideas-on-map-idea-details .openstad-component-ideas-on-map-info,
+  .openstad-component-ideas-on-map.openstad-component-ideas-on-map-idea-form .openstad-component-ideas-on-map-info {
+    width: 100%;
+  }
+  .openstad-component-ideas-on-map.openstad-component-ideas-on-map-idea-details .openstad-component-ideas-on-map-map,
+  .openstad-component-ideas-on-map.openstad-component-ideas-on-map-idea-form .openstad-component-ideas-on-map-map {
+    left: 0;
+    z-index: 20;
+  }
+}
+.openstad-component-ideas-on-map .openstad-component-ideas-on-map-filterbar {
   display: flex;
   flex-direction: row;
-  width: 100%;
-  padding: 10px 15px;
+  z-index: 500;
   background-color: #f5f5f5;
 }
-.openstad-component-ideas-on-map .openstad-component-ideas-on-map-filterbar .openstad-component-search {
-  position: relative;
+.openstad-component-ideas-on-map .openstad-component-ideas-on-map-filterbar .openstad-component-search-container {
   flex-grow: 2;
+  position: relative;
 }
-.openstad-component-ideas-on-map .openstad-component-ideas-on-map-filterbar .openstad-component-search .openstad-component-search-suggestions {
+.openstad-component-ideas-on-map .openstad-component-ideas-on-map-filterbar .openstad-component-search-container .openstad-component-search {
+  padding: 10px 15px;
+}
+@media only screen and (max-width: 700px) {
+  .openstad-component-ideas-on-map .openstad-component-ideas-on-map-filterbar .openstad-component-search-container .openstad-component-search-input {
+    display: none;
+    width: 20px;
+  }
+}
+.openstad-component-ideas-on-map .openstad-component-ideas-on-map-filterbar .openstad-component-search-container .openstad-component-search-suggestions {
   position: absolute;
   top: 44px;
   left: 0px;
@@ -364,16 +441,16 @@ form.osc-form {
   border: solid 1px #434343;
   z-index: 30;
 }
-.openstad-component-ideas-on-map .openstad-component-ideas-on-map-filterbar .openstad-component-search .openstad-component-search-suggestions strong {
+.openstad-component-ideas-on-map .openstad-component-ideas-on-map-filterbar .openstad-component-search-container .openstad-component-search-suggestions strong {
   font-weight: 800;
 }
-.openstad-component-ideas-on-map .openstad-component-ideas-on-map-filterbar .openstad-component-search .openstad-component-search-suggestions .openstad-component-search-suggestions-hr {
+.openstad-component-ideas-on-map .openstad-component-ideas-on-map-filterbar .openstad-component-search-container .openstad-component-search-suggestions .openstad-component-search-suggestions-hr {
   width: 100%;
   height: 1px;
   margin: 10px 0;
   border-top: 1px solid #434343;
 }
-.openstad-component-ideas-on-map .openstad-component-ideas-on-map-filterbar .openstad-component-search .openstad-component-search-suggestions .openstad-component-search-suggestion {
+.openstad-component-ideas-on-map .openstad-component-ideas-on-map-filterbar .openstad-component-search-container .openstad-component-search-suggestions .openstad-component-search-suggestion {
   background-position: center left 0px;
   background-size: 9px 13px;
   background-repeat: no-repeat;
@@ -385,8 +462,101 @@ form.osc-form {
   text-overflow: ellipsis;
   cursor: pointer;
 }
-.openstad-component-ideas-on-map .openstad-component-ideas-on-map-filterbar .openstad-align-right-container {
+.openstad-component-ideas-on-map .openstad-component-ideas-on-map-filterbar .openstad-component-selectors-container {
   flex-grow: 1;
+  font-size: 0;
+}
+.openstad-component-ideas-on-map .openstad-component-ideas-on-map-filterbar .openstad-component-selectors-container .openstad-component-type-selector-button {
+  display: none;
+}
+@media only screen and (max-width: 700px) {
+  .openstad-component-ideas-on-map .openstad-component-ideas-on-map-filterbar .openstad-component-selectors-container .openstad-component-type-selector-button {
+    background-position: 0px 0px;
+    background-size: 20px 20px;
+    background-repeat: no-repeat;
+    background-image: url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyMyAyMCIgd2lkdGg9IjIzIiBoZWlnaHQ9IjIwIj48ZGVmcz48c3R5bGU+LmNscy0xe2ZpbGw6IzAwMDt9PC9zdHlsZT48L2RlZnM+PHRpdGxlPl9uaWV1d190b3AzLWR1aW0gb21ob29nPC90aXRsZT48ZyBpZD0iTGF5ZXJfMiIgZGF0YS1uYW1lPSJMYXllciAyIj48ZyBpZD0iTGF5ZXJfMS0yIiBkYXRhLW5hbWU9IkxheWVyIDEiPjxnIGlkPSJHcm91cF8xNDI1IiBkYXRhLW5hbWU9Ikdyb3VwIDE0MjUiPjxnIGlkPSJHcm91cF8xNDI0IiBkYXRhLW5hbWU9Ikdyb3VwIDE0MjQiPjxwYXRoIGlkPSJQYXRoXzM2NSIgZGF0YS1uYW1lPSJQYXRoIDM2NSIgY2xhc3M9ImNscy0xIiBkPSJNMTkuNzE1LDE5LjloMS40NTZBMS44MjUsMS44MjUsMCwwLDAsMjMsMTguMDc3cTAtLjAwOCwwLS4wMTZWOC4wMjdBMS44MjUsMS44MjUsMCwwLDAsMjEuMTg3LDYuMTlIMTkuNzE1YTEuODI1LDEuODI1LDAsMCwwLTEuODI5LDEuODIxcTAsLjAwOCwwLC4wMTZWMTguMDYxQTEuODY5LDEuODY5LDAsMCwwLDE5LjcxNSwxOS45WiIvPjxwYXRoIGlkPSJQYXRoXzM2NiIgZGF0YS1uYW1lPSJQYXRoIDM2NiIgY2xhc3M9ImNscy0xIiBkPSJNMS43MzUsMTcuNTE3YTIuOTEsMi45MSwwLDAsMCwuNjA5LDEuMjU5bC42NDMuNzEyQTEuOTc4LDEuOTc4LDAsMCwwLDQuMjA3LDIwbDExLjg4NS0uMjcyYS43MjUuNzI1LDAsMCwwLC43MTItLjczOHYtLjAxMUwxNi41LDYuNzM0YTEuNywxLjcsMCwwLDAtLjYwOS0xLjE1NywxNy4yNTQsMTcuMjU0LDAsMCwxLTMuNDItMy4zNjcsOS41MSw5LjUxLDAsMCwwLS44NDctMS4xOTFBMy44LDMuOCwwLDAsMCw4LjIuMDY3YS42MDkuNjA5LDAsMCwwLS40NC44NTFMOS40OSw1LjQ3NmEuNS41LDAsMCwxLS4yNDMuNjY4LjUuNSwwLDAsMS0uMjMxLjA0NmwtNi43NC4xNzFhMy4xLDMuMSwwLDAsMC0xLjM1NS4zNzRsLS40MDYuMmExLjEyLDEuMTIsMCwwLDAtLjUxLDEuMDU0WiIvPjwvZz48L2c+PC9nPjwvZz48L3N2Zz4K);
+    background-position: 12px 12px;
+    position: relative;
+    display: inline-block;
+    top: -5px;
+    width: 44px;
+    height: 44px;
+    padding: 0;
+    cursor: pointer;
+  }
+}
+.openstad-component-ideas-on-map .openstad-component-ideas-on-map-filterbar .openstad-component-selectors-container .openstad-component-type-selector-container {
+  display: inline-block;
+  font-size: 16px;
+  background-color: #f5f5f5;
+}
+@media only screen and (max-width: 700px) {
+  .openstad-component-ideas-on-map .openstad-component-ideas-on-map-filterbar .openstad-component-selectors-container .openstad-component-type-selector-container {
+    display: none;
+    padding: 0;
+  }
+}
+@media only screen and (max-width: 700px) {
+  .openstad-component-ideas-on-map .openstad-component-ideas-on-map-filterbar .openstad-component-selectors-container .openstad-component-type-selector-container.osc-is-active {
+    position: absolute;
+    display: block;
+    width: 100%;
+    height: 64px;
+    top: 44px;
+    left: 0;
+    z-index: 500;
+  }
+}
+.openstad-component-ideas-on-map .openstad-component-ideas-on-map-filterbar .openstad-component-selectors-container .openstad-component-type-selector-container .openstad-component-type-selector {
+  margin: 10px 20px 10px 0;
+}
+@media only screen and (max-width: 700px) {
+  .openstad-component-ideas-on-map .openstad-component-ideas-on-map-filterbar .openstad-component-selectors-container .openstad-component-type-selector-container .openstad-component-type-selector {
+    width: calc(100% - 30px);
+    margin: 10px 15px;
+  }
+}
+.openstad-component-ideas-on-map .openstad-component-ideas-on-map-filterbar .openstad-component-selectors-container .openstad-area-selector-container {
+  position: relative;
+  display: inline-block;
+  padding: 10px 15px;
+}
+.openstad-component-ideas-on-map .openstad-component-ideas-on-map-filterbar .openstad-component-selectors-container .openstad-reset-button {
+  position: relative;
+  margin: 10px 20px 10px 44px;
+  padding-left: 0;
+  height: 44px;
+  font-size: 16px;
+}
+@media only screen and (max-width: 700px) {
+  .openstad-component-ideas-on-map .openstad-component-ideas-on-map-filterbar .openstad-component-selectors-container .openstad-reset-button {
+    margin: 0;
+    width: 44px;
+    overflow: hidden;
+  }
+}
+.openstad-component-ideas-on-map .openstad-component-ideas-on-map-filterbar .openstad-component-selectors-container .openstad-reset-button:after {
+  background-position: 0px 0px;
+  background-size: 20px 20px;
+  background-repeat: no-repeat;
+  background-image: url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyMyAyMCIgd2lkdGg9IjIzIiBoZWlnaHQ9IjIwIj48ZGVmcz48c3R5bGU+LmNscy0xe2ZpbGw6IzAwMDt9PC9zdHlsZT48L2RlZnM+PHRpdGxlPl9uaWV1d190b3AzLWR1aW0gb21ob29nPC90aXRsZT48ZyBpZD0iTGF5ZXJfMiIgZGF0YS1uYW1lPSJMYXllciAyIj48ZyBpZD0iTGF5ZXJfMS0yIiBkYXRhLW5hbWU9IkxheWVyIDEiPjxnIGlkPSJHcm91cF8xNDI1IiBkYXRhLW5hbWU9Ikdyb3VwIDE0MjUiPjxnIGlkPSJHcm91cF8xNDI0IiBkYXRhLW5hbWU9Ikdyb3VwIDE0MjQiPjxwYXRoIGlkPSJQYXRoXzM2NSIgZGF0YS1uYW1lPSJQYXRoIDM2NSIgY2xhc3M9ImNscy0xIiBkPSJNMTkuNzE1LDE5LjloMS40NTZBMS44MjUsMS44MjUsMCwwLDAsMjMsMTguMDc3cTAtLjAwOCwwLS4wMTZWOC4wMjdBMS44MjUsMS44MjUsMCwwLDAsMjEuMTg3LDYuMTlIMTkuNzE1YTEuODI1LDEuODI1LDAsMCwwLTEuODI5LDEuODIxcTAsLjAwOCwwLC4wMTZWMTguMDYxQTEuODY5LDEuODY5LDAsMCwwLDE5LjcxNSwxOS45WiIvPjxwYXRoIGlkPSJQYXRoXzM2NiIgZGF0YS1uYW1lPSJQYXRoIDM2NiIgY2xhc3M9ImNscy0xIiBkPSJNMS43MzUsMTcuNTE3YTIuOTEsMi45MSwwLDAsMCwuNjA5LDEuMjU5bC42NDMuNzEyQTEuOTc4LDEuOTc4LDAsMCwwLDQuMjA3LDIwbDExLjg4NS0uMjcyYS43MjUuNzI1LDAsMCwwLC43MTItLjczOHYtLjAxMUwxNi41LDYuNzM0YTEuNywxLjcsMCwwLDAtLjYwOS0xLjE1NywxNy4yNTQsMTcuMjU0LDAsMCwxLTMuNDItMy4zNjcsOS41MSw5LjUxLDAsMCwwLS44NDctMS4xOTFBMy44LDMuOCwwLDAsMCw4LjIuMDY3YS42MDkuNjA5LDAsMCwwLS40NC44NTFMOS40OSw1LjQ3NmEuNS41LDAsMCwxLS4yNDMuNjY4LjUuNSwwLDAsMS0uMjMxLjA0NmwtNi43NC4xNzFhMy4xLDMuMSwwLDAsMC0xLjM1NS4zNzRsLS40MDYuMmExLjEyLDEuMTIsMCwwLDAtLjUxLDEuMDU0WiIvPjwvZz48L2c+PC9nPjwvZz48L3N2Zz4K);
+  background-position: 12px 12px;
+  position: absolute;
+  display: block;
+  top: 0;
+  left: -44px;
+  width: 44px;
+  height: 44px;
+  background-color: #c4c4c4;
+  content: '';
+}
+@media only screen and (max-width: 700px) {
+  .openstad-component-ideas-on-map .openstad-component-ideas-on-map-filterbar .openstad-component-selectors-container .openstad-reset-button:after {
+    left: 0;
+  }
+}
+.openstad-component-ideas-on-map .openstad-component-ideas-on-map-filterbar .openstad-component-selectors-container .openstad-reset-button:hover:after {
+  background-color: #aaa;
 }
 .openstad-component-ideas-on-map .openstad-component-ideas-on-map-filterbar .openstad-component-backbutton {
   background-position: center left 0px;
@@ -394,26 +564,57 @@ form.osc-form {
   background-repeat: no-repeat;
   background-image: url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA2LjM3IDkuOCIgd2lkdGg9IjYuMzciIGhlaWdodD0iOS44Ij48ZGVmcz48c3R5bGU+LmNscy0xe2ZpbGw6IzIzMWYyMDt9PC9zdHlsZT48L2RlZnM+PHRpdGxlPnRlcnVnbmFhcm92ZXJ6aWNodC1waWpsIGxpbmtzPC90aXRsZT48ZyBpZD0iTGF5ZXJfMiIgZGF0YS1uYW1lPSJMYXllciAyIj48ZyBpZD0iSURFRV9ERVRBSUwiIGRhdGEtbmFtZT0iSURFRSBERVRBSUwiPjxwb2x5Z29uIGNsYXNzPSJjbHMtMSIgcG9pbnRzPSI1LjM0IDAgNi4zNCAxLjA5IDIuMTkgNC45IDYuMzcgOC43MSA1LjM4IDkuOCAwIDQuOSA1LjM0IDAiLz48L2c+PC9nPjwvc3ZnPg==);
   margin-left: 10px;
-  padding-left: 20px;
-  line-height: 44px;
+  padding: 15px 15px 15px 20px;
+  line-height: 34px;
   cursor: pointer;
 }
+.openstad-component-ideas-on-map .openstad-component-image {
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
 .openstad-component-ideas-on-map .openstad-component-ideas-on-map-info {
-  position: absolute;
-  top: 64px;
   padding-top: 10px;
   font-size: 16px;
   line-height: 1.5em;
+  background-color: white;
   overflow-x: hidden;
   overflow-y: auto;
-  background-color: white;
+}
+@media only screen and (max-width: 700px) {
+  .openstad-component-ideas-on-map .openstad-component-ideas-on-map-info {
+    padding-top: 0;
+    overflow-x: visible;
+    overflow-y: visible;
+  }
+  .openstad-component-ideas-on-map .openstad-component-ideas-on-map-info .osc-sort {
+    margin: 15px 15px 15px 0;
+  }
+  .openstad-component-ideas-on-map .openstad-component-ideas-on-map-info .osc-info-content {
+    display: none;
+    overflow: none;
+  }
 }
 .openstad-component-ideas-on-map .openstad-component-ideas-on-map-info h3 {
   margin-bottom: 10px;
 }
-.openstad-component-ideas-on-map .openstad-component-ideas-on-map-info .openstad-component-image {
+.openstad-component-ideas-on-map .openstad-component-ideas-on-map-info .osc-mobile-switcher {
+  background-position: center right 10px;
+  background-size: 13px 9px;
   background-repeat: no-repeat;
-  background-size: cover;
+  background-image: url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjEyNTkuNzc5IDk1Ni4yMjEgMTMuODMzIDkuMzkxIiB3aWR0aD0iMTMuOCIgaGVpZ2h0PSI5LjQiPgogIDxkZWZzPgogICAgPHN0eWxlPgogICAgICAuY2xzLTEgewogICAgICAgIGZpbGw6ICMzMjMzMzM7CiAgICAgIH0KICAgIDwvc3R5bGU+CiAgPC9kZWZzPgogIDxwYXRoIGlkPSJQYXRoXzc2IiBkYXRhLW5hbWU9IlBhdGggNzYiIGNsYXNzPSJjbHMtMSIgZD0iTTEuNTQ3LDEzLjgzMy4xMSwxMi4xNzNsNS44NTYtNS4yTDAsMS42NiwxLjQzNiwwLDkuMzkxLDYuOTcyWiIgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoMTI3My42MTIgOTU2LjIyMSkgcm90YXRlKDkwKSIvPgo8L3N2Zz4=);
+  display: none;
+  width: 100%;
+  padding: 15px 30px 15px 15px;
+  font-weight: 600;
+  line-height: 1.2em;
+  text-align: center;
+  cursor: pointer;
+}
+@media only screen and (max-width: 700px) {
+  .openstad-component-ideas-on-map .openstad-component-ideas-on-map-info .osc-mobile-switcher {
+    display: block;
+  }
 }
 .openstad-component-ideas-on-map .openstad-component-ideas-on-map-info .openstad-component-info-block-default-block,
 .openstad-component-ideas-on-map .openstad-component-ideas-on-map-info .openstad-component-info-block-new-idea,
@@ -432,13 +633,51 @@ form.osc-form {
   margin: 0 -20px -10px -20px;
   cursor: pointer;
 }
+@media only screen and (max-width: 700px) {
+  .openstad-component-ideas-on-map .openstad-component-ideas-on-map-info .openstad-component-info-block-default-block .openstad-component-info-block-selected-idea-idea,
+  .openstad-component-ideas-on-map .openstad-component-ideas-on-map-info .openstad-component-info-block-new-idea .openstad-component-info-block-selected-idea-idea,
+  .openstad-component-ideas-on-map .openstad-component-ideas-on-map-info .openstad-component-info-block-selected-idea .openstad-component-info-block-selected-idea-idea {
+    left: -5px;
+    padding: 0 20px;
+    margin: 0 -20px -10px -20px;
+  }
+}
+@media only screen and (max-width: 700px) {
+  .openstad-component-ideas-on-map .openstad-component-ideas-on-map-info .openstad-component-info-block-default-block .openstad-component-info-block-selected-idea-idea .openstad-type,
+  .openstad-component-ideas-on-map .openstad-component-ideas-on-map-info .openstad-component-info-block-new-idea .openstad-component-info-block-selected-idea-idea .openstad-type,
+  .openstad-component-ideas-on-map .openstad-component-ideas-on-map-info .openstad-component-info-block-selected-idea .openstad-component-info-block-selected-idea-idea .openstad-type {
+    right: -20px !important;
+  }
+}
 .openstad-component-ideas-on-map .openstad-component-ideas-on-map-info .openstad-component-info-block-default-block .openstad-component-info-block-selected-idea-idea .openstad-stats,
 .openstad-component-ideas-on-map .openstad-component-ideas-on-map-info .openstad-component-info-block-new-idea .openstad-component-info-block-selected-idea-idea .openstad-stats,
 .openstad-component-ideas-on-map .openstad-component-ideas-on-map-info .openstad-component-info-block-selected-idea .openstad-component-info-block-selected-idea-idea .openstad-stats {
-  width: calc(100% - 227px);
+  margin-left: 20px;
+  width: calc(100% - 225px);
+  bottom: 13px;
+}
+@media only screen and (max-width: 700px) {
+  .openstad-component-ideas-on-map .openstad-component-ideas-on-map-info .openstad-component-info-block-default-block .openstad-component-info-block-selected-idea-idea .openstad-stats,
+  .openstad-component-ideas-on-map .openstad-component-ideas-on-map-info .openstad-component-info-block-new-idea .openstad-component-info-block-selected-idea-idea .openstad-stats,
+  .openstad-component-ideas-on-map .openstad-component-ideas-on-map-info .openstad-component-info-block-selected-idea .openstad-component-info-block-selected-idea-idea .openstad-stats {
+    margin-left: 0;
+    bottom: 0;
+    width: 100%;
+  }
+}
+@media only screen and (max-width: 700px) {
+  .openstad-component-ideas-on-map .openstad-component-ideas-on-map-info .openstad-component-info-block-selected-idea h3 {
+    position: relative;
+    left: -5px;
+  }
 }
 .openstad-component-ideas-on-map .openstad-component-ideas-on-map-info .openstad-component-info-block-default-block {
   margin-bottom: 20px;
+}
+@media only screen and (max-width: 700px) {
+  .openstad-component-ideas-on-map .openstad-component-ideas-on-map-info .openstad-component-info-block-default-block {
+    display: none;
+  }
 }
 .openstad-component-ideas-on-map .openstad-component-ideas-on-map-info .openstad-component-info-block-default-block .openstad-component-info-block-default-block-line {
   padding-bottom: 18px;
@@ -476,6 +715,22 @@ form.osc-form {
   cursor: pointer;
   border-bottom: 1px solid #e6e6e6;
 }
+@media only screen and (max-width: 700px) {
+  .openstad-component-ideas-on-map .openstad-component-ideas-on-map-info .openstad-component-info-block-ideas-list .openstad-component-info-block-ideas-list-idea {
+    padding: 0;
+  }
+}
+.openstad-component-ideas-on-map .openstad-component-ideas-on-map-info .openstad-component-info-block-ideas-list .openstad-component-info-block-ideas-list-idea .openstad-component-content {
+  position: relative;
+  height: 133px;
+}
+@media only screen and (max-width: 700px) {
+  .openstad-component-ideas-on-map .openstad-component-ideas-on-map-info .openstad-component-info-block-ideas-list .openstad-component-info-block-ideas-list-idea .openstad-component-content {
+    height: auto;
+    margin-bottom: 15px;
+    padding: 15px 15px 0 15px;
+  }
+}
 .openstad-component-ideas-on-map .openstad-component-ideas-on-map-info .openstad-component-info-block-new-idea h4,
 .openstad-component-ideas-on-map .openstad-component-ideas-on-map-info .openstad-component-info-block-selected-idea h4,
 .openstad-component-ideas-on-map .openstad-component-ideas-on-map-info .openstad-component-info-block-ideas-list h4 {
@@ -490,6 +745,15 @@ form.osc-form {
   margin-right: 20px;
   margin-bottom: 15px;
 }
+@media only screen and (max-width: 700px) {
+  .openstad-component-ideas-on-map .openstad-component-ideas-on-map-info .openstad-component-info-block-new-idea .openstad-component-image,
+  .openstad-component-ideas-on-map .openstad-component-ideas-on-map-info .openstad-component-info-block-selected-idea .openstad-component-image,
+  .openstad-component-ideas-on-map .openstad-component-ideas-on-map-info .openstad-component-info-block-ideas-list .openstad-component-image {
+    width: 88px;
+    height: 66px;
+    margin-right: 15px;
+  }
+}
 .openstad-component-ideas-on-map .openstad-component-ideas-on-map-info .openstad-component-info-block-new-idea .openstad-summary,
 .openstad-component-ideas-on-map .openstad-component-ideas-on-map-info .openstad-component-info-block-selected-idea .openstad-summary,
 .openstad-component-ideas-on-map .openstad-component-ideas-on-map-info .openstad-component-info-block-ideas-list .openstad-summary {
@@ -497,14 +761,35 @@ form.osc-form {
   padding-right: 20px;
   overflow: hidden;
 }
+@media only screen and (max-width: 700px) {
+  .openstad-component-ideas-on-map .openstad-component-ideas-on-map-info .openstad-component-info-block-new-idea .openstad-summary,
+  .openstad-component-ideas-on-map .openstad-component-ideas-on-map-info .openstad-component-info-block-selected-idea .openstad-summary,
+  .openstad-component-ideas-on-map .openstad-component-ideas-on-map-info .openstad-component-info-block-ideas-list .openstad-summary {
+    height: auto;
+    max-height: 4.7em;
+    margin-bottom: 15px;
+    padding-right: 0;
+  }
+}
 .openstad-component-ideas-on-map .openstad-component-ideas-on-map-info .openstad-component-info-block-new-idea .openstad-stats,
 .openstad-component-ideas-on-map .openstad-component-ideas-on-map-info .openstad-component-info-block-selected-idea .openstad-stats,
 .openstad-component-ideas-on-map .openstad-component-ideas-on-map-info .openstad-component-info-block-ideas-list .openstad-stats {
   position: absolute;
-  width: calc(100% - 237px);
+  width: calc(100% - 195px);
   height: 20px;
-  left: 217px;
-  bottom: 13px;
+  left: 196px;
+  bottom: 0;
+}
+@media only screen and (max-width: 700px) {
+  .openstad-component-ideas-on-map .openstad-component-ideas-on-map-info .openstad-component-info-block-new-idea .openstad-stats,
+  .openstad-component-ideas-on-map .openstad-component-ideas-on-map-info .openstad-component-info-block-selected-idea .openstad-stats,
+  .openstad-component-ideas-on-map .openstad-component-ideas-on-map-info .openstad-component-info-block-ideas-list .openstad-stats {
+    position: relative;
+    left: 0;
+    width: 100%;
+    height: 34px;
+    padding: 0 15px 0 0;
+  }
 }
 .openstad-component-ideas-on-map .openstad-component-ideas-on-map-info .openstad-component-info-block-new-idea .openstad-stats .openstad-likes,
 .openstad-component-ideas-on-map .openstad-component-ideas-on-map-info .openstad-component-info-block-selected-idea .openstad-stats .openstad-likes,
@@ -552,11 +837,16 @@ form.osc-form {
   width: 30px;
   height: 30px;
 }
-.openstad-component-ideas-on-map .openstad-component-ideas-on-map-info .openstad-component-ideas-on-map-map {
-  position: absolute !important;
-  top: 64px;
+.openstad-component-ideas-on-map .openstad-component-ideas-on-map-map .openstad-component-nlmap {
+  width: 100%;
+  height: 100%;
 }
-.openstad-component-ideas-on-map .openstad-component-ideas-on-map-info .openstad-component-ideas-on-map-map .openstad-component-ideas-on-map-icon.openstad-component-ideas-on-map-icon-text {
+@media only screen and (max-width: 700px) {
+  .openstad-component-ideas-on-map .openstad-component-ideas-on-map-map .openstad-component-nlmap .leaflet-control-container {
+    display: none;
+  }
+}
+.openstad-component-ideas-on-map .openstad-component-ideas-on-map-map .openstad-component-ideas-on-map-icon.openstad-component-ideas-on-map-icon-text {
   font-size: 12px;
   font-weight: bold;
   text-align: center;
@@ -565,6 +855,15 @@ form.osc-form {
   width: 920px;
   margin: 0 auto;
 }
+@media only screen and (max-width: 700px) {
+  .openstad-component-ideas-on-map .openstad-component-idea-details {
+    padding: 0 15px;
+    width: 100%;
+  }
+  .openstad-component-ideas-on-map .openstad-component-idea-details h2 {
+    margin-top: 10px;
+  }
+}
 .openstad-component-ideas-on-map .openstad-component-idea-details .openstad-component-details-image-and-stats {
   position: relative;
 }
@@ -572,12 +871,28 @@ form.osc-form {
   width: 700px;
   height: 375px;
 }
+@media only screen and (max-width: 700px) {
+  .openstad-component-ideas-on-map .openstad-component-idea-details .openstad-component-details-image-and-stats .openstad-component-image {
+    position: relative;
+    width: 100%;
+  }
+}
 .openstad-component-ideas-on-map .openstad-component-idea-details .openstad-component-details-image-and-stats .openstad-component-details-stats {
   position: absolute;
   top: 0;
   left: 720px;
   width: 200px;
   height: 375px;
+}
+@media only screen and (max-width: 700px) {
+  .openstad-component-ideas-on-map .openstad-component-idea-details .openstad-component-details-image-and-stats .openstad-component-details-stats {
+    position: relative;
+    left: 0;
+    width: 100%;
+    height: auto;
+    margin-top: 10px;
+    margin-bottom: 20px;
+  }
 }
 .openstad-component-ideas-on-map .openstad-component-idea-details .openstad-component-details-image-and-stats .openstad-component-details-stats .openstad-component-vote-button {
   box-sizing: border-box;
@@ -605,10 +920,15 @@ form.osc-form {
 }
 .openstad-component-ideas-on-map .openstad-component-idea-details .openstad-component-details-sharebuttons {
   width: 700px;
+  margin: -5px 0 20px 0;
+}
+@media only screen and (max-width: 700px) {
+  .openstad-component-ideas-on-map .openstad-component-idea-details .openstad-component-details-sharebuttons {
+    width: 100%;
+  }
 }
 .openstad-component-ideas-on-map .openstad-component-idea-details .openstad-component-details-sharebuttons ul {
   display: inline-block;
-  margin: 0;
   padding: 0;
   height: 30px;
   list-style-type: none;
@@ -654,12 +974,34 @@ form.osc-form {
 .openstad-component-ideas-on-map .openstad-component-idea-details .openstad-component-details-description {
   width: 700px;
 }
+@media only screen and (max-width: 700px) {
+  .openstad-component-ideas-on-map .openstad-component-idea-details .openstad-component-details-summary,
+  .openstad-component-ideas-on-map .openstad-component-idea-details .openstad-component-details-description {
+    width: 100%;
+  }
+}
 .openstad-component-ideas-on-map .openstad-component-idea-details .openstad-component-details-summary {
   font-weight: 600;
 }
 .openstad-component-ideas-on-map .openstad-component-ideas-on-map-idea-form .osc-form {
   width: 700px;
   margin: 0 auto;
+}
+@media only screen and (max-width: 700px) {
+  .openstad-component-ideas-on-map .openstad-component-ideas-on-map-idea-form .osc-form {
+    padding: 0 15px;
+    width: 100%;
+  }
+  .openstad-component-ideas-on-map .openstad-component-ideas-on-map-idea-form .osc-form h1 {
+    font-size: 24px;
+    margin: 10px 0 -20px 0;
+    padding: 0;
+  }
+  .openstad-component-ideas-on-map .openstad-component-ideas-on-map-idea-form .osc-form h2 {
+    font-size: 20px;
+    font-weight: 600;
+    padding-bottom: 5px;
+  }
 }
 .openstad-component-ideas-on-map .openstad-component-reactions-header {
   width: 100%;
@@ -671,35 +1013,65 @@ form.osc-form {
   margin: 0 auto;
   line-height: 44px;
 }
+@media only screen and (max-width: 700px) {
+  .openstad-component-ideas-on-map .openstad-component-reactions-header h3 {
+    margin: 0 15px;
+    width: 100%;
+  }
+}
 .openstad-component-ideas-on-map .openstad-component-reactions {
   width: 920px;
   padding-right: 395px;
   margin: 0 auto;
 }
-.openstad-component-ideas-on-map.openstad-component-ideas-on-map-idea-details .openstad-component-ideas-on-map-info,
-.openstad-component-ideas-on-map.openstad-component-ideas-on-map-idea-form .openstad-component-ideas-on-map-info {
-  left: 0;
-  width: 1100px;
-  height: calc(100% - 64px);
+@media only screen and (max-width: 700px) {
+  .openstad-component-ideas-on-map .openstad-component-reactions {
+    width: 100%;
+    padding: 0 15px;
+  }
 }
-.openstad-component-ideas-on-map.openstad-component-ideas-on-map-idea-details .openstad-component-ideas-on-map-map,
-.openstad-component-ideas-on-map.openstad-component-ideas-on-map-idea-form .openstad-component-ideas-on-map-map {
-  left: 1100px;
-  width: calc(100% - 1100px);
-  height: calc(100% - 64px);
+.openstad-component-ideas-on-map .ocs-mobile-popup {
+  display: none;
 }
-.openstad-component-ideas-on-map.openstad-component-ideas-on-map-default .openstad-component-ideas-on-map-info,
-.openstad-component-ideas-on-map.openstad-component-ideas-on-map-idea-selected .openstad-component-ideas-on-map-info,
-.openstad-component-ideas-on-map.openstad-component-ideas-on-map-location-selected .openstad-component-ideas-on-map-info {
-  left: 0;
-  width: 687px;
-  height: calc(100% - 64px);
-}
-.openstad-component-ideas-on-map.openstad-component-ideas-on-map-default .openstad-component-ideas-on-map-map,
-.openstad-component-ideas-on-map.openstad-component-ideas-on-map-idea-selected .openstad-component-ideas-on-map-map,
-.openstad-component-ideas-on-map.openstad-component-ideas-on-map-location-selected .openstad-component-ideas-on-map-map {
-  left: 687px;
-  width: calc(100% - 687px);
-  height: calc(100% - 64px);
+@media only screen and (max-width: 700px) {
+  .openstad-component-ideas-on-map .ocs-mobile-popup {
+    display: block;
+    position: absolute;
+    bottom: 68px;
+    left: 5px;
+    width: calc(100% - 10px);
+    padding: 10px;
+    font-size: 14px;
+    line-height: 19px;
+    background-color: white;
+    z-index: 500;
+  }
+  .openstad-component-ideas-on-map .ocs-mobile-popup a {
+    text-decoration: underline;
+  }
+  .openstad-component-ideas-on-map .ocs-mobile-popup h4 {
+    padding: 5px 0;
+  }
+  .openstad-component-ideas-on-map .ocs-mobile-popup .openstad-button {
+    width: 100%;
+  }
+  .openstad-component-ideas-on-map .ocs-mobile-popup .openstad-component-image {
+    float: left;
+    margin-right: 10px;
+    width: 76px;
+    height: 57px;
+  }
+  .openstad-component-ideas-on-map.osc-mobile-opened .ocs-mobile-popup {
+    display: none;
+  }
+  .openstad-component-ideas-on-map.osc-mobile-opened .openstad-component-ideas-on-map-info {
+    overflow-x: hidden;
+    overflow-y: auto;
+  }
+  .openstad-component-ideas-on-map.osc-mobile-opened .openstad-component-ideas-on-map-info .osc-info-content {
+    display: block;
+    overflow-x: hidden;
+    overflow-y: visible;
+  }
 }
 

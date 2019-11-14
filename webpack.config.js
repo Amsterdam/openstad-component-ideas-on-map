@@ -18,7 +18,7 @@ module.exports = {
     'react': 'React',
     'react-dom': 'ReactDOM',
 	},
-	
+
   plugins: [
     new MiniCssExtractPlugin({
       filename: 'css/default.css',

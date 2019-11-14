@@ -20,6 +20,7 @@ export default class Filterbar extends React.Component {
       types: this.config.types,
       selectedArea: undefined,
       areas: this.config.areas,
+      mobileActiveSelector: null,
     }
 
   }
@@ -29,7 +30,8 @@ export default class Filterbar extends React.Component {
 
   handleTypeChange(value) {
 
-    this.setState({ ...this.state, selectedType: value });
+    this.setState({ selectedType: value });
+    this.hideMobileActiveSelector()
 
 		// dispatch an event
 		var event = new CustomEvent('typeFilterUpdate', { detail: { value: value } });
@@ -38,12 +40,13 @@ export default class Filterbar extends React.Component {
   }
 
   setAreaValue(value) {
-    this.setState({ ...this.state, selectedArea: value });
+    this.setState({ selectedArea: value });
   }
 
   handleAreaChange(value) {
 
-    this.setState({ ...this.state, selectedArea: value });
+    this.setState({ selectedArea: value });
+    this.hideMobileActiveSelector()
 
 		// dispatch an event
 		var event = new CustomEvent('areaFilterUpdate', { detail: { value: this.state.areas.find(area => value == area.value) } });
@@ -54,6 +57,24 @@ export default class Filterbar extends React.Component {
   resetTypeAndArea() {
     this.handleTypeChange(0)
     this.handleAreaChange(0)
+    this.hideMobileActiveSelector()
+  }
+
+  toggleMobileActiveSelector(which) {
+    console.log(1, which);
+    if (this.state.mobileActiveSelector != which) {
+      this.showMobileActiveSelector(which);
+    } else {
+      this.hideMobileActiveSelector();
+    }
+  }
+
+  showMobileActiveSelector(which) {
+    this.setState({ mobileActiveSelector: which });
+  }
+
+  hideMobileActiveSelector() {
+    this.setState({ mobileActiveSelector: null });
   }
 
 	render() {
@@ -64,33 +85,39 @@ export default class Filterbar extends React.Component {
     // TODO: niet state maar config
     if (self.state.areas && self.state.areas.length) {
       areasHTML = (
-          <select value={self.state.selectedArea} onChange={() => self.handleAreaChange( self.areaSelector.value )} className="openstad-default-select openstad-margin-right" ref={el => (self.areaSelector = el)}>
+        <div className="openstad-area-selector-container">
+          <select value={self.state.selectedArea} onChange={() => self.handleAreaChange( self.areaSelector.value )} className="openstad-default-select openstad-margin-right openstad-component-area-selector" ref={el => (self.areaSelector = el)}>
             <option value="0">Geen gebied geselecteerd</option>;
             { self.state.areas.map((area, i) => {
               return <option style={{ color: area.color }} value={ area.value } key={'type-option-' + i}>{ area.name }</option>;
             })}
           </select>
+        </div>
       );
     }
-    
 
     return (
 			<div id={self.id} className={self.props.className || 'openstad-component-filterbar'} ref={el => (self.instance = el)}>
 
-				<Search config={{ ...this.config }} ref={el => (self.search = el)}/>
+        <div className="openstad-component-search-container">
+				  <Search config={{ ...this.config }} ref={el => (self.search = el)}/>
+        </div>
 
-        <div className="openstad-align-right-container">
+        <div className="openstad-component-selectors-container openstad-align-right-container">
 
-          <select value={self.state.selectedType} onChange={() => self.handleTypeChange( self.typeSelector.value )} className="openstad-default-select openstad-margin-right" ref={el => (self.typeSelector = el)}>
-            <option value="0">Alle thema's</option>;
-            { self.state.types.map((type, i) => {
-              return <option style={{ color: type.color }} key={'type-option-' + i}>{ type.name }</option>;
-            })}
-          </select>
+          <div className="openstad-component-type-selector-button" onClick={() => self.toggleMobileActiveSelector('type')}></div>
+          <div className={`openstad-component-type-selector-container${self.state.mobileActiveSelector == 'type' ? ' osc-is-active' : ''}`}>
+            <select value={self.state.selectedType} onChange={() => self.handleTypeChange( self.typeSelector.value )} className="openstad-default-select openstad-margin-right openstad-component-type-selector" ref={el => (self.typeSelector = el)}>
+              <option value="0">Alle thema's</option>;
+              { self.state.types.map((type, i) => {
+                return <option style={{ color: type.color }} key={'type-option-' + i}>{ type.name }</option>;
+              })}
+            </select>
+          </div>
 
-          {areasHTML}
+        {areasHTML}
 
-          <button value="reset" onClick={() => self.resetTypeAndArea()} className="openstad-button" ref={el => (self.resetButton = el)}>Alles tonen</button>
+        <button value="reset" onClick={() => self.resetTypeAndArea()} className="openstad-button openstad-reset-button" ref={el => (self.resetButton = el)}>Alles tonen</button>
           
 			  </div>
 			</div>

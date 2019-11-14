@@ -51,6 +51,15 @@ export default class IdeasDetails extends React.Component {
 
             <div className="openstad-component-image" style={{ backgroundImage: `url(${self.props.idea.image})` }}></div>
 
+            <div className="openstad-component-details-sharebuttons openstad-align-right-container">
+              <ul>
+							  <li><a className="openstad-share-facebook" target="_blank" href={ 'https://www.facebook.com/sharer/sharer.php?u=' + encodeURIComponent(document.location.href) }>Facebook</a></li>
+							  <li><a className="openstad-share-twitter" target="_blank" href={ 'https://twitter.com/intent/tweet?text=' + encodeURIComponent(document.location.href) }>Twitter</a></li>
+							  <li><a className="openstad-share-email" target="_blank" href={ 'mailto:?subject=' + encodeURIComponent(eval(`self.props.idea.${self.config.titleField}`)) + '&body=' + encodeURIComponent(document.location.href)}>Email</a></li>
+							  <li><a className="openstad-share-whatsapp" target="_blank" href={ 'https://wa.me/?text=' + encodeURIComponent(document.location.href) }>WhatsApp</a></li>
+						  </ul>
+            </div>
+
             <div className="openstad-component-details-stats">
 
               <h3>Likes</h3>
@@ -64,15 +73,6 @@ export default class IdeasDetails extends React.Component {
             </div>
 
           </div>
-
-          <p className="openstad-component-details-sharebuttons openstad-align-right-container">
-            <ul>
-							<li><a className="openstad-share-facebook" target="_blank" href={ 'https://www.facebook.com/sharer/sharer.php?u=' + encodeURIComponent(document.location.href) }>Facebook</a></li>
-							<li><a className="openstad-share-twitter" target="_blank" href={ 'https://twitter.com/intent/tweet?text=' + encodeURIComponent(document.location.href) }>Twitter</a></li>
-							<li><a className="openstad-share-email" target="_blank" href={ 'mailto:?subject=' + encodeURIComponent(eval(`self.props.idea.${self.config.titleField}`)) + '&body=' + encodeURIComponent(document.location.href)}>Email</a></li>
-							<li><a className="openstad-share-whatsapp" target="_blank" href={ 'https://wa.me/?text=' + encodeURIComponent(document.location.href) }>WhatsApp</a></li>
-						</ul>
-          </p>
 
           <p className="">
             <span className="ocs-gray-text">Door </span>{self.props.idea.user.nickName || self.props.idea.user.fullName || self.props.idea.user.firstName +' ' + self.props.idea.user.lastName}
