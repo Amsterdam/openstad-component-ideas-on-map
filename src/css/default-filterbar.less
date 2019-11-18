@@ -9,13 +9,64 @@
 	.openstad-component-search-container {
 
 		flex-grow: 2;
-	  position: relative;
 
-		.openstad-component-search {
+    .openstad-component-search-button {
+
+      display: none;
+
+      @media @phone {
+        .openstad-search-black-background();
+        background-position: 12px 12px;
+        position: relative;
+        display: inline-block;
+        width: 44px;
+        height: 44px;
+        padding: 0;
+        cursor: pointer;
+      }
+
+    }
+      
+	  .openstad-component-search {
+      display: inline-block;
+      font-size: 16px;
+      background-color: #f5f5f5;
+
+      @media @phone {
+        display: none;
+        padding: 0;
+      }
+
+      &.osc-is-active {
+        @media @phone {
+          position: absolute;
+          display: block;
+          left: 0;
+          right: 0;
+          height: 64px;
+          top: 44px;
+          left: 0;
+          z-index: 500;
+        }
+      }
+
+      .openstad-component-search-input {
+        margin: 10px 20px 10px 20px;
+
+        @media @phone {
+          width: calc(100% - 30px);
+          margin: 10px 15px;
+        }
+
+      }
+
+	  }
+
+		.xopenstad-component-search {
       padding: 10px 15px;
     }
 
-		.openstad-component-search-input {
+		.xopenstad-component-search-input {
       @media @phone {
         display: none;
         width: 20px;
@@ -25,8 +76,8 @@
 		.openstad-component-search-suggestions {
 
 			position: absolute;
-			top: 44px;
-			left: 0px;
+			top: 53px;
+			left: 20px;
 			width: 400px;
 			padding: 10px;
 			font-size: 14px;
@@ -35,6 +86,13 @@
 			background-color: white;
 			border: solid 1px #434343;
 			z-index: 30;
+
+      @media @phone {
+        top: 54px;
+        left: 0;
+        width: calc(100% - 30px);
+        margin: 0 15px;
+      }
 
 			strong {
 				font-weight: 800;
@@ -85,6 +143,10 @@
         cursor: pointer;
       }
 
+      &.osc-active {
+        background-image: @openstad-filter-active-black-image;
+      }
+      
     }
 
 	  .openstad-component-type-selector-container {
@@ -119,13 +181,58 @@
 
       }
 
-
 	  }
+
+    .openstad-component-area-selector-button {
+
+      display: none;
+
+      @media @phone {
+        .openstad-filter-black-background();
+        background-position: 12px 12px;
+        position: relative;
+        display: inline-block;
+        top: -5px;
+        width: 44px;
+        height: 44px;
+        padding: 0;
+        cursor: pointer;
+      }
+
+    }
       
-	  .openstad-area-selector-container {
-      position: relative;
+	  .openstad-component-area-selector-container {
       display: inline-block;
-      padding: 10px 15px;
+      font-size: 16px;
+      background-color: #f5f5f5;
+
+      @media @phone {
+        display: none;
+        padding: 0;
+      }
+
+      &.osc-is-active {
+        @media @phone {
+          position: absolute;
+          display: block;
+          width: 100%;
+          height: 64px;
+          top: 44px;
+          left: 0;
+          z-index: 500;
+        }
+      }
+
+      .openstad-component-area-selector {
+        margin: 10px 20px 10px 0;
+
+        @media @phone {
+          width: calc(100% - 30px);
+          margin: 10px 15px;
+        }
+
+      }
+
 	  }
 
 	  .openstad-reset-button {
@@ -142,7 +249,7 @@
       }
 
       &:after {
-        .openstad-reload-black-background();
+        .openstad-reset-black-background();
         background-position: 12px 12px;
         position: absolute;
         display: block;
@@ -173,6 +280,11 @@
 		padding: 15px 15px 15px 20px;
     line-height: 34px;
     cursor: pointer;
+
+    @media @phone {
+		  padding: 5px 15px 5px 20px;
+    }
+
   }
 
 }

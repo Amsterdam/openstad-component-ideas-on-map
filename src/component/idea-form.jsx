@@ -31,7 +31,7 @@ export default class IdeasForm extends React.Component {
 
     // todo: normaal oplossen
     let formfields = Object.assign(defaultConfig.formfields, this.props.config.formfields);
-		this.config = Object.assign(defaultConfig, this.props.config, this.config || {})
+		this.config = Object.assign(defaultConfig, this.config, this.props.config || {})
 		this.config.formfields = formfields;
 
     // this.config.formfields.title = 'Morbi scelerisque';

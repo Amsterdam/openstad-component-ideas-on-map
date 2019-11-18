@@ -61,7 +61,6 @@ export default class Filterbar extends React.Component {
   }
 
   toggleMobileActiveSelector(which) {
-    console.log(1, which);
     if (this.state.mobileActiveSelector != which) {
       this.showMobileActiveSelector(which);
     } else {
@@ -82,17 +81,21 @@ export default class Filterbar extends React.Component {
     let self = this;
 
     let areasHTML = null;
+    let areasButtonHTML = null;
     // TODO: niet state maar config
     if (self.state.areas && self.state.areas.length) {
+      areasButtonHTML = (
+        <div className="openstad-component-area-selector-button" onClick={() => self.toggleMobileActiveSelector('area')}></div>
+      );
       areasHTML = (
-        <div className="openstad-area-selector-container">
-          <select value={self.state.selectedArea} onChange={() => self.handleAreaChange( self.areaSelector.value )} className="openstad-default-select openstad-margin-right openstad-component-area-selector" ref={el => (self.areaSelector = el)}>
-            <option value="0">Geen gebied geselecteerd</option>;
-            { self.state.areas.map((area, i) => {
-              return <option style={{ color: area.color }} value={ area.value } key={'type-option-' + i}>{ area.name }</option>;
-            })}
-          </select>
-        </div>
+          <div className={`openstad-component-area-selector-container${self.state.mobileActiveSelector == 'area' ? ' osc-is-active' : ''}`}>
+            <select value={self.state.selectedArea} onChange={() => self.handleAreaChange( self.areaSelector.value )} className="openstad-default-select openstad-margin-right openstad-component-area-selector" ref={el => (self.areaSelector = el)}>
+              <option value="0">Alle gebieden</option>;
+              { self.state.areas.map((area, i) => {
+                return <option style={{ color: area.color }} key={'area-option-' + i}>{ area.name }</option>;
+              })}
+            </select>
+          </div>
       );
     }
 
@@ -100,12 +103,13 @@ export default class Filterbar extends React.Component {
 			<div id={self.id} className={self.props.className || 'openstad-component-filterbar'} ref={el => (self.instance = el)}>
 
         <div className="openstad-component-search-container">
-				  <Search config={{ ...this.config }} ref={el => (self.search = el)}/>
+          <div className="openstad-component-search-button" onClick={() => self.toggleMobileActiveSelector('search')}></div>
+				  <Search config={{ ...this.config }} className={`openstad-component-search${self.state.mobileActiveSelector == 'search' ? ' osc-is-active' : ''}`}/>
         </div>
 
         <div className="openstad-component-selectors-container openstad-align-right-container">
 
-          <div className="openstad-component-type-selector-button" onClick={() => self.toggleMobileActiveSelector('type')}></div>
+          <div className={`openstad-component-type-selector-button${ self.state.selectedType && self.state.selectedType != '0'  ? ' osc-active' : '' }`} onClick={() => self.toggleMobileActiveSelector('type')}></div>
           <div className={`openstad-component-type-selector-container${self.state.mobileActiveSelector == 'type' ? ' osc-is-active' : ''}`}>
             <select value={self.state.selectedType} onChange={() => self.handleTypeChange( self.typeSelector.value )} className="openstad-default-select openstad-margin-right openstad-component-type-selector" ref={el => (self.typeSelector = el)}>
               <option value="0">Alle thema's</option>;
@@ -115,9 +119,10 @@ export default class Filterbar extends React.Component {
             </select>
           </div>
 
-        {areasHTML}
+          {areasButtonHTML}
+          {areasHTML}
 
-        <button value="reset" onClick={() => self.resetTypeAndArea()} className="openstad-button openstad-reset-button" ref={el => (self.resetButton = el)}>Alles tonen</button>
+          <button value="reset" onClick={() => self.resetTypeAndArea()} className="openstad-button openstad-reset-button" ref={el => (self.resetButton = el)}>Alles tonen</button>
           
 			  </div>
 			</div>

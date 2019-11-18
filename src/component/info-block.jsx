@@ -176,7 +176,6 @@ export default class InfoBlock extends React.Component {
       mobileTitle = `${self.config.title} in dit gebied (${self.state.ideas && self.state.ideas.length || 0})`;
     }
 
-    console.log(self.state.mobileState);
     if (self.state.mobileState == 'opened') {
       mobileTitle = 'Terug naar de kaart';
     }

@@ -115,7 +115,7 @@ export default class OpenStadComponentFormfieldsInputWithCounter extends React.C
       case 'input':
       default:
         inputHTML = (
-				  <input ref={el => (self.input = el)} onChange={e => self.handleOnChange({ value: self.input.value })} onKeyUp={e => self.handleInputKeyUp(e)} onFocus={e => self.handleInputFocus(e)} onBlur={e => self.handleInputBlur(e)}></input>
+				  <input ref={el => (self.input = el)} value={this.props.value} onChange={e => self.handleOnChange({ value: self.input.value })} onKeyUp={e => self.handleInputKeyUp(e)} onFocus={e => self.handleInputFocus(e)} onBlur={e => self.handleInputBlur(e)}></input>
         );
 
     }

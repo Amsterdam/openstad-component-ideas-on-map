@@ -45,7 +45,6 @@ export default class VoteButton extends React.Component {
       })
     })
       .then((response) => {
-        console.log(response);
         if (!response.ok) throw Error(response)
         return response.json();
       })
