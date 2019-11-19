@@ -34,13 +34,13 @@ height: 100%;
     left: 0;
     bottom: 0;
     width: 100%;
-    height: 64px;
+    height: 44px;
   }
 
   .openstad-component-ideas-on-map-map {
     top: 44px;
     left: 0;
-    bottom: 64px;
+    bottom: 44px;
     width: 100%;
     height: auto;
   }
@@ -71,6 +71,11 @@ height: 100%;
 
   .openstad-component-ideas-on-map-info {
     width: 1100px;
+
+    .osc-spacer {
+      display: none;
+    }
+
   }
 
   .openstad-component-ideas-on-map-map {
@@ -80,7 +85,26 @@ height: 100%;
   @media @phone {
 
     .openstad-component-ideas-on-map-info {
+      top: 44px;
       width: 100%;
+      z-index: 30;
+      background-color: transparent;
+
+      .osc-spacer {
+        display: block;
+        width: 100%;
+        height: 64px;
+        background-color: transparent;
+        // background-color: red;
+      }
+
+      .osc-form,
+      .openstad-component-idea-details-container {
+        background-color: white;
+        margin-top: -10px;
+        padding-top: 10px;
+      }      
+
     }
 
     .openstad-component-ideas-on-map-map {

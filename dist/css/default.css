@@ -147,7 +147,6 @@
   padding: 12px 15px;
   font-size: 16px;
   font-weight: 600;
-  line-height: 20px;
   border: 0 none;
   cursor: pointer;
   display: block;
@@ -156,7 +155,7 @@
   height: 43px;
   margin-left: 2px;
   font-size: 18px;
-  line-height: 43px;
+  line-height: 20px;
 }
 .openstad-component-number-button .openstad-component-number-button-text:active,
 .openstad-component-number-button .openstad-component-number-button-text:focus {
@@ -367,12 +366,12 @@ form.osc-form {
     left: 0;
     bottom: 0;
     width: 100%;
-    height: 64px;
+    height: 44px;
   }
   .openstad-component-ideas-on-map .openstad-component-ideas-on-map-map {
     top: 44px;
     left: 0;
-    bottom: 64px;
+    bottom: 44px;
     width: 100%;
     height: auto;
   }
@@ -394,6 +393,10 @@ form.osc-form {
 .openstad-component-ideas-on-map.openstad-component-ideas-on-map-idea-form .openstad-component-ideas-on-map-info {
   width: 1100px;
 }
+.openstad-component-ideas-on-map.openstad-component-ideas-on-map-idea-details .openstad-component-ideas-on-map-info .osc-spacer,
+.openstad-component-ideas-on-map.openstad-component-ideas-on-map-idea-form .openstad-component-ideas-on-map-info .osc-spacer {
+  display: none;
+}
 .openstad-component-ideas-on-map.openstad-component-ideas-on-map-idea-details .openstad-component-ideas-on-map-map,
 .openstad-component-ideas-on-map.openstad-component-ideas-on-map-idea-form .openstad-component-ideas-on-map-map {
   left: 1100px;
@@ -401,7 +404,25 @@ form.osc-form {
 @media only screen and (max-width: 700px) {
   .openstad-component-ideas-on-map.openstad-component-ideas-on-map-idea-details .openstad-component-ideas-on-map-info,
   .openstad-component-ideas-on-map.openstad-component-ideas-on-map-idea-form .openstad-component-ideas-on-map-info {
+    top: 44px;
     width: 100%;
+    z-index: 30;
+    background-color: transparent;
+  }
+  .openstad-component-ideas-on-map.openstad-component-ideas-on-map-idea-details .openstad-component-ideas-on-map-info .osc-spacer,
+  .openstad-component-ideas-on-map.openstad-component-ideas-on-map-idea-form .openstad-component-ideas-on-map-info .osc-spacer {
+    display: block;
+    width: 100%;
+    height: 64px;
+    background-color: transparent;
+  }
+  .openstad-component-ideas-on-map.openstad-component-ideas-on-map-idea-details .openstad-component-ideas-on-map-info .osc-form,
+  .openstad-component-ideas-on-map.openstad-component-ideas-on-map-idea-form .openstad-component-ideas-on-map-info .osc-form,
+  .openstad-component-ideas-on-map.openstad-component-ideas-on-map-idea-details .openstad-component-ideas-on-map-info .openstad-component-idea-details-container,
+  .openstad-component-ideas-on-map.openstad-component-ideas-on-map-idea-form .openstad-component-ideas-on-map-info .openstad-component-idea-details-container {
+    background-color: white;
+    margin-top: -10px;
+    padding-top: 10px;
   }
   .openstad-component-ideas-on-map.openstad-component-ideas-on-map-idea-details .openstad-component-ideas-on-map-map,
   .openstad-component-ideas-on-map.openstad-component-ideas-on-map-idea-form .openstad-component-ideas-on-map-map {
@@ -532,9 +553,10 @@ form.osc-form {
     background-repeat: no-repeat;
     background-image: url(data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAiIGhlaWdodD0iMjAiIHZpZXdCb3g9IjAgMCAyMCAyMCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTAgMFYyLjkzNzVMNiA4LjkzNzVWMjBIOS43NUwxMy42MjUgMTYuNTYyNVY4LjkzNzVMMTkuNjI1IDIuOTM3NVYwSDBaTTEwLjkzNzUgNy44MTI1VjE1LjMxMjVMOC42ODc1IDE3LjMxMjVWNy44MTI1TDMuNjI1IDIuNjg3NUgxNkwxMC45Mzc1IDcuODEyNVoiIGZpbGw9ImJsYWNrIi8+Cjwvc3ZnPgo=);
     background-position: 12px 12px;
-    position: relative;
-    display: inline-block;
-    top: -5px;
+    position: absolute;
+    display: block;
+    top: 0;
+    right: 44px;
     width: 44px;
     height: 44px;
     padding: 0;
@@ -587,7 +609,7 @@ form.osc-form {
     background-position: 12px 12px;
     position: relative;
     display: inline-block;
-    top: -5px;
+    top: 0px;
     width: 44px;
     height: 44px;
     padding: 0;
@@ -634,8 +656,12 @@ form.osc-form {
 }
 @media only screen and (max-width: 700px) {
   .openstad-component-ideas-on-map .openstad-component-ideas-on-map-filterbar .openstad-component-selectors-container .openstad-reset-button {
-    margin: 0;
+    position: absolute;
+    display: block;
+    top: 0;
+    right: 0;
     width: 44px;
+    margin: 0;
     overflow: hidden;
   }
 }
@@ -714,10 +740,13 @@ form.osc-form {
   background-image: url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjEyNTkuNzc5IDk1Ni4yMjEgMTMuODMzIDkuMzkxIiB3aWR0aD0iMTMuOCIgaGVpZ2h0PSI5LjQiPgogIDxkZWZzPgogICAgPHN0eWxlPgogICAgICAuY2xzLTEgewogICAgICAgIGZpbGw6ICMzMjMzMzM7CiAgICAgIH0KICAgIDwvc3R5bGU+CiAgPC9kZWZzPgogIDxwYXRoIGlkPSJQYXRoXzc2IiBkYXRhLW5hbWU9IlBhdGggNzYiIGNsYXNzPSJjbHMtMSIgZD0iTTEuNTQ3LDEzLjgzMy4xMSwxMi4xNzNsNS44NTYtNS4yTDAsMS42NiwxLjQzNiwwLDkuMzkxLDYuOTcyWiIgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoMTI3My42MTIgOTU2LjIyMSkgcm90YXRlKDkwKSIvPgo8L3N2Zz4=);
   display: none;
   width: 100%;
-  padding: 15px 30px 15px 15px;
+  padding: 12px 30px 12px 15px;
   font-weight: 600;
-  line-height: 1.2em;
+  line-height: 20px;
   text-align: center;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
   cursor: pointer;
 }
 @media only screen and (max-width: 700px) {
@@ -986,6 +1015,13 @@ form.osc-form {
     width: 100%;
   }
 }
+.openstad-component-ideas-on-map .openstad-component-idea-details .openstad-component-details-image-and-stats .ocs-idea-label {
+  position: absolute;
+  top: 10px;
+  left: 0;
+  padding: 4px 15px;
+  font-weight: bold;
+}
 .openstad-component-ideas-on-map .openstad-component-idea-details .openstad-component-details-image-and-stats .openstad-component-details-stats {
   position: absolute;
   top: 0;
@@ -1017,6 +1053,12 @@ form.osc-form {
   background-repeat: no-repeat;
   background-image: url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyMyAyMCIgd2lkdGg9IjIzIiBoZWlnaHQ9IjIwIj48ZGVmcz48c3R5bGU+LmNscy0xe2ZpbGw6I2ZmZjt9PC9zdHlsZT48L2RlZnM+PHRpdGxlPl9uaWV1d190b3AzLWR1aW0gb21ob29nPC90aXRsZT48ZyBpZD0iTGF5ZXJfMiIgZGF0YS1uYW1lPSJMYXllciAyIj48ZyBpZD0iTGF5ZXJfMS0yIiBkYXRhLW5hbWU9IkxheWVyIDEiPjxnIGlkPSJHcm91cF8xNDI1IiBkYXRhLW5hbWU9Ikdyb3VwIDE0MjUiPjxnIGlkPSJHcm91cF8xNDI0IiBkYXRhLW5hbWU9Ikdyb3VwIDE0MjQiPjxwYXRoIGlkPSJQYXRoXzM2NSIgZGF0YS1uYW1lPSJQYXRoIDM2NSIgY2xhc3M9ImNscy0xIiBkPSJNMTkuNzE1LDE5LjloMS40NTZBMS44MjUsMS44MjUsMCwwLDAsMjMsMTguMDc3cTAtLjAwOCwwLS4wMTZWOC4wMjdBMS44MjUsMS44MjUsMCwwLDAsMjEuMTg3LDYuMTlIMTkuNzE1YTEuODI1LDEuODI1LDAsMCwwLTEuODI5LDEuODIxcTAsLjAwOCwwLC4wMTZWMTguMDYxQTEuODY5LDEuODY5LDAsMCwwLDE5LjcxNSwxOS45WiIvPjxwYXRoIGlkPSJQYXRoXzM2NiIgZGF0YS1uYW1lPSJQYXRoIDM2NiIgY2xhc3M9ImNscy0xIiBkPSJNMS43MzUsMTcuNTE3YTIuOTEsMi45MSwwLDAsMCwuNjA5LDEuMjU5bC42NDMuNzEyQTEuOTc4LDEuOTc4LDAsMCwwLDQuMjA3LDIwbDExLjg4NS0uMjcyYS43MjUuNzI1LDAsMCwwLC43MTItLjczOHYtLjAxMUwxNi41LDYuNzM0YTEuNywxLjcsMCwwLDAtLjYwOS0xLjE1NywxNy4yNTQsMTcuMjU0LDAsMCwxLTMuNDItMy4zNjcsOS41MSw5LjUxLDAsMCwwLS44NDctMS4xOTFBMy44LDMuOCwwLDAsMCw4LjIuMDY3YS42MDkuNjA5LDAsMCwwLS40NC44NTFMOS40OSw1LjQ3NmEuNS41LDAsMCwxLS4yNDMuNjY4LjUuNSwwLDAsMS0uMjMxLjA0NmwtNi43NC4xNzFhMy4xLDMuMSwwLDAsMC0xLjM1NS4zNzRsLS40MDYuMmExLjEyLDEuMTIsMCwwLDAtLjUxLDEuMDU0WiIvPjwvZz48L2c+PC9nPjwvZz48L3N2Zz4K);
   padding-left: 50px;
+}
+.openstad-component-ideas-on-map .openstad-component-idea-details .openstad-component-details-image-and-stats .openstad-component-details-stats .openstad-component-vote-button .openstad-component-number-button-text.ocs-user-has-voted {
+  background-color: #BED200 !important;
+}
+.openstad-component-ideas-on-map .openstad-component-idea-details .openstad-component-details-image-and-stats .openstad-component-details-stats .openstad-component-vote-button .openstad-component-number-button-text.ocs-busy {
+  background-color: #9a9a9a !important;
 }
 .openstad-component-ideas-on-map .openstad-component-idea-details .openstad-component-details-image-and-stats .openstad-component-details-stats .openstad-component-no-of-reactions {
   background-position: center left 0px;
@@ -1149,7 +1191,7 @@ form.osc-form {
   .openstad-component-ideas-on-map .ocs-mobile-popup {
     display: block;
     position: absolute;
-    bottom: 68px;
+    bottom: 48px;
     left: 5px;
     width: calc(100% - 10px);
     padding: 10px;
@@ -1157,6 +1199,9 @@ form.osc-form {
     line-height: 19px;
     background-color: white;
     z-index: 500;
+  }
+  .openstad-component-ideas-on-map .ocs-mobile-popup.ocs-clickable {
+    cursor: pointer;
   }
   .openstad-component-ideas-on-map .ocs-mobile-popup a {
     text-decoration: underline;

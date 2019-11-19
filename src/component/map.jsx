@@ -17,68 +17,34 @@ export default class Map extends OpenStadComponentNLMap {
 		this.config = Object.assign(this.defaultConfig, this.config, props.config || {})
 
     // defaults
-    // this.config.onMapClick = this.config.onMapClick || this.onMapClick.bind(this);
-    // this.config.onMarkerClick = this.config.onMarkerClick || this.onMarkerClick.bind(this);
-    this.config.clustering.iconCreateFunction = this.config.clustering.createClusterIcon || this.createClusterIcon.bind(this);
     this.config.clustering.showCoverageOnHover = typeof this.config.showCoverageOnHover != 'undefined' ? this.config.showCoverageOnHover : false;
     this.config.clustering.onClusterAnimationEnd = this.config.clustering.onClusterAnimationEnd || this.onClusterAnimationEnd.bind(this);
     this.config.clustering.maxClusterRadius = 30; // default is 80
 
+    this.ideas = [];
+
   }
 
-	createClusterIcon(cluster) {
-
+  addIdea(idea) {
     let self = this;
-    let count = cluster.getChildCount();
+    self.ideas.push(idea);
+    // todo: dit moet met een iconCreate functie
+    let type = idea && eval(`idea.${self.config.typeField}`);
+		let tmp = self.config.types.find(entry => entry.name == type);
+		let color = tmp && tmp.color || 'black';
+		let html = `<svg viewBox="0 0 26 26"><circle cx="13" cy="13" r="13" fill="${color}"/></svg>`;
+		let icon = L.divIcon({ html: html, className: 'openstad-component-ideas-on-map-icon', iconSize: L.point(26, 26), iconAnchor: [13, 13] });
+    self.addMarker({ lat: idea.location.coordinates[0], lng: idea.location.coordinates[1], data: idea, icon });
+  }
 
-    if (self.config.typeField && self.config.types && self.config.types.length) {
-      
-      // todo: configurable
-      let count = cluster.getChildCount();
-      let markers = cluster.getAllChildMarkers();
-
-      let colors = {}
-      let total = markers.length;
-      let isFaded = false;
-      markers.forEach((entry) => {
-        let type = entry.data && eval(`entry.data.${self.config.typeField}`);
-        let tmp = self.config.types.find(entry => entry.name == type);
-        let color = tmp && tmp.color || 'black';
-        if ( type == undefined ) type = 'undef'
-        if ( !colors[color] ) colors[color] = 0;
-        colors[color]++;
-        if (entry.data && entry.data.isFaded) isFaded = true;
-      });
-
-      let html = '<svg viewBox="0 0 36 36"><circle cx="18" cy="18" r="14" fill="white"/>'
-
-      let soFar = 0;
-      Object.keys(colors).forEach((key) => {
-        let myColor = key;
-        let perc = 100 * colors[key] / total;
-        let angle = (soFar / 100) * 360;
-        
-        html += `  <path
-             d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"
-             fill="none"
-             transform="rotate(${angle}, 18, 18)"
-             stroke="${myColor}"
-             stroke-width="4"
-             stroke-dasharray="${perc}, 100"
-             />`;
-        soFar = soFar + perc;
-      });
-
-      html += '<text x="18" y="21" text-anchor="middle" class="openstad-component-ideas-on-map-icon openstad-component-ideas-on-map-icon-text">' + count + '</text></svg>';
-
-      return L.divIcon({ html: html, className: 'openstad-component-ideas-on-map-icon-cluster', iconSize: L.point(36, 36), iconAnchor: [18, 18], isFaded });
-
-    } else {
-
-		  return L.divIcon({ html: count, className: 'openstad-component-ideas-on-map-icon-cluster', iconSize: L.point(20, 20), iconAnchor: [20, 10] });
-
-	  }
-	}
+  getVisibleIdeas() {
+    let self = this;
+    let visibleIdeas = self.markers
+        .filter( marker => marker.visible && marker.data && self.map.getBounds().contains(marker.getLatLng()))
+        .map( marker => marker.data );
+    self.setState({ visibleIdeas });
+    return visibleIdeas;
+  }
 
   showMarkers() {
 	  var self = this;

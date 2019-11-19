@@ -82,10 +82,15 @@ export default class OpenStadComponentIdeasOnMap extends OpenStadComponent {
 
     self.state = {
       ideas: [],
+      visibleIdeas: [],
       status: 'default', // default, idea-selected, location-selected, idea-details, idea-form
+      mobileState: 'closed',
+      // oud
       currentIdea: null,
       editIdea: null,
-      mobileState: 'closed',
+      // new, maar nog niet overal gebruikt
+      selectedIdea: null,
+      selectedLocation: null,
     }
     
   }
@@ -170,19 +175,12 @@ export default class OpenStadComponentIdeasOnMap extends OpenStadComponent {
         let showIdeaDetails = document.location.hash.replace(/.*details=(\d+).*/, "$1");
         let showIdeaSelected = document.location.hash.replace(/.*selected=(\d+).*/, "$1");
         let ideas = json.filter( idea => idea.location )
-        self.map.addMarkers(ideas.map( idea => {
+        ideas.map( idea => {
           if ( idea.id == showIdeaDetails) showIdeaDetails = idea;
           if ( idea.id == showIdeaSelected) showIdeaSelected = idea;
-					let type = idea && eval(`idea.${self.config.typeField}`);
-					let tmp = self.config.types.find(entry => entry.name == type);
-					let color = tmp && tmp.color || 'black';
-					let html = `<svg viewBox="0 0 26 26"><circle cx="13" cy="13" r="13" fill="${color}"/></svg>`;
-          // TODO: je moet hier geen L. gebruiken; hang dat in de map
-					let icon = L.divIcon({ html: html, className: 'openstad-component-ideas-on-map-icon', iconSize: L.point(26, 26), iconAnchor: [13, 13] });
-          // TODO: temp oplosing voor images moet dus beter
           idea.image = (idea.posterImage && idea.posterImage.key) || (idea.extraData && idea.extraData.images && idea.extraData.images[0]) || "https://stemvanwest.amsterdam.nl/img/placeholders/idea.jpg";
-					return { lat: idea.location.coordinates[0], lng: idea.location.coordinates[1], data: idea, icon }
-				}));
+          self.map.addIdea(idea);
+				});
         // self.setState({ ideas });
         // self.map.setBoundsAndCenter(self.map.markers);
 
@@ -322,11 +320,13 @@ export default class OpenStadComponentIdeasOnMap extends OpenStadComponent {
   }
 
   getVisibleIdeas() {
-    let self = this;
-    let visibleIdeas = self.map.markers
-        .filter( marker => marker.visible && marker.data && self.map.map.getBounds().contains(marker.getLatLng()))
-        .map( marker => marker.data );
-    return visibleIdeas;
+		if ( this.state.mobileState == 'opened' ) { // werkt omdat hij alleen op mobiel opend kan zijn
+      return this.state.visibleIdeas;
+    } else {
+      let visibleIdeas = this.map.getVisibleIdeas()
+      this.setState({ visibleIdeas });
+      return visibleIdeas;
+    }
   }
 
   setNewIdea(idea) {
@@ -485,7 +485,9 @@ export default class OpenStadComponentIdeasOnMap extends OpenStadComponent {
       case 'location-selected':
         if (self.infoblock) {
           let selectedIdea = self.state.currentIdea || self.selectedIdea || self.state.editIdea;
-          self.infoblock.updateIdeas({ ideas: self.state.ideas.filter( x => x.id != selectedIdea.id ), sortOrder: 'distance', showSortButton: false, center: { lat: selectedIdea.location.coordinates[0], lng: selectedIdea.location.coordinates[1] }, maxLength: 5 });
+          if (selectedIdea) {
+            self.infoblock.updateIdeas({ ideas: self.state.ideas.filter( x => x.id != selectedIdea.id ), sortOrder: 'distance', showSortButton: false, center: { lat: selectedIdea.location.coordinates[0], lng: selectedIdea.location.coordinates[1] }, maxLength: 5 });
+          }
         }
         break;
 
@@ -503,7 +505,8 @@ export default class OpenStadComponentIdeasOnMap extends OpenStadComponent {
 
 	onUpdateSelectedIdea(idea) {
     if (this.state.editIdea) this.setNewIdea(null);
-    this.setState({ ...this.state, status: 'idea-selected', currentIdea: idea }, function() {
+    let status = idea ? 'idea-selected' : 'default';
+    this.setState({ ...this.state, status, currentIdea: idea }, function() {
       this.setSelectedIdea(idea);
     });
   }
@@ -516,11 +519,12 @@ export default class OpenStadComponentIdeasOnMap extends OpenStadComponent {
   }
   
   onIdeaClick(idea) {
-    let showDetails = this.state.status == 'location-selected' || this.state.status == 'idea-selected';
+    // let showDetails = this.state.status == 'location-selected' || this.state.status == 'idea-selected';
     if (this.state.editIdea) this.setNewIdea(null);
     this.setState({ status: 'idea-selected', currentIdea: idea }, function() {
       this.setSelectedIdea(idea);
-      if (showDetails) this.showIdeaDetails(idea);
+      // if (showDetails) this.showIdeaDetails(idea);
+      this.showIdeaDetails(idea);
     });
   };
 
@@ -538,18 +542,9 @@ export default class OpenStadComponentIdeasOnMap extends OpenStadComponent {
     self.setNewIdea(null);
     self.setState({ ideas: [ ...self.state.ideas, idea ] }, function() {
 
-      // todo: dit is een kopie en moet dus in een eigen functie
-      let type = idea && eval(`idea.${self.config.typeField}`);
-			let tmp = self.config.types.find(entry => entry.name == type);
-			let color = tmp && tmp.color || 'black';
-			let html = `<svg viewBox="0 0 26 26"><circle cx="13" cy="13" r="13" fill="${color}"/></svg>`;
-      // TODO: je moet hier geen L. gebruiken; hang dat in de map
-			let icon = L.divIcon({ html: html, className: 'openstad-component-ideas-on-map-icon', iconSize: L.point(26, 26), iconAnchor: [13, 13] });
-      // TODO: temp oplosing voor images moet dus beter
       idea.image = (idea.posterImage && idea.posterImage.key) || (idea.extraData && idea.extraData.images && idea.extraData.images[0]) || "https://stemvanwest.amsterdam.nl/img/placeholders/idea.jpg";
-      self.map.addMarker({ lat: idea.location.coordinates[0], lng: idea.location.coordinates[1], data: idea, icon });
-
-      this.map.showMarkers(self.markers)
+      self.map.addIdea(idea);
+      self.map.showMarkers()
 
       self.setState({ status: 'idea-selected', currentIdea: idea }, function() {
         self.setSelectedIdea(idea)
@@ -591,6 +586,10 @@ export default class OpenStadComponentIdeasOnMap extends OpenStadComponent {
     self.infoblock.setState({ mobileState: self.state.mobileState == 'closed' ? 'opened' : 'closed' })
     self.setState({ mobileState: self.state.mobileState == 'closed' ? 'opened' : 'closed' }, function() {
       self.map.map.invalidateSize();
+      if (this.state.status == 'location-selected' || this.state.status == 'idea-selected') {
+        let selectedIdea = self.state.currentIdea || self.selectedIdea || self.state.editIdea;
+        self.map.setBoundsAndCenter([{ lat: selectedIdea.location.coordinates[0], lng: selectedIdea.location.coordinates[1] }]);
+      }
     })
   }
   
@@ -611,9 +610,13 @@ export default class OpenStadComponentIdeasOnMap extends OpenStadComponent {
           siteId: this.config.siteId,
           api: this.config.api,
           argument: this.config.argument,
+          labels: {
+            Kans: { text: 'Kans', color: 'white', backgroundColor: '#bed200' },
+            Knelpunt: { text: 'Knelpunt', color: 'white', backgroundColor: '#ff9100' },
+          }
         };
         infoHTML = (
-			    <IdeaDetails id={this.divId + '-infoblock'} config={config} idea={this.state.currentIdea} key="dfwk fgdfsbbfgd hdg" className="openstad-component-ideas-on-map-info" mobileState={this.state.mobileState} ref={el => (this.ideadetails = el)}/>
+			    <IdeaDetails id={this.divId + '-infoblock'} config={config} idea={this.state.currentIdea} label={this.state.currentIdea.extraData.type} className="openstad-component-ideas-on-map-info" mobileState={this.state.mobileState} ref={el => (this.ideadetails = el)}/>
         );
         filterHTML = (
 				  <div className="openstad-component-ideas-on-map-filterbar"><div className="openstad-component-backbutton" onClick={() => this.hideIdeaDetails()}>Terug naar overzicht</div></div>
@@ -625,7 +628,7 @@ export default class OpenStadComponentIdeasOnMap extends OpenStadComponent {
 			    <IdeaForm id={this.divId + '-infoblock'} config={{ siteId: this.config.siteId, api: this.config.api, ...this.config.idea, formfields: { ...this.state.editIdea } }} className="openstad-component-ideas-on-map-info" mobileState={this.state.mobileState} ref={el => (this.ideaform = el)}/>
         );
         filterHTML = (
-				  <div className="openstad-component-ideas-on-map-filterbar"><div className="openstad-component-backbutton" onClick={() => this.hideIdeaForm()}>Terug</div></div>
+				  <div className="openstad-component-ideas-on-map-filterbar"><div className="openstad-component-backbutton" onClick={() => this.hideIdeaForm()}>Terug naar overzicht</div></div>
         );
         break;
 
@@ -644,7 +647,7 @@ export default class OpenStadComponentIdeasOnMap extends OpenStadComponent {
           );
         } else {
           mobilePopupHTML = (
-            <div className="ocs-mobile-popup">
+            <div className="ocs-mobile-popup ocs-clickable" onClick={ () => this.showIdeaDetails(this.state.currentIdea) }>
               <div className="openstad-component-image" style={{ backgroundImage: `url(${this.state.currentIdea && this.state.currentIdea.image})` }}></div>
               { eval(this.state.currentIdea && `this.state.currentIdea.${this.config.titleField}`) }
             </div>

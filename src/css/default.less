@@ -79,10 +79,13 @@
       .openstad-arrow-down-black-background();
       display: none;
       width: 100%;
-      padding: 15px 30px 15px 15px;
+      padding: 12px 30px 12px 15px;
       font-weight: 600;
-      line-height: 1.2em;
+      line-height: 20px;
       text-align: center;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
       cursor: pointer;
     }
 
@@ -376,6 +379,14 @@
 
       }
 
+      .ocs-idea-label {
+        position: absolute;
+        top: 10px;
+        left: 0;
+        padding: 4px 15px;
+        font-weight: bold;
+      }
+
       .openstad-component-details-stats {
 
         position: absolute;
@@ -404,6 +415,15 @@
 	        .openstad-component-number-button-text {
             .openstad-thumbs-up-white-background();
             padding-left: 50px;
+
+            &.ocs-user-has-voted {
+              background-color: #BED200 !important;
+            } 
+
+            &.ocs-busy {
+              background-color: #9a9a9a !important;
+            } 
+
 	        }
 
         }
@@ -566,7 +586,7 @@
     .ocs-mobile-popup {
       display: block;
       position: absolute;
-      bottom: 68px;
+      bottom: 48px;
       left: 5px;
       width: calc(100% - 10px);
       padding: 10px;
@@ -574,6 +594,10 @@
       line-height: 19px;
       background-color: white;
       z-index: 500;
+
+      &.ocs-clickable {
+        cursor: pointer;
+      }
 
       a {
         text-decoration: underline;

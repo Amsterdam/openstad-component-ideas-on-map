@@ -20,6 +20,7 @@ export default class VoteButton extends React.Component {
 
     this.state = {
       value: this.props.value,
+      busy: false,
     }
 
   }
@@ -27,20 +28,25 @@ export default class VoteButton extends React.Component {
 	componentDidMount(prevProps, prevState) {
 	}
 
-  doVote() {
+  doVote(e) {
+
+    e.stopPropagation();
+
+    if (this.state.busy) return;
+    this.setState({ busy: true });
 
     let self = this;
     let url = `${ self.config.api.url }/api/site/${ self.config.siteId }/vote`;
 		let headers = Object.assign(( self.config.api && self.config.api.headers || {} ), { "Content-type": "application/json" });
 
+    // if (!self.config.api.isUserLoggedIn) url += '?useOauth=anoniemestemmers'
     if (!self.config.api.isUserLoggedIn) return alert('Log eerst in; anoniem stemmen moet nog.')
-
 
     fetch(url, {
       method: 'post',
       headers,
       body: JSON.stringify({
-        ideaId: self.config.ideaId,
+        ideaId: self.props.idea.id,
         opinion: self.config.opinion,
       })
     })
@@ -53,8 +59,12 @@ export default class VoteButton extends React.Component {
         let change = json.length ? 1 : -1;
         let value = self.state.value + change;
         self.setState({ value })
-        
-		    var event = new CustomEvent('ideaLiked', { detail: { ideaId: self.config.ideaId, change } });
+
+        self.props.idea.userVote = json.length && json || null;
+
+        this.setState({ busy: false });
+
+		    var event = new CustomEvent('ideaLiked', { detail: { ideaId: self.props.idea.id, change } });
 		    document.dispatchEvent(event);
       })
       .catch((err) => {
@@ -81,7 +91,7 @@ export default class VoteButton extends React.Component {
 			    <div id={`${this.config.name}-number-plate-00`} className="openstad-component-number-plate">{value00}</div>
 			    <div id={`${this.config.name}-number-plate-0`} className="openstad-component-number-plate">{value0}</div>
 		    </div>
-        <div className={`openstad-component-number-button-text ${this.config.name}-name`} style={{ color: this.config.color, backgroundColor: this.config.backgroundColor }} onClick={ () => self.doVote() }>
+        <div className={`openstad-component-number-button-text ${this.config.name}-name ${this.props.idea.userVote ? ' ocs-user-has-voted' : ''} ${this.state.busy ? ' ocs-busy' : ''}`} style={{ color: this.config.color, backgroundColor: this.config.backgroundColor }} onClick={ (e) => self.doVote(e) }>
 			    {self.config.text}
 		    </div>
         <div className="openstad-clear-both"></div>

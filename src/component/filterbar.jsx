@@ -92,7 +92,7 @@ export default class Filterbar extends React.Component {
             <select value={self.state.selectedArea} onChange={() => self.handleAreaChange( self.areaSelector.value )} className="openstad-default-select openstad-margin-right openstad-component-area-selector" ref={el => (self.areaSelector = el)}>
               <option value="0">Alle gebieden</option>;
               { self.state.areas.map((area, i) => {
-                return <option style={{ color: area.color }} key={'area-option-' + i}>{ area.name }</option>;
+                return <option key={'area-option-' + i}>{ area.name }</option>;
               })}
             </select>
           </div>
@@ -114,7 +114,7 @@ export default class Filterbar extends React.Component {
             <select value={self.state.selectedType} onChange={() => self.handleTypeChange( self.typeSelector.value )} className="openstad-default-select openstad-margin-right openstad-component-type-selector" ref={el => (self.typeSelector = el)}>
               <option value="0">Alle thema's</option>;
               { self.state.types.map((type, i) => {
-                return <option style={{ color: type.color }} key={'type-option-' + i}>{ type.name }</option>;
+                return <option key={'type-option-' + i}>{ type.name }</option>;
               })}
             </select>
           </div>

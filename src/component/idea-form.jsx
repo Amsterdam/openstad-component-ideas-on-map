@@ -211,6 +211,8 @@ export default class IdeasForm extends React.Component {
     return (
 			<div id={self.id} className={self.props.className || 'openstad-component-info-block-idea-form'} ref={el => (self.instance = el)}>
 
+			  <div className="osc-spacer"></div>
+
         <form className="osc-form">
 
 				  <input type="hidden" id="extraData" name="extraData" value=""/>
