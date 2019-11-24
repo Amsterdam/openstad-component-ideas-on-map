@@ -44,7 +44,7 @@ export default class IdeasForm extends React.Component {
     this.state = {
       formfields: this.config.formfields,
 			ideaId: this.config.ideaId,
-      location: this.config.location,
+      latlng: this.config.latlng,
       address: this.config.address,
     };
 
@@ -86,7 +86,7 @@ export default class IdeasForm extends React.Component {
   // todo: als hadlefieldchange met meerder waarden in een { key: value } formaat gaat werken dan kan deze weg
   handleLocationChange({location, address}) {
     let state = { ...this.state };
-    state.formfields['location'] = location;
+    state.formfields['location'] = { coordinates: [ location.lat, location.lng ] };
     state.formfields['address'] = address;
     this.setState(state)
     this.dispatchUpdateEditIdea(state.formfields)

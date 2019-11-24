@@ -111,8 +111,8 @@ export default class IdeasList extends React.Component {
           if (!idea) {
             console.log('idea is undef', i, self.state.ideas);
           }
-          let tmp = self.config.types.find(entry => idea.extraData && entry.name == idea.extraData.theme);
-          let typeColor = tmp && tmp.color || 'black';
+          let typeDef = self.config.types.find(entry => idea.extraData && entry.name == idea.extraData.theme);
+          if (!typeDef) { typeDef = { listicon: { html: '' } }; console.log(idea.extraData.theme + ' niet gevonden'); }
           return (
             <div className="openstad-component-info-block-ideas-list-idea" onClick={(event) => self.config.onIdeaClick(event, idea)} key={'info-block-' + i}>
               <div className="openstad-component-content">
@@ -128,8 +128,8 @@ export default class IdeasList extends React.Component {
                 <div className="openstad-reactions">
                   {idea.argCount || 0}
                 </div>
-                <div className="openstad-type" style={{ borderColor: typeColor }}>
-                  <div className="openstad-type-content"></div>
+                <div className="openstad-type">
+                  <div className="openstad-type-content" dangerouslySetInnerHTML={{ __html: typeDef.listicon.html }}></div>
                 </div>
                 </div>
               </div>

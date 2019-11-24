@@ -51,9 +51,9 @@ export default class InfoBlock extends React.Component {
 		document.dispatchEvent(event);
   }
 
-  dispatchUpdateNewIdea(e, idea) {
+  dispatchCloseSelectedLocation(e, idea) {
     e.stopPropagation();
-		var event = new CustomEvent('updateNewIdea', { detail: { idea } });
+		var event = new CustomEvent('closeSelectedLocation', { detail: { idea } });
 		document.dispatchEvent(event);
   }
   
@@ -105,7 +105,7 @@ export default class InfoBlock extends React.Component {
       }
       newIdeaHTML = (
 			  <div className="openstad-component-info-block-new-idea">
-          <button className="openstad-close-button" onClick={(event) => self.dispatchUpdateNewIdea(event, null)} ref={el => (self.resetButton = el)}/>
+          <button className="openstad-close-button" onClick={(event) => self.dispatchCloseSelectedLocation(event, null)} ref={el => (self.resetButton = el)}/>
           <h3>Geselecteerd</h3>
           <p>Een locatie vlakbij</p>
           <h4>{self.state.newIdea.address}</h4>
@@ -123,8 +123,8 @@ export default class InfoBlock extends React.Component {
     // selected idea
     if (self.state.selectedIdea) {
       let idea = self.state.selectedIdea;
-      let tmp = self.config.types.find(entry => idea.extraData && entry.name == idea.extraData.theme);
-      let typeColor = tmp && tmp.color || 'black';
+      let typeDef = self.config.types.find(entry => idea.extraData && entry.name == idea.extraData.theme);
+      if (!typeDef) { typeDef = { listicon: { html: '' } }; console.log(idea.extraData.theme + ' niet gevonden'); }
       selectedIdeaHTML = (
 			  <div className="openstad-component-info-block-selected-idea" onClick={(event) => self.dispatchSelectedIdeaClick(event, self.state.selectedIdea)}>
           <button className="openstad-close-button" onClick={(event) => self.dispatchUpdateSelectedIdea(event, null)} ref={el => (self.resetButton = el)}/>
@@ -140,11 +140,8 @@ export default class InfoBlock extends React.Component {
                 <div className="openstad-likes">
                   {idea.yes || 0}
                 </div>
-                <div className="openstad-reactions">
-                  {idea.argCount || 0}
-                </div>
-                <div className="openstad-type" style={{ borderColor: typeColor }}>
-                  <div className="openstad-type-content"></div>
+                <div className="openstad-type">
+                  <div className="openstad-type-content" dangerouslySetInnerHTML={{ __html: typeDef.listicon.html }}></div>
                 </div>
               </div>
             </div>

@@ -22,17 +22,16 @@ export default class OpenStadComponentIdeasOnMap extends OpenStadComponent {
 		// config
 		self.defaultConfig = {
 			title: this.config.appTitle || 'Inzendingen',
-      editMarker: undefined,
       currentPolygon: undefined,
       types: [
-        { name: "Auto", color: "#FF9100", icon: "" },
-        { name: "Fiets", color: "#00A03C", icon: "" },
-        { name: "Voetganger", color: "#004699", icon: "" },
-        { name: "Recreëren", color: "#FF9100", icon: "" },
-        { name: "Schoon", color: "#EC0000", icon: "" },
-        { name: "Groen", color: "#004699", icon: "" },
-        { name: "Geluid", color: "#00A03C", icon: "" },
-        { name: "Overig", color: "#EC0000", icon: "" },
+        { name: "Auto", color: "#EC0000", mapicon: { html: '<svg width="34" height="45" viewBox="0 0 34 45" fill="none" xmlns="http://www.w3.org/2000/svg"><g clip-path="url(#clip1)"><path d="M17 0C26.3917 0 34 7.53433 34 16.8347C34 29.5249 19.3587 42.4714 18.7259 42.9841L17 44.4938L15.2741 42.9841C14.6413 42.4714 0 29.5249 0 16.8347C0 7.53575 7.60829 0 17 0Z" fill="#EC0000"/></g><g clip-path="url(#clip1)"><path fill-rule="evenodd" clip-rule="evenodd" d="M22 19.5C23.0355 19.5 23.875 20.3395 23.875 21.375C23.875 22.4105 23.0355 23.25 22 23.25C20.9645 23.25 20.125 22.4105 20.125 21.375C20.125 20.3395 20.9645 19.5 22 19.5ZM11.375 19.5C12.4105 19.5 13.25 20.3395 13.25 21.375C13.25 22.4105 12.4105 23.25 11.375 23.25C10.3395 23.25 9.5 22.4105 9.5 21.375C9.5 20.3395 10.3395 19.5 11.375 19.5ZM18.875 11.375L23.25 15.75H27V21.375H25.125C25.125 19.6491 23.7259 18.25 22 18.25C20.2741 18.25 18.875 19.6491 18.875 21.375H14.5C14.5 19.6491 13.1009 18.25 11.375 18.25C9.64911 18.25 8.25 19.6491 8.25 21.375H7V15.75L11.375 11.375H18.875ZM18.25 12.625H15.125V15.75H21.3512L18.25 12.625ZM13.875 12.625H12L8.875 15.75H13.875V12.625Z" fill="white"/></g><defs><clipPath id="clip1"><rect width="34" height="44.4938" fill="white"/></clipPath><clipPath id="clip1"><rect width="20" height="20" fill="white" transform="translate(7 7)"/></clipPath></defs></svg>', width: 34, height: 45, anchor: [17, 45] }, listicon: { html: '<svg width="34" height="34" viewBox="0 0 34 34" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="17" cy="17" r="17" fill="#EC0000"/><g clip-path="url(#clip2)"><path fill-rule="evenodd" clip-rule="evenodd" d="M22 19.5C23.0355 19.5 23.875 20.3395 23.875 21.375C23.875 22.4105 23.0355 23.25 22 23.25C20.9645 23.25 20.125 22.4105 20.125 21.375C20.125 20.3395 20.9645 19.5 22 19.5ZM11.375 19.5C12.4105 19.5 13.25 20.3395 13.25 21.375C13.25 22.4105 12.4105 23.25 11.375 23.25C10.3395 23.25 9.5 22.4105 9.5 21.375C9.5 20.3395 10.3395 19.5 11.375 19.5ZM18.875 11.375L23.25 15.75H27V21.375H25.125C25.125 19.6491 23.7259 18.25 22 18.25C20.2741 18.25 18.875 19.6491 18.875 21.375H14.5C14.5 19.6491 13.1009 18.25 11.375 18.25C9.64911 18.25 8.25 19.6491 8.25 21.375H7V15.75L11.375 11.375H18.875ZM18.25 12.625H15.125V15.75H21.3512L18.25 12.625ZM13.875 12.625H12L8.875 15.75H13.875V12.625Z" fill="white"/></g><defs><clipPath id="clip2"><rect width="20" height="20" fill="white" transform="translate(7 7)"/></clipPath></defs></svg>', width: 34, height: 34 } },
+        { name: "Fiets", color: "#BED200", mapicon: { html: '<svg width="34" height="45" viewBox="0 0 34 45" fill="none" xmlns="http://www.w3.org/2000/svg"><g clip-path="url(#clip1)"><path d="M17 0.493652C26.3917 0.493652 34 8.02798 34 17.3284C34 30.0185 19.3587 42.965 18.7259 43.4778L17 44.9875L15.2741 43.4778C14.6413 42.965 0 30.0185 0 17.3284C0 8.0294 7.60829 0.493652 17 0.493652Z" fill="#BED200"/></g><g clip-path="url(#clip1)"><path d="M11.0625 19.3687C13.3062 19.3687 15.125 21.1875 15.125 23.4312C15.125 25.6748 13.3062 27.4937 11.0625 27.4937C8.81884 27.4937 7 25.6748 7 23.4312C7 21.1875 8.81884 19.3687 11.0625 19.3687ZM11.0625 20.6187C9.5092 20.6187 8.25 21.8779 8.25 23.4312C8.25 24.9845 9.5092 26.2437 11.0625 26.2437C12.6158 26.2437 13.875 24.9845 13.875 23.4312C13.875 21.8779 12.6158 20.6187 11.0625 20.6187Z" fill="white"/><path d="M22.9375 19.3687C25.1812 19.3687 27 21.1875 27 23.4312C27 25.6748 25.1812 27.4937 22.9375 27.4937C20.6938 27.4937 18.875 25.6748 18.875 23.4312C18.875 21.1875 20.6938 19.3687 22.9375 19.3687ZM22.9375 20.6187C21.3842 20.6187 20.125 21.8779 20.125 23.4312C20.125 24.9845 21.3842 26.2437 22.9375 26.2437C24.4908 26.2437 25.75 24.9845 25.75 23.4312C25.75 21.8779 24.4908 20.6187 22.9375 20.6187Z" fill="white"/><path fill-rule="evenodd" clip-rule="evenodd" d="M20.75 12.4937V14.9937L23.875 14.9937V17.4937L19.5 17.4937L18.25 16.2437L18.25 14.3687L15.75 16.8687L18.252 19.3687L18.252 26.2437L15.75 26.2437L15.75 20.6187L12.625 17.4937L12.625 15.6187L17 11.2437C17.625 10.6187 18.875 10.6187 19.5 11.2437L20.75 12.4937Z" fill="white"/><path fill-rule="evenodd" clip-rule="evenodd" d="M22.7008 8.04262C23.4331 8.77492 23.4331 9.96198 22.7008 10.6943C21.9685 11.4266 20.7815 11.4266 20.0492 10.6943C19.3169 9.96198 19.3169 8.77492 20.0492 8.04262C20.7815 7.31032 21.9685 7.31032 22.7008 8.04262Z" fill="white"/></g><defs><clipPath id="clip1"><rect width="34" height="44.4938" fill="white" transform="translate(0 0.493652)"/></clipPath><clipPath id="clip1"><rect width="20" height="20" fill="white" transform="translate(7 7.49365)"/></clipPath></defs></svg>', width: 34, height: 45, anchor: [17, 45] }, listicon: { html: '<svg width="34" height="34" viewBox="0 0 34 34" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="17" cy="17" r="17" fill="#BED200"/><g clip-path="url(#clip2)"><path d="M11.0625 17.3687C13.3062 17.3687 15.125 19.1875 15.125 21.4312C15.125 23.6748 13.3062 25.4937 11.0625 25.4937C8.81884 25.4937 7 23.6748 7 21.4312C7 19.1875 8.81884 17.3687 11.0625 17.3687ZM11.0625 18.6187C9.5092 18.6187 8.25 19.8779 8.25 21.4312C8.25 22.9845 9.5092 24.2437 11.0625 24.2437C12.6158 24.2437 13.875 22.9845 13.875 21.4312C13.875 19.8779 12.6158 18.6187 11.0625 18.6187Z" fill="white"/><path d="M22.9375 17.3687C25.1812 17.3687 27 19.1875 27 21.4312C27 23.6748 25.1812 25.4937 22.9375 25.4937C20.6938 25.4937 18.875 23.6748 18.875 21.4312C18.875 19.1875 20.6938 17.3687 22.9375 17.3687ZM22.9375 18.6187C21.3842 18.6187 20.125 19.8779 20.125 21.4312C20.125 22.9845 21.3842 24.2437 22.9375 24.2437C24.4908 24.2437 25.75 22.9845 25.75 21.4312C25.75 19.8779 24.4908 18.6187 22.9375 18.6187Z" fill="white"/><path fill-rule="evenodd" clip-rule="evenodd" d="M20.75 10.4937V12.9937L23.875 12.9937V15.4937L19.5 15.4937L18.25 14.2437L18.25 12.3687L15.75 14.8687L18.252 17.3687L18.252 24.2437L15.75 24.2437L15.75 18.6187L12.625 15.4937L12.625 13.6187L17 9.24365C17.625 8.61865 18.875 8.61865 19.5 9.24365L20.75 10.4937Z" fill="white"/><path fill-rule="evenodd" clip-rule="evenodd" d="M22.7008 6.04262C23.4331 6.77492 23.4331 7.96198 22.7008 8.69427C21.9685 9.42657 20.7815 9.42657 20.0492 8.69427C19.3169 7.96198 19.3169 6.77492 20.0492 6.04262C20.7815 5.31032 21.9685 5.31032 22.7008 6.04262Z" fill="white"/></g><defs><clipPath id="clip2"><rect width="20" height="20" fill="white" transform="translate(7 5.49365)"/></clipPath></defs></svg>', width: 34, height: 34 } },
+        { name: "Voetganger", color: "#009DEC", mapicon: { html: '<svg width="34" height="46" viewBox="0 0 34 46" fill="none" xmlns="http://www.w3.org/2000/svg"><g clip-path="url(#clip1)"><path d="M17 0.987793C26.3917 0.987793 34 8.52212 34 17.8225C34 30.5127 19.3587 43.4592 18.7259 43.9719L17 45.4816L15.2741 43.9719C14.6413 43.4592 0 30.5127 0 17.8225C0 8.52354 7.60829 0.987793 17 0.987793Z" fill="#009DEC"/><g clip-path="url(#clip1)"><path fill-rule="evenodd" clip-rule="evenodd" d="M18.25 12.9878L20.75 15.4878H23.25V17.9878H20.125L18.25 16.1128V19.2378L20.75 21.7378V27.9878H18.25V22.9878L17 21.7378V23.6128L14.5 26.1128H10.75V23.6128H13.25L14.5 22.3628V16.1128L13.25 17.3628V19.8628H10.75V16.7378L14.5 12.9878H18.25Z" fill="white"/><path fill-rule="evenodd" clip-rule="evenodd" d="M16.375 7.98779C17.4106 7.98779 18.25 8.82717 18.25 9.86279C18.25 10.8984 17.4106 11.7378 16.375 11.7378C15.3394 11.7378 14.5 10.8984 14.5 9.86279C14.5 8.82717 15.3394 7.98779 16.375 7.98779Z" fill="white"/></g></g><defs><clipPath id="clip1"><rect width="34" height="44.4938" fill="white" transform="translate(0 0.987793)"/></clipPath><clipPath id="clip1"><rect width="20" height="20" fill="white" transform="translate(7 7.98779)"/></clipPath></defs></svg>', width: 34, height: 45, anchor: [17, 45] }, listicon: { html: '<svg width="34" height="34" viewBox="0 0 34 34" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="17" cy="17" r="17" fill="#009DEC"/><g clip-path="url(#clip2)"><path fill-rule="evenodd" clip-rule="evenodd" d="M18.25 11.9878L20.75 14.4878H23.25V16.9878H20.125L18.25 15.1128V18.2378L20.75 20.7378V26.9878H18.25V21.9878L17 20.7378V22.6128L14.5 25.1128H10.75V22.6128H13.25L14.5 21.3628V15.1128L13.25 16.3628V18.8628H10.75V15.7378L14.5 11.9878H18.25Z" fill="white"/><path fill-rule="evenodd" clip-rule="evenodd" d="M16.375 6.98779C17.4106 6.98779 18.25 7.82717 18.25 8.86279C18.25 9.89842 17.4106 10.7378 16.375 10.7378C15.3394 10.7378 14.5 9.89842 14.5 8.86279C14.5 7.82717 15.3394 6.98779 16.375 6.98779Z" fill="white"/></g><defs><clipPath id="clip2"><rect width="20" height="20" fill="white" transform="translate(7 6.98779)"/></clipPath></defs></svg>', width: 34, height: 34 } },
+        { name: "Recreëren", color: "#E50082", mapicon: { html: '<svg width="34" height="45" viewBox="0 0 34 45" fill="none" xmlns="http://www.w3.org/2000/svg"><g clip-path="url(#clip1)"><path d="M17 0.481445C26.3917 0.481445 34 8.01577 34 17.3162C34 30.0063 19.3587 42.9528 18.7259 43.4656L17 44.9753L15.2741 43.4656C14.6413 42.9528 0 30.0063 0 17.3162C0 8.0172 7.60829 0.481445 17 0.481445Z" fill="#E50082"/><g clip-path="url(#clip1)"><path fill-rule="evenodd" clip-rule="evenodd" d="M23.875 24.9814H26.375V27.4814H7.625V24.9814H10.1254V23.1069L9.5 20.7588L10.7125 20.4551L11.2194 22.4819H13.25C13.595 22.4819 13.875 22.7619 13.875 23.1069V24.9814H15.75V18.7314H7.625V13.7313L16.9988 8.10645L26.375 13.7313V18.7314H18.25V24.9814H20.125V23.1069C20.125 22.7619 20.405 22.4819 20.75 22.4819H22.7619L23.2687 20.4551L24.4813 20.7588L23.875 23.1069V24.9814ZM22.625 24.9814V23.7319H21.375V24.9814H22.625ZM12.625 24.9814V23.7319H11.375V24.9814H12.625ZM10.125 15.026V16.2314H23.875V15.026L17 11.2617L10.125 15.026Z" fill="white"/></g></g><defs><clipPath id="clip1"><rect width="34" height="44.4938" fill="white" transform="translate(0 0.481445)"/></clipPath><clipPath id="clip1"><rect width="20" height="20" fill="white" transform="translate(7 7.48145)"/></clipPath></defs></svg>', width: 34, height: 45, anchor: [17, 45] }, listicon: { html: '<svg width="34" height="34" viewBox="0 0 34 34" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="17" cy="17" r="17" fill="#E50082"/><g clip-path="url(#clip2)"><path fill-rule="evenodd" clip-rule="evenodd" d="M23.875 23.9814H26.375V26.4814H7.625V23.9814H10.1254V22.1069L9.5 19.7588L10.7125 19.4551L11.2194 21.4819H13.25C13.595 21.4819 13.875 21.7619 13.875 22.1069V23.9814H15.75V17.7314H7.625V12.7313L16.9988 7.10645L26.375 12.7313V17.7314H18.25V23.9814H20.125V22.1069C20.125 21.7619 20.405 21.4819 20.75 21.4819H22.7619L23.2687 19.4551L24.4813 19.7588L23.875 22.1069V23.9814ZM22.625 23.9814V22.7319H21.375V23.9814H22.625ZM12.625 23.9814V22.7319H11.375V23.9814H12.625ZM10.125 14.026V15.2314H23.875V14.026L17 10.2617L10.125 14.026Z" fill="white"/></g><defs><clipPath id="clip2"><rect width="20" height="20" fill="white" transform="translate(7 6.48145)"/></clipPath></defs></svg>', width: 34, height: 34 } },
+        { name: "Schoon", color: "#004699", mapicon: { html: '<svg width="34" height="46" viewBox="0 0 34 46" fill="none" xmlns="http://www.w3.org/2000/svg"><g clip-path="url(#clip1)"><path d="M17 0.975586C26.3917 0.975586 34 8.50991 34 17.8103C34 30.5005 19.3587 43.447 18.7259 43.9597L17 45.4694L15.2741 43.9597C14.6413 43.447 0 30.5005 0 17.8103C0 8.51134 7.60829 0.975586 17 0.975586Z" fill="#004699"/><g clip-path="url(#clip1)"><path fill-rule="evenodd" clip-rule="evenodd" d="M19.6787 7.97559V10.4756H24.6787V12.9756H23.4287V27.9756H9.67871V12.9756H8.42871V10.4756H13.4287V7.97559H19.6787ZM20.9287 12.9756H12.1787V25.4756H20.9287V12.9756ZM14.6787 15.4756V22.9756H13.4412V15.4756H14.6787ZM17.1787 15.4756V22.9756H15.9287V15.4756H17.1787ZM19.6787 15.4756V22.9756H18.4412V15.4756H19.6787ZM18.4287 9.22559H14.6787V10.4756H18.4287V9.22559Z" fill="white"/></g></g><defs><clipPath id="clip1"><rect width="34" height="44.4938" fill="white" transform="translate(0 0.975586)"/></clipPath><clipPath id="clip1"><rect width="20" height="20" fill="white" transform="translate(7 7.97559)"/></clipPath></defs></svg>', width: 34, height: 45, anchor: [17, 45] }, listicon: { html: '<svg width="34" height="34" viewBox="0 0 34 34" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="17" cy="17" r="17" fill="#004699"/><g clip-path="url(#clip2)"><path fill-rule="evenodd" clip-rule="evenodd" d="M19.6787 6.97559V9.47559H24.6787V11.9756H23.4287V26.9756H9.67871V11.9756H8.42871V9.47559H13.4287V6.97559H19.6787ZM20.9287 11.9756H12.1787V24.4756H20.9287V11.9756ZM14.6787 14.4756V21.9756H13.4412V14.4756H14.6787ZM17.1787 14.4756V21.9756H15.9287V14.4756H17.1787ZM19.6787 14.4756V21.9756H18.4412V14.4756H19.6787ZM18.4287 8.22559H14.6787V9.47559H18.4287V8.22559Z" fill="white"/></g><defs><clipPath id="clip2"><rect width="20" height="20" fill="white" transform="translate(7 6.97559)"/></clipPath></defs></svg>', width: 34, height: 34 } },
+        { name: "Groen", color: "#00A03C", mapicon: { html: '<svg width="34" height="45" viewBox="0 0 34 45" fill="none" xmlns="http://www.w3.org/2000/svg"><g clip-path="url(#clip1)"><path d="M17 0.469238C26.3917 0.469238 34 8.00356 34 17.304C34 29.9941 19.3587 42.9406 18.7259 43.4534L17 44.9631L15.2741 43.4534C14.6413 42.9406 0 29.9941 0 17.304C0 8.00499 7.60829 0.469238 17 0.469238Z" fill="#00A03C"/></g><g clip-path="url(#clip1)"><mask id="mask1" mask-type="alpha" maskUnits="userSpaceOnUse" x="7" y="6" width="20" height="21"><path d="M16.1251 6.9692C16.8232 7.31203 17.275 8.00713 17.3106 8.77763L17.3126 8.9067V9.3442C18.3626 9.50045 19.1363 10.4073 19.1251 11.4692C19.1532 11.8404 19.0657 12.2117 18.8751 12.5317C19.4874 12.8803 19.9272 13.4646 20.0952 14.1445L20.1251 14.2817V14.6567C20.1488 15.6961 19.527 16.6423 18.5626 17.0317C18.3349 17.1603 18.0779 17.2269 17.8178 17.2255L17.6876 17.2192H17.6251C17.0041 17.1954 16.4165 16.9415 15.9745 16.5095L15.8751 16.4067H15.7501V23.9692H18.8751V22.0942L18.2501 19.7192L19.4376 19.4692L20.0001 21.4692H22.0001C22.1713 21.4486 22.3426 21.5079 22.4645 21.6298C22.5689 21.7343 22.6275 21.875 22.6291 22.021L22.6251 22.0942V23.9692H27.0001V26.4692H7.0376V23.9692H14.5001V16.4692H14.3751C13.9395 16.8829 13.3713 17.125 12.7748 17.1539L12.6251 17.1567H12.5626C12.2588 17.1848 11.9532 17.1192 11.6876 16.9692C10.7634 16.596 10.1538 15.7115 10.1255 14.7236L10.1251 14.2192C10.2651 13.4811 10.722 12.8411 11.3751 12.4692C11.197 12.1673 11.1101 11.8198 11.1251 11.4692C11.1143 10.4467 11.8314 9.56784 12.8221 9.36462L12.9376 9.3442V8.9067C12.9257 8.08545 13.3882 7.33107 14.1251 6.9692C14.7682 6.71795 15.482 6.71795 16.1251 6.9692ZM21.3751 22.7192H20.1251V23.9692H21.3751V22.7192Z" fill="white"/></mask><g mask="url(#mask1)"><path fill-rule="evenodd" clip-rule="evenodd" d="M7.0376 26.4691H27.0626V6.74414H7.0376V26.4691Z" fill="white"/></g></g><defs><clipPath id="clip1"><rect width="34" height="44.4938" fill="white" transform="translate(0 0.469238)"/></clipPath><clipPath id="clip1"><rect width="20" height="20" fill="white" transform="translate(7 6.46924)"/></clipPath></defs></svg>', width: 34, height: 45, anchor: [17, 45] }, listicon: { html: '<svg width="34" height="34" viewBox="0 0 34 34" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="17" cy="17" r="17" fill="#00A03C"/><g clip-path="url(#clip2)"><mask id="mask2" mask-type="alpha" maskUnits="userSpaceOnUse" x="7" y="6" width="20" height="21"><path d="M16.1251 6.9692C16.8232 7.31203 17.275 8.00713 17.3106 8.77763L17.3126 8.9067V9.3442C18.3626 9.50045 19.1363 10.4073 19.1251 11.4692C19.1532 11.8404 19.0657 12.2117 18.8751 12.5317C19.4874 12.8803 19.9272 13.4646 20.0952 14.1445L20.1251 14.2817V14.6567C20.1488 15.6961 19.527 16.6423 18.5626 17.0317C18.3349 17.1603 18.0779 17.2269 17.8178 17.2255L17.6876 17.2192H17.6251C17.0041 17.1954 16.4165 16.9415 15.9745 16.5095L15.8751 16.4067H15.7501V23.9692H18.8751V22.0942L18.2501 19.7192L19.4376 19.4692L20.0001 21.4692H22.0001C22.1713 21.4486 22.3426 21.5079 22.4645 21.6298C22.5689 21.7343 22.6275 21.875 22.6291 22.021L22.6251 22.0942V23.9692H27.0001V26.4692H7.0376V23.9692H14.5001V16.4692H14.3751C13.9395 16.8829 13.3713 17.125 12.7748 17.1539L12.6251 17.1567H12.5626C12.2588 17.1848 11.9532 17.1192 11.6876 16.9692C10.7634 16.596 10.1538 15.7115 10.1255 14.7236L10.1251 14.2192C10.2651 13.4811 10.722 12.8411 11.3751 12.4692C11.197 12.1673 11.1101 11.8198 11.1251 11.4692C11.1143 10.4467 11.8314 9.56784 12.8221 9.36462L12.9376 9.3442V8.9067C12.9257 8.08545 13.3882 7.33107 14.1251 6.9692C14.7682 6.71795 15.482 6.71795 16.1251 6.9692ZM21.3751 22.7192H20.1251V23.9692H21.3751V22.7192Z" fill="white"/></mask><g mask="url(#mask2)"><path fill-rule="evenodd" clip-rule="evenodd" d="M7.0376 26.4691H27.0626V6.74414H7.0376V26.4691Z" fill="white"/></g></g><defs><clipPath id="clip2"><rect width="20" height="20" fill="white" transform="translate(7 6.46924)"/></clipPath></defs></svg>', width: 34, height: 34 } },
+        { name: "Geluid", color: "#FF9100", mapicon: { html: '<svg width="34" height="46" viewBox="0 0 34 46" fill="none" xmlns="http://www.w3.org/2000/svg"><g clip-path="url(#clip1)"><path d="M17 0.962891C26.3917 0.962891 34 8.49722 34 17.7976C34 30.4878 19.3587 43.4343 18.7259 43.947L17 45.4567L15.2741 43.947C14.6413 43.4343 0 30.4878 0 17.7976C0 8.49864 7.60829 0.962891 17 0.962891Z" fill="#FF9100"/></g><g clip-path="url(#clip1)"><path fill-rule="evenodd" clip-rule="evenodd" d="M21.375 7.96289V15.2191C22.501 15.6081 23.2565 16.6684 23.2565 17.8598C23.2565 19.0511 22.501 20.1114 21.375 20.5004V27.7629L14.8625 24.2691L11.6375 27.4941L9.86875 25.7254L12.5563 23.0379L11.6438 22.5504H7V13.1754H11.6438L21.375 7.96289ZM18.875 12.1379L13.25 15.1504V20.5754L18.875 23.5879V12.1379ZM24.3115 19.9105L26.2229 21.746L25.3571 22.6476L23.4457 20.8121L24.3115 19.9105ZM12 15.6754H9.5V20.0504H12V15.6754ZM27 17.2379V18.4879H24.5V17.2379H27ZM25.3456 13.0055L26.2295 13.8894L24.3158 15.803L23.432 14.9191L25.3456 13.0055Z" fill="white"/></g><defs><clipPath id="clip1"><rect width="34" height="44.4938" fill="white" transform="translate(0 0.962891)"/></clipPath><clipPath id="clip1"><rect width="20" height="20" fill="white" transform="translate(7 7.96289)"/></clipPath></defs></svg>', width: 34, height: 45, anchor: [17, 45] }, listicon: { html: '<svg width="34" height="34" viewBox="0 0 34 34" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="17" cy="17" r="17" fill="#FF9100"/><g clip-path="url(#clip2)"><path fill-rule="evenodd" clip-rule="evenodd" d="M21.375 6.96289V14.2191C22.501 14.6081 23.2565 15.6684 23.2565 16.8598C23.2565 18.0511 22.501 19.1114 21.375 19.5004V26.7629L14.8625 23.2691L11.6375 26.4941L9.86875 24.7254L12.5563 22.0379L11.6438 21.5504H7V12.1754H11.6438L21.375 6.96289ZM18.875 11.1379L13.25 14.1504V19.5754L18.875 22.5879V11.1379ZM24.3115 18.9105L26.2229 20.746L25.3571 21.6476L23.4457 19.8121L24.3115 18.9105ZM12 14.6754H9.5V19.0504H12V14.6754ZM27 16.2379V17.4879H24.5V16.2379H27ZM25.3456 12.0055L26.2295 12.8894L24.3158 14.803L23.432 13.9191L25.3456 12.0055Z" fill="white"/></g><defs><clipPath id="clip2"><rect width="20" height="20" fill="white" transform="translate(7 6.96289)"/></clipPath></defs></svg>', width: 34, height: 34 } },
+        { name: "Overig", color: "#A00078", mapicon: { html: '<svg width="34" height="45" viewBox="0 0 34 45" fill="none" xmlns="http://www.w3.org/2000/svg"><g clip-path="url(#clip3)"><path d="M17 0.457031C26.3917 0.457031 34 7.99136 34 17.2918C34 29.9819 19.3587 42.9284 18.7259 43.4411L17 44.9509L15.2741 43.4411C14.6413 42.9284 0 29.9819 0 17.2918C0 7.99278 7.60829 0.457031 17 0.457031Z" fill="#A00078"/></g><mask id="mask3" mask-type="alpha" maskUnits="userSpaceOnUse" x="9" y="9" width="16" height="16"><path d="M13.25 21.207V24.957H9.5V21.207H13.25ZM18.875 21.207V24.957H15.125V21.207H18.875ZM24.5 21.207V24.957H20.75V21.207H24.5ZM13.25 15.582V19.332H9.5V15.582H13.25ZM18.875 15.582V19.332H15.125V15.582H18.875ZM24.5 15.582V19.332H20.75V15.582H24.5ZM13.25 9.95703V13.707H9.5V9.95703H13.25ZM18.875 9.95703V13.707H15.125V9.95703H18.875ZM24.5 9.95703V13.707H20.75V9.95703H24.5Z" fill="white"/></mask><g mask="url(#mask3)"><path fill-rule="evenodd" clip-rule="evenodd" d="M9.4375 24.9822H24.5125V9.90723H9.4375V24.9822Z" fill="white"/></g><defs><clipPath id="clip3"><rect width="34" height="44.4938" fill="white" transform="translate(0 0.457031)"/></clipPath></defs></svg>', width: 34, height: 45, anchor: [17, 45] }, listicon: { html: '<svg width="34" height="34" viewBox="0 0 34 34" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="17" cy="17" r="17" fill="#A00078"/><mask id="mask4" mask-type="alpha" maskUnits="userSpaceOnUse" x="9" y="9" width="16" height="16"><path d="M13.25 21.207V24.957H9.5V21.207H13.25ZM18.875 21.207V24.957H15.125V21.207H18.875ZM24.5 21.207V24.957H20.75V21.207H24.5ZM13.25 15.582V19.332H9.5V15.582H13.25ZM18.875 15.582V19.332H15.125V15.582H18.875ZM24.5 15.582V19.332H20.75V15.582H24.5ZM13.25 9.95703V13.707H9.5V9.95703H13.25ZM18.875 9.95703V13.707H15.125V9.95703H18.875ZM24.5 9.95703V13.707H20.75V9.95703H24.5Z" fill="white"/></mask><g mask="url(#mask4)"><path fill-rule="evenodd" clip-rule="evenodd" d="M9.4375 24.9822H24.5125V9.90723H9.4375V24.9822Z" fill="white"/></g></svg>', width: 34, height: 34 } },
       ],
       areas: [
         //{ name: "Heel West",
@@ -127,8 +126,8 @@ export default class OpenStadComponentIdeasOnMap extends OpenStadComponent {
 		document.addEventListener('updateSelectedIdea', function(event) {
       self.onUpdateSelectedIdea(event.detail.idea);
     });
-		document.addEventListener('updateNewIdea', function(event) {
-      self.onUpdateNewIdea(event.detail.idea);
+		document.addEventListener('closeSelectedLocation', function(event) {
+      self.onCloseSelectedLocation(event.detail.idea);
     });
 		document.addEventListener('updateEditIdea', function(event) {
       self.onUpdateEditIdea(event.detail.idea);
@@ -181,12 +180,10 @@ export default class OpenStadComponentIdeasOnMap extends OpenStadComponent {
           idea.image = (idea.posterImage && idea.posterImage.key) || (idea.extraData && idea.extraData.images && idea.extraData.images[0]) || "https://stemvanwest.amsterdam.nl/img/placeholders/idea.jpg";
           self.map.addIdea(idea);
 				});
-        // self.setState({ ideas });
-        // self.map.setBoundsAndCenter(self.map.markers);
 
         self.setState({ ideas }, function () {
           // xxx
-          // self.setNewIdea({ id: 'New Idea', location: { coordinates: [52.37104644463586,4.900402911007405] } })
+          // self.setSelectedLocation({ lat: 52.37104644463586, lng: 4.900402911007405 })
           // return setTimeout(function(){ self.showIdeaForm() }, 500)
           if (typeof showIdeaSelected == 'object') {
             // TODO: dit werkt niet
@@ -217,7 +214,7 @@ export default class OpenStadComponentIdeasOnMap extends OpenStadComponent {
     self.infoblock.setState({ mobileState: self.state.mobileState = 'opened' })
     self.setState({ status: 'idea-details', currentIdea: idea, mobileState: self.state.mobileState = 'opened' }, function() {
       self.map.map.invalidateSize();
-      self.map.hideMarkers({ exception: idea })
+      self.map.hideMarkers({ exception: { location: { lat: idea.location.coordinates[0], lng: idea.location.coordinates[1] } } })
     });
   }
 
@@ -233,10 +230,9 @@ export default class OpenStadComponentIdeasOnMap extends OpenStadComponent {
 
   showIdeaForm() {
     let self = this;
-    let idea = self.state.editIdea;
     self.setState({ status: 'idea-form' }, function() {
       self.map.map.invalidateSize();
-      self.map.hideMarkers({ exception: idea })
+      self.map.hideMarkers({ exception: { location: self.map.selectedLocation } })
     });
     // try {
     // } catch(err) {console.log(err);}
@@ -288,37 +284,6 @@ export default class OpenStadComponentIdeasOnMap extends OpenStadComponent {
     this.setState(state);
   }
 
-  createEditMarker(location) {
-    if (this.state.editMarker) {
-      this.removeEditMarker()
-    };
-    let marker = this.map.addMarker({ lat: location.lat, lng: location.lng, doNotCluster: true });
-    marker.data = this.state.editIdea;
-    this.setState({...this.state, editMarker: marker});
-  }
-
-  updateEditMarker(location) {
-    let self = this;
-    let idea = self.state.editIdea;
-    idea.location = location;
-    if ( self.state.editIdea ) self.setState({ editIdea: idea });
-    self.map.updateMarker(self.state.editMarker, { location: { lat: location.coordinates[0], lng: location.coordinates[1] } });
-    if (self.ideaform) {
-      self.ideaform.handleLocationChange({ location: idea.location, address: 'Bezig met adresgegevens ophalen...' });
-      self.map.getPointInfo({ lat: idea.location.coordinates[0], lng: idea.location.coordinates[1] }, null, function(json, marker) {
-        let address = json && json._display || 'Geen adres gevonden';
-        self.state.editIdea.address = address;
-        self.ideaform.handleLocationChange({ location: idea.location, address: address });
-      })
-
-    }
-  }
-
-  removeEditMarker() {
-    if (this.state.editMarker) this.map.removeMarker(this.state.editMarker);
-    this.setState({ ...this.state, editMarker: null });
-  }
-
   getVisibleIdeas() {
 		if ( this.state.mobileState == 'opened' ) { // werkt omdat hij alleen op mobiel opend kan zijn
       return this.state.visibleIdeas;
@@ -329,16 +294,26 @@ export default class OpenStadComponentIdeasOnMap extends OpenStadComponent {
     }
   }
 
+  setSelectedLocation(location) {
+    let self = this;
+    self.map.setSelectedLocation(location)
+    if (self.ideaform) {
+      if (!location) return;
+      self.ideaform.handleLocationChange({ location, address: 'Bezig met adresgegevens ophalen...' });
+			self.map.getPointInfo(location, null, function(json, marker) {
+				let address = json && json._display || 'Geen adres gevonden';
+				self.state.editIdea.address = address;
+				self.ideaform.handleLocationChange({ location, address: address });
+			})
+    }
+  }
+
   setNewIdea(idea) {
     let self = this;
     self.setState({ editIdea: idea }, function() {
       if (idea) {
         self.map.fadeMarkers({exception: [idea.location]});
-        if (self.state.editMarker) {
-          self.updateEditMarker(idea.location);
-        } else {
-          self.createEditMarker({ lat: idea.location.coordinates[0], lng: idea.location.coordinates[1] });  
-        }
+        self.setSelectedLocation({ lat: idea.location.coordinates[0], lng: idea.location.coordinates[1] });  
         if (self.infoblock) {
           self.setState({ editIdea: self.state.editIdea });
           self.infoblock.setNewIdea({ location: idea.location, address: 'Bezig met adresgegevens ophalen...' });
@@ -354,7 +329,7 @@ export default class OpenStadComponentIdeasOnMap extends OpenStadComponent {
         }
       } else {
         self.map.unfadeAllMarkers();
-        self.removeEditMarker();
+        self.setSelectedLocation(null);
         if (self.infoblock) {
           self.infoblock.setNewIdea(null);
           self.infoblock.updateIdeas({ ideas: self.getVisibleIdeas(), showSortButton: true });
@@ -399,11 +374,11 @@ export default class OpenStadComponentIdeasOnMap extends OpenStadComponent {
         break;
 
       case 'idea-form':
-        this.updateEditMarker({ coordinates: [ event.latlng.lat, event.latlng.lng ] })
+        this.setSelectedLocation(event.latlng)
         break;
 
       default:
-        if (this.selectedIdea || this.state.editMarker) {
+        if (this.selectedIdea || this.map.selectedLocation) {
           this.setState({ ...this.state, status: 'default', currentIdea: null });
           this.setSelectedIdea(null);
           this.setNewIdea(null);
@@ -445,6 +420,7 @@ export default class OpenStadComponentIdeasOnMap extends OpenStadComponent {
         if (this.state.editIdea) {
           this.setState({ status: 'default', currentIdea: null });
           this.setNewIdea(null);
+          this.setSelectedIdea(null);
           this.setSelectedIdea(null);
         } else {
           this.setState({ status: 'idea-selected', currentIdea: event.target.data });
@@ -511,10 +487,12 @@ export default class OpenStadComponentIdeasOnMap extends OpenStadComponent {
     });
   }
 
-	onUpdateNewIdea(idea) {
-    this.setState({ ...this.state, status: 'default', currentIdea: idea }, function() {
+	onCloseSelectedLocation() {
+    console.log('onCloseSelectedLocation');
+    this.setState({ ...this.state, status: 'default', currentIdea: null }, function() {
       this.setSelectedIdea(null);
-      this.setNewIdea(idea);
+      this.setNewIdea(null);
+      this.setSelectedLocation(null);
     });
   }
   
@@ -562,6 +540,7 @@ export default class OpenStadComponentIdeasOnMap extends OpenStadComponent {
     let self = this;
     self.setSelectedIdea(null);
     self.setNewIdea(null);
+    self.setSelectedLocation(null);
 	  self.map.setFilter(function(marker) {
 		  if (value && value !== '0') {
 			  return marker.data && eval(`marker.data.${self.config.typeField}`) && eval(`marker.data.${self.config.typeField}`) == value;
