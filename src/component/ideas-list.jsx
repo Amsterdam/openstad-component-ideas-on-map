@@ -41,10 +41,10 @@ export default class IdeasList extends React.Component {
 				ideas = ideas.sort( function(a,b) { return a.ranking - a.ranking });
 				break;
 			case 'newest':
-				ideas = ideas.sort( function(a,b) { return new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime() });
+				ideas = ideas.sort( function(a,b) { return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime() });
 				break;
 			case 'oldest':
-				ideas = ideas.sort( function(a,b) { return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime() });
+				ideas = ideas.sort( function(a,b) { return new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime() });
 				break;
 			case 'distance':
 				ideas = ideas

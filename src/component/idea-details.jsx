@@ -36,8 +36,36 @@ export default class IdeasDetails extends React.Component {
   }
 
 	componentDidMount(prevProps, prevState) {
-    this.fetchData();
+
+    let self = this;
+    
+		self.storedListener = function(event) {
+      self.onReactionStored(event.detail);
+    }
+    document.addEventListener('reactionStored', self.storedListener);
+		self.deletedListener = function(event) {
+      self.onReactionDeleted(event.detail);
+    }
+    document.addEventListener('reactionDeleted', self.deletedListener);
+
+    self.fetchData();
+
 	}
+
+  componentWillUnmount() {
+		document.removeEventListener('reactionStored', this.storedListener);
+		document.removeEventListener('reactionDeleted', this.deletedListener);
+  }
+  
+  onReactionStored(data) {
+    this.state.idea.argCount++;
+    this.setState({ idea: this.state.idea });
+  }
+
+  onReactionDeleted(data) {
+    this.state.idea.argCount--;
+    this.setState({ idea: this.state.idea });
+  }
 
   fetchData() {
 
@@ -70,10 +98,7 @@ export default class IdeasDetails extends React.Component {
     let self = this;
 
     let labelHTML = null;
-    console.log(self.config.labels);
-    console.log(self.props.label);
     if (self.config.labels && self.props.label) {
-      console.log(self.config.labels[ self.props.label ]);
       labelHTML = (
         <div className="ocs-idea-label" style={{ color: self.config.labels[ self.props.label ].color, backgroundColor: self.config.labels[ self.props.label ].backgroundColor }}>{self.props.label}</div>
       );

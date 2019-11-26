@@ -96,6 +96,7 @@ export default class OpenStadComponentReactions extends React.Component {
 			onSubmit: self.handleOnSubmit.bind(this),
 		}, self.config || {});
 
+    console.log(config);
 
     return (
 			<div id={this.id} className={self.props.className || 'openstad-component-reactions'} ref={el => (this.instance = el)} >

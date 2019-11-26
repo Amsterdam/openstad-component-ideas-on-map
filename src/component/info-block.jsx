@@ -93,29 +93,41 @@ export default class InfoBlock extends React.Component {
 
     // new idea
     if (self.state.newIdea) {
-      let button = null;
-      if (self.config.api.isUserLoggedIn) {
-        button = (
-          <button className="openstad-button openstad-button-blue" onClick={(event) => self.dispatchNewIdeaClick(event)} ref={el => (self.newIdeaButton = el)}>Nieuwe kans of knelpunt toevoegen</button>
+      if (self.state.newIdea.isPointInPolygon) {
+        let button = null;
+        if (self.config.api.isUserLoggedIn) {
+          button = (
+            <button className="openstad-button openstad-button-blue" onClick={(event) => self.dispatchNewIdeaClick(event)} ref={el => (self.newIdeaButton = el)}>Nieuwe kans of knelpunt toevoegen</button>
+          );
+        } else {
+          button = (
+            <button onClick={() => { document.location.href = '/oauth/login?returnTo=' + encodeURIComponent(document.location.href) }} className="openstad-button-blue openstad-not-logged-in-button">Inloggen</button>
+          );
+        }
+        newIdeaHTML = (
+			    <div className="openstad-component-info-block-new-idea">
+            <button className="openstad-close-button" onClick={(event) => self.dispatchCloseSelectedLocation(event, null)} ref={el => (self.resetButton = el)}/>
+              <h3>Geselecteerd</h3>
+              <p>Een locatie vlakbij</p>
+              <h4>{self.state.newIdea.address}</h4>
+              {/* <h4>{self.state.newIdea.location.coordinates[0]},{self.state.newIdea.location.coordinates[1]}</h4> */}
+              <p>Op deze exacte locatie is nog geen kans of knelpunt ingediend. Wellicht heeft een medebewoner wel al in de buurt een melding gedaan waar u aan wilt bijdragen, dit kunt u bekijken in de lijst hieronder. Wilt u een nieuw kans of knelpunt toevoegen? Klik dan hier:</p>
+              <div className="openstad-align-right-container">
+                {button}
+              </div>
+          </div>
         );
       } else {
-        button = (
-          <button onClick={() => { document.location.href = '/oauth/login?returnTo=' + encodeURIComponent(document.location.href) }} className="openstad-button-blue openstad-not-logged-in-button">Inloggen</button>
+        newIdeaHTML = (
+			    <div className="openstad-component-info-block-new-idea">
+            <button className="openstad-close-button" onClick={(event) => self.dispatchCloseSelectedLocation(event, null)} ref={el => (self.resetButton = el)}/>
+            <h3>Geselecteerd</h3>
+            <p>U heeft een locatie geselecteerd buiten het begrensde gebied. U kunt via deze website geen melding op deze locatie inzenden.</p>
+            <p>Wilt u iets melden over de omliggende straten en pleinen? Dan horen we dit graag van u via e-mail. Klik daarvoor op de link hieronder of stuur direct een e-mail naar gerarddoubuurt@amsterdam.nl.</p>
+            <a className="openstad-link" href="mailto: gerarddoubuurt@amsterdam.nl">Meld een kans of knelpunt via e-mail</a>
+          </div>
         );
       }
-      newIdeaHTML = (
-			  <div className="openstad-component-info-block-new-idea">
-          <button className="openstad-close-button" onClick={(event) => self.dispatchCloseSelectedLocation(event, null)} ref={el => (self.resetButton = el)}/>
-          <h3>Geselecteerd</h3>
-          <p>Een locatie vlakbij</p>
-          <h4>{self.state.newIdea.address}</h4>
-          {/* <h4>{self.state.newIdea.location.coordinates[0]},{self.state.newIdea.location.coordinates[1]}</h4> */}
-          <p>Op deze exacte locatie is nog geen kans of knelpunt ingediend. Wellicht heeft een medebewoner wel al in de buurt een melding gedaan waar u aan wilt bijdragen, dit kunt u bekijken in de lijst hieronder. Wilt u een nieuw kans of knelpunt toevoegen? Klik dan hier:</p>
-          <div className="openstad-align-right-container">
-            {button}
-          </div>
-        </div>
-      );
       titleAddition = 'in de buurt';
       mobileTitle = 'Meer details en acties';
     }
@@ -139,6 +151,9 @@ export default class InfoBlock extends React.Component {
               <div className="openstad-stats">
                 <div className="openstad-likes">
                   {idea.yes || 0}
+                </div>
+                <div className="openstad-reactions">
+                  {idea.argCount || 0}
                 </div>
                 <div className="openstad-type">
                   <div className="openstad-type-content" dangerouslySetInnerHTML={{ __html: typeDef.listicon.html }}></div>

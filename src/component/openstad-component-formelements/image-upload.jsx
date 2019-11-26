@@ -73,7 +73,7 @@ export default class OpenStadComponentImageUpload extends OpenStadComponentForme
 				// set allowed file types with mime types
 				acceptedFileTypes: ['image/*'],
 				allowFileSizeValidation: true,
-				maxFileSize: '5mb',
+				maxFileSize: '8mb',
 				name: 'image',
 				maxFiles: 3,
 				allowBrowse: true,

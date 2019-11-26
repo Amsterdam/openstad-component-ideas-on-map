@@ -78,6 +78,10 @@ export default class OpenStadComponentReaction extends React.Component {
 			})
 			.then(function (json){
         self.setState({ isDeleted: true });
+
+		    var event = new CustomEvent('reactionDeleted', { detail: { ideaId: self.config.ideaId } });
+		    document.dispatchEvent(event);
+
 			})
 			.catch(function (error) {
 				console.log(error);

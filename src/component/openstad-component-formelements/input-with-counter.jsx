@@ -32,7 +32,7 @@ export default class OpenStadComponentFormfieldsInputWithCounter extends React.C
 
 	validate() {
 		let state = { ...this.state };
-		let isValid = true;
+		state.isValid = true;
 		state.warning = null;
 		if (this.state.valueLength < this.config.minLength) {
 			state.warning = `Je ${this.config.name} is te kort`;

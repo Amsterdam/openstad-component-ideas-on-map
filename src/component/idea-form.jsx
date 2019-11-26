@@ -164,7 +164,8 @@ export default class IdeasForm extends React.Component {
   submitIdea() {
 
     var self = this;
-    
+
+    console.log(1);
 	  if ( !self.validateIdea() ) return;
 
 	  if (!self.config.api.isUserLoggedIn) return alert('Je bent niet ingelogd');
@@ -208,6 +209,8 @@ export default class IdeasForm extends React.Component {
 
     let self = this;
 
+    console.log(self.state);
+
     return (
 			<div id={self.id} className={self.props.className || 'openstad-component-info-block-idea-form'} ref={el => (self.instance = el)}>
 
@@ -218,6 +221,13 @@ export default class IdeasForm extends React.Component {
 				  <input type="hidden" id="extraData" name="extraData" value=""/>
           
 				  <h1>Kans of knelpunt toevoegen</h1>
+
+          <div className="osc-form-group">
+					  <h2>
+            Naam
+					  </h2>
+            {self.state.formfields.userName}
+          </div>
 
           <div className="osc-form-group">
 					  <h2>

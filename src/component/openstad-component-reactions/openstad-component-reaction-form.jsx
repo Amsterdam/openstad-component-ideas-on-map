@@ -75,6 +75,9 @@ export default class OpenStadComponentReactions extends React.Component {
 
         self.setState({ description: '' });
 
+		    var event = new CustomEvent('reactionStored', { detail: { ideaId: self.config.ideaId } });
+		    document.dispatchEvent(event);
+
 			})
 			.catch(function (error) {
 				console.log(error);

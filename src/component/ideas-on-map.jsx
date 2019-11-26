@@ -96,13 +96,19 @@ export default class OpenStadComponentIdeasOnMap extends OpenStadComponent {
 
 	componentDidMount(prevProps, prevState) {
 
+    // return from anonymous login
+    let match = document.location.href.match(/(?:\?|&)votePending=(\d+)/);
+    if (match) {
+      document.location.href = document.location.href.replace(/(\?|&)votePending=(\d+)/, `#details=${match[1]}&votePending=${match[1]}`)
+    }
+
     let self = this;
 
     // when the map is ready
 		self.map.instance.addEventListener('mapIsReady', function(e) {
 
       // fetch the data
-      self.fetchData();
+      self.fetchData({});
 
       // handle map changes
       self.map.map.on('zoomend', function() {
@@ -149,6 +155,12 @@ export default class OpenStadComponentIdeasOnMap extends OpenStadComponent {
 		document.addEventListener('ideaLiked', function(event) {
       self.onIdeaLiked(event.detail);
     });
+		document.addEventListener('reactionStored', function(event) {
+      self.onReactionStored(event.detail);
+    });
+		document.addEventListener('reactionDeleted', function(event) {
+      self.onReactionDeleted(event.detail);
+    });
 
     // form changes
 		document.addEventListener('newIdeaStored', function(event) {
@@ -157,11 +169,15 @@ export default class OpenStadComponentIdeasOnMap extends OpenStadComponent {
     
 	}
 
-  fetchData() {
+  fetchData({ showIdeaDetails, showIdeaSelected }) {
 
     let self = this;
     let url = `${ self.config.api.url }/api/site/${  self.config.siteId  }/idea?includeVoteCount=1&includeArguments=1&includeUser=1`;
-		
+
+    // remove existing
+    self.map.markers.map( marker => self.map.removeMarker(marker) );
+    self.map.markers = [];
+
     fetch(url, {
       headers: {
         'Content-Type': 'application/json',
@@ -171,11 +187,17 @@ export default class OpenStadComponentIdeasOnMap extends OpenStadComponent {
         return response.json();
       })
       .then( json => {
-        let showIdeaDetails = document.location.hash.replace(/.*details=(\d+).*/, "$1");
-        let showIdeaSelected = document.location.hash.replace(/.*selected=(\d+).*/, "$1");
+        showIdeaDetails = showIdeaDetails || document.location.hash.replace(/.*details=(\d+).*/, "$1");
+        showIdeaSelected = showIdeaSelected || document.location.hash.replace(/.*selected=(\d+).*/, "$1");
         let ideas = json.filter( idea => idea.location )
         ideas.map( idea => {
-          if ( idea.id == showIdeaDetails) showIdeaDetails = idea;
+          if ( idea.id == showIdeaDetails) {
+            let match = document.location.href.match(/(?:\?|&)votePending=(\d+)/);
+            if (match) {
+              idea.votePending = true;
+            }
+            showIdeaDetails = idea;
+          }
           if ( idea.id == showIdeaSelected) showIdeaSelected = idea;
           idea.image = (idea.posterImage && idea.posterImage.key) || (idea.extraData && idea.extraData.images && idea.extraData.images[0]) || "https://stemvanwest.amsterdam.nl/img/placeholders/idea.jpg";
           self.map.addIdea(idea);
@@ -186,10 +208,14 @@ export default class OpenStadComponentIdeasOnMap extends OpenStadComponent {
           // self.setSelectedLocation({ lat: 52.37104644463586, lng: 4.900402911007405 })
           // return setTimeout(function(){ self.showIdeaForm() }, 500)
           if (typeof showIdeaSelected == 'object') {
-            // TODO: dit werkt niet
-            // self.setState({ status: 'idea-selected', currentIdea: showIdeaSelected });
-            // self.setNewIdea(null);
-            // self.setSelectedIdea(showIdeaSelected);
+						self.setNewIdea(null);
+						self.setSelectedIdea(showIdeaSelected);
+            self.setState({ status: 'idea-selected', currentIdea: showIdeaSelected }, function() {
+              // todo: dit zou hij zelf via state moeten doen
+              self.map.map.invalidateSize();
+              self.map.showMarkers(self.map.markers)
+              self.setSelectedIdea(self.state.currentIdea)
+            });
           }
           if (typeof showIdeaDetails == 'object') {
 						self.setSelectedIdea(showIdeaDetails);
@@ -197,6 +223,12 @@ export default class OpenStadComponentIdeasOnMap extends OpenStadComponent {
 					  self.showIdeaDetails(showIdeaDetails);
           }
           self.onChangeMapBoundaries();
+          // dev form
+          //if (!showIdeaSelected) {
+					//  self.setSelectedIdea(null);
+					//  self.setNewIdea({ location: { coordinates: [52.37104644463586, 4.900402911007405] }, title: "Rutrum tincidunt", type: "Kans", theme: "Overig", summary: "rutrum tincidunt, dui sapien feugiat justo, eget egestas ligula nulla nec erat.", description: "rutrum tincidunt, dui sapien feugiat justo, eget egestas ligula nulla nec erat. maecenas tempus tempor eros. donec a justo. curabitur tellus. pellentesque risus. fusce at arcu. ut lacinia mi vel lectus. phasellus imperdiet. fusce luctus lacus a odio. in et turpis at libero tristique vulputate. sed varius ipsum. suspendisse potenti. suspendisse potenti. donec tempus arcu quis metus."});
+					//  self.showIdeaForm();
+          //}
 				});
 
       })
@@ -211,8 +243,9 @@ export default class OpenStadComponentIdeasOnMap extends OpenStadComponent {
     let self = this;
     self.setSelectedIdea(idea);
     history.replaceState(undefined, undefined, idea ? '#details=' + idea.id : '')
-    self.infoblock.setState({ mobileState: self.state.mobileState = 'opened' })
-    self.setState({ status: 'idea-details', currentIdea: idea, mobileState: self.state.mobileState = 'opened' }, function() {
+    // self.infoblock.setState({ mobileState: self.state.mobileState = 'opened' })
+    self.setState({ status: 'idea-details', currentIdea: idea }, function() {
+    // self.setState({ status: 'idea-details', currentIdea: idea, mobileState: self.state.mobileState = 'opened' }, function() {
       self.map.map.invalidateSize();
       self.map.hideMarkers({ exception: { location: { lat: idea.location.coordinates[0], lng: idea.location.coordinates[1] } } })
     });
@@ -310,19 +343,20 @@ export default class OpenStadComponentIdeasOnMap extends OpenStadComponent {
 
   setNewIdea(idea) {
     let self = this;
+    if (idea) idea.isPointInPolygon = idea.location && self.map.isPointInPolygon( { lat: idea.location.coordinates[0], lng: idea.location.coordinates[1] }, self.config.map.polygon )
     self.setState({ editIdea: idea }, function() {
       if (idea) {
         self.map.fadeMarkers({exception: [idea.location]});
         self.setSelectedLocation({ lat: idea.location.coordinates[0], lng: idea.location.coordinates[1] });  
         if (self.infoblock) {
           self.setState({ editIdea: self.state.editIdea });
-          self.infoblock.setNewIdea({ location: idea.location, address: 'Bezig met adresgegevens ophalen...' });
+          self.infoblock.setNewIdea({ ...self.state.editIdea, address: 'Bezig met adresgegevens ophalen...' });
           self.map.getPointInfo({ lat: idea.location.coordinates[0], lng: idea.location.coordinates[1] }, null, function(json, marker) {
             let address = json && json._display || 'Geen adres gevonden';
             let editIdea = self.state.editIdea;
             editIdea.address = address;
             self.setState({ editIdea });
-            self.infoblock.setNewIdea({ location: idea.location, address });
+            self.infoblock.setNewIdea({ ...self.state.editIdea, address });
           })
           //self.infoblock.updateIdeas({ ideas: self.getVisibleIdeas().filter( x => x.id != idea.id ), sortOrder: 'distance', showSortButton: false, center: { lat: idea.location.coordinates[0], lng: idea.location.coordinates[1] }, maxLength: 5 });
           self.infoblock.updateIdeas({ ideas: self.state.ideas.filter( x => x.id != idea.id ), sortOrder: 'distance', showSortButton: false, center: { lat: idea.location.coordinates[0], lng: idea.location.coordinates[1] }, maxLength: 5 });
@@ -339,7 +373,7 @@ export default class OpenStadComponentIdeasOnMap extends OpenStadComponent {
   }
 
   setSelectedIdea(idea) {
-    history.replaceState(undefined, undefined, idea ? '#selected=' + idea.id : '')
+    history.replaceState(undefined, undefined, idea ? '#selected=' + idea.id : '#')
     this.selectedIdea = idea;
     if (idea) {
       this.map.fadeMarkers({exception: idea});
@@ -359,7 +393,6 @@ export default class OpenStadComponentIdeasOnMap extends OpenStadComponent {
   
 	onMapClick(event) {
 
-		
 		if ( this.state.mobileState == 'opened' ) { // werkt omdat hij alleen op mobiel opend kan zijn
 			this.infoblock.setState({ mobileState: 'closed' })
 			this.setState({ mobileState: 'closed' }, function() {
@@ -374,7 +407,8 @@ export default class OpenStadComponentIdeasOnMap extends OpenStadComponent {
         break;
 
       case 'idea-form':
-        this.setSelectedLocation(event.latlng)
+        let isPointInPolygon = this.map.isPointInPolygon( event.latlng, this.config.map.polygon );
+        if (isPointInPolygon) this.setSelectedLocation(event.latlng)
         break;
 
       default:
@@ -488,7 +522,6 @@ export default class OpenStadComponentIdeasOnMap extends OpenStadComponent {
   }
 
 	onCloseSelectedLocation() {
-    console.log('onCloseSelectedLocation');
     this.setState({ ...this.state, status: 'default', currentIdea: null }, function() {
       this.setSelectedIdea(null);
       this.setNewIdea(null);
@@ -518,22 +551,33 @@ export default class OpenStadComponentIdeasOnMap extends OpenStadComponent {
   onNewIdeaStored(idea) {
     let self = this;
     self.setNewIdea(null);
-    self.setState({ ideas: [ ...self.state.ideas, idea ] }, function() {
+    // reload
+    // xxx
+    self.fetchData({showIdeaSelected: idea.id});
 
-      idea.image = (idea.posterImage && idea.posterImage.key) || (idea.extraData && idea.extraData.images && idea.extraData.images[0]) || "https://stemvanwest.amsterdam.nl/img/placeholders/idea.jpg";
-      self.map.addIdea(idea);
-      self.map.showMarkers()
-
-      self.setState({ status: 'idea-selected', currentIdea: idea }, function() {
-        self.setSelectedIdea(idea)
-      })
-
-    })
+    // self.setState({ ideas: [ ...self.state.ideas, idea ] }, function() {
+    //   idea.image = (idea.posterImage && idea.posterImage.key) || (idea.extraData && idea.extraData.images && idea.extraData.images[0]) || "https://stemvanwest.amsterdam.nl/img/placeholders/idea.jpg";
+    //   self.map.addIdea(idea);
+    //   self.map.showMarkers()
+    //   self.setState({ status: 'idea-selected', currentIdea: idea }, function() {
+    //     self.setSelectedIdea(idea)
+    //   })
+    // })
   }
 
   onIdeaLiked(data) {
     let idea = this.state.ideas.find( idea => idea.id == data.ideaId );
     idea.yes += data.change;
+  }
+
+  onReactionStored(data) {
+    let idea = this.state.ideas.find( idea => idea.id == data.ideaId );
+    idea.argCount++;
+  }
+
+  onReactionDeleted(data) {
+    let idea = this.state.ideas.find( idea => idea.id == data.ideaId );
+    idea.argCount--;
   }
   
   onChangeTypeFilter(value) {
@@ -548,6 +592,7 @@ export default class OpenStadComponentIdeasOnMap extends OpenStadComponent {
 			  return true;
 		  }
 	  })
+    self.setState({ status: 'default' })
     self.onChangeMapBoundaries(); // todo: rename
   }
 
@@ -557,6 +602,7 @@ export default class OpenStadComponentIdeasOnMap extends OpenStadComponent {
     self.setNewIdea(null);
     self.removeCurrentPolygon();
     self.setCurrentPolygon( area && area.polygon );
+    self.setState({ status: 'default' })
     self.map.setBoundsAndCenter(area && area.polygon || self.config.map.polygon || self.map.markers);
   }
 
@@ -604,7 +650,7 @@ export default class OpenStadComponentIdeasOnMap extends OpenStadComponent {
 
       case 'idea-form':
         infoHTML = (
-			    <IdeaForm id={this.divId + '-infoblock'} config={{ siteId: this.config.siteId, api: this.config.api, ...this.config.idea, formfields: { ...this.state.editIdea } }} className="openstad-component-ideas-on-map-info" mobileState={this.state.mobileState} ref={el => (this.ideaform = el)}/>
+			    <IdeaForm id={this.divId + '-infoblock'} config={{ siteId: this.config.siteId, api: this.config.api, ...this.config.idea, formfields: { ...this.state.editIdea, userName: this.config.user.fullName } }} className="openstad-component-ideas-on-map-info" mobileState={this.state.mobileState} ref={el => (this.ideaform = el)}/>
         );
         filterHTML = (
 				  <div className="openstad-component-ideas-on-map-filterbar"><div className="openstad-component-backbutton" onClick={() => this.hideIdeaForm()}>Terug naar overzicht</div></div>
@@ -613,17 +659,20 @@ export default class OpenStadComponentIdeasOnMap extends OpenStadComponent {
 
       case 'location-selected':
       case 'idea-selected':
+        console.log('?1');
         if (this.state.status == 'location-selected') {
-          let buttonHTML = this.config.api.isUserLoggedIn
-              ? (<button className="openstad-button openstad-button-blue" onClick={(event) => { this.onClickMobileSwitcher(event); this.onNewIdeaClick(event)} } ref={el => (self.newIdeaButton = el)}>Kans of knelpunt toevoegen</button>)
-              : (<div>Wilt u een kans of knelpunt toevoegen? Dan moet u eerst <a href="javascript: document.location.href = '/oauth/login?returnTo=' + encodeURIComponent(document.location.href)">inloggen</a>.</div>);
-          mobilePopupHTML = (
-            <div className="ocs-mobile-popup">
-              Een locatie vlakbij
-              <h4>{this.state.editIdea && this.state.editIdea.address}</h4>
-              {buttonHTML}
-            </div>
-          );
+          if (this.state.editIdea && this.state.editIdea.isPointInPolygon) {
+            let buttonHTML = this.config.api.isUserLoggedIn
+                ? (<button className="openstad-button openstad-button-blue" onClick={(event) => { this.onClickMobileSwitcher(event); this.onNewIdeaClick(event)} } ref={el => (self.newIdeaButton = el)}>Kans of knelpunt toevoegen</button>)
+                : (<div>Wilt u een kans of knelpunt toevoegen? Dan moet u eerst <a href="javascript: document.location.href = '/oauth/login?returnTo=' + encodeURIComponent(document.location.href)">inloggen</a>.</div>);
+            mobilePopupHTML = (
+              <div className="ocs-mobile-popup">
+                Een locatie vlakbij
+                <h4>{this.state.editIdea && this.state.editIdea.address}</h4>
+                {buttonHTML}
+              </div>
+            );
+          }
         } else {
           mobilePopupHTML = (
             <div className="ocs-mobile-popup ocs-clickable" onClick={ () => this.showIdeaDetails(this.state.currentIdea) }>
@@ -632,14 +681,23 @@ export default class OpenStadComponentIdeasOnMap extends OpenStadComponent {
             </div>
           );
         }
-
-      default:
         infoHTML = (
 			    <InfoBlock id={this.divId + '-infoblock'} config={{ api: this.config.api, title: this.config.title, titleField: this.config.titleField, summaryField: this.config.summaryField, types: this.config.types  }} className="openstad-component-ideas-on-map-info" mobileState={this.state.mobileState} ref={el => (this.infoblock = el)}/>
         );
         filterHTML = (
 				  <Filterbar id={this.divId + '-filterbar'} config={{ types: this.config.types, areas: this.config.areas, doSearchFunction: this.config.doSearchFunction, title: this.config.title }} className="openstad-component-ideas-on-map-filterbar" ref={el => (this.filterbar = el)}/>
         );
+        break;
+
+      default:
+        console.log('?2');
+        infoHTML = (
+			    <InfoBlock id={this.divId + '-infoblock'} config={{ api: this.config.api, title: this.config.title, titleField: this.config.titleField, summaryField: this.config.summaryField, types: this.config.types  }} className="openstad-component-ideas-on-map-info" mobileState={this.state.mobileState} ref={el => (this.infoblock = el)}/>
+        );
+        filterHTML = (
+				  <Filterbar id={this.divId + '-filterbar'} config={{ types: this.config.types, areas: this.config.areas, doSearchFunction: this.config.doSearchFunction, title: this.config.title }} className="openstad-component-ideas-on-map-filterbar" ref={el => (this.filterbar = el)}/>
+        );
+        mobilePopupHTML = null;
         break;
             
     }

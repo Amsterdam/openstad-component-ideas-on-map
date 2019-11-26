@@ -26,7 +26,12 @@ export default class VoteButton extends React.Component {
   }
 
 	componentDidMount(prevProps, prevState) {
-	}
+    // return from anonymous login
+    let votePending = this.props.idea && this.props.idea.votePending;
+    if (votePending) {
+			this.doVote(new Event('x'));
+		}
+  }
 
   doVote(e) {
 
@@ -39,8 +44,11 @@ export default class VoteButton extends React.Component {
     let url = `${ self.config.api.url }/api/site/${ self.config.siteId }/vote`;
 		let headers = Object.assign(( self.config.api && self.config.api.headers || {} ), { "Content-type": "application/json" });
 
-    // if (!self.config.api.isUserLoggedIn) url += '?useOauth=anoniemestemmers'
-    if (!self.config.api.isUserLoggedIn) return alert('Log eerst in; anoniem stemmen moet nog.')
+    // if (!self.config.api.isUserLoggedIn) url += '?useOauth=anonymous'
+    if (!self.config.api.isUserLoggedIn) {
+      let loginUrl =  '/oauth/login?returnTo=' + encodeURIComponent(document.location.href.replace('#', '?votePending=' + self.props.idea.id + '#')) + '&useOauth=anonymous';
+      return document.location.href = loginUrl;
+    }
 
     fetch(url, {
       method: 'post',

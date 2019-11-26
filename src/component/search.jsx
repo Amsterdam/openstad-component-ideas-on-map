@@ -90,7 +90,7 @@ export default class Search extends React.Component {
 			<div id={self.id} className={self.props.className || 'openstad-component-search'} ref={el => (self.instance = el)}>
 
 				{suggestionsHTML}
-				<input type="text" onChange={() => self.handleChange( self.inputfield.value )} onBlur={() => self.hideSuggestions()} onFocus={() => self.showSuggestions()} className="openstad-default-input openstad-component-search-input" ref={el => (self.inputfield = el)}/>
+				<input type="text" placeholder="Zoek op trefwoord" onChange={() => self.handleChange( self.inputfield.value )} onBlur={() => self.hideSuggestions()} onFocus={() => self.showSuggestions()} className="openstad-default-input openstad-component-search-input" ref={el => (self.inputfield = el)}/>
 
 			</div>
     );

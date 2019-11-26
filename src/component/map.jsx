@@ -83,7 +83,9 @@ export default class Map extends OpenStadComponentNLMap {
   fadeMarkers({ exception }) {
     let self = this;
     self.markers.forEach((marker) => {
-      if (!(exception && marker.data && marker.data.id && exception.id == marker.data.id)) {
+      if (exception && marker.data && marker.data.id && exception.id == marker.data.id) {
+        if (marker.data) marker.data.isFaded = false;
+      } else {
         if (marker.data) marker.data.isFaded = true;
         let visibleParent = self.markerClusterGroup.getVisibleParent(marker);
         let ignore = visibleParent && visibleParent.getAllChildMarkers && visibleParent.getAllChildMarkers().find( m => m.data && m.data.isFaded === false );
