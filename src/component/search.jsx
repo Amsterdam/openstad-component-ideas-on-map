@@ -74,7 +74,7 @@ export default class Search extends React.Component {
 					Adressen:
           { self.state.searchResult.locations.map((result, i) => {
 						let text = result.text.replace(new RegExp(self.state.searchValue, 'ig'), ($0) => '<strong>' + $0 + '</strong>');
-            return <div className="openstad-component-search-suggestion openstad-component-search-suggestion-idea" onClick={ result.onClick } key={'search-result-' + i} dangerouslySetInnerHTML={text}></div>;
+            return <div className="openstad-component-search-suggestion openstad-component-search-suggestion-idea" onClick={ result.onClick } key={'search-result-' + i} dangerouslySetInnerHTML={{__html: text}}></div>;
           })}
 					<div className="openstad-component-search-suggestions-hr"/>
 					{ this.config.title }:

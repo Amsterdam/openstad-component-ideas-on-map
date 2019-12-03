@@ -288,6 +288,8 @@ export default class OpenStadComponentIdeasOnMap extends OpenStadComponent {
     let searchValueLc = searchValue.toLowerCase();
 
 		let searchResult = { ideas: [], locations: [] };
+
+    // search in ideas
 		this.state.ideas.forEach((idea) => {
 			let title = eval(`idea.${self.config.titleField}`) || '';
       let titlelLc = title.toLowerCase();
@@ -301,7 +303,53 @@ export default class OpenStadComponentIdeasOnMap extends OpenStadComponent {
 			}
 		});
 
-		callback(searchValue, searchResult)
+    // search for addresses
+    fetch('https://geodata.nationaalgeoregister.nl/locatieserver/v3/suggest?rows=5&fq=gemeentenaam:amsterdam&fq=*:*&q=' + searchValueLc, {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    })
+			.then((response) => {
+				return response.json();
+			})
+      .then( json => {
+        if (json && json.response && json.response.docs && json.response.docs.length) {
+          searchResult.locations = json.response.docs.map( found => { return {
+						text: found.weergavenaam,
+						onClick: function() { onClickAddress(found.id) },
+					}});
+        }
+        callback(searchValue, searchResult)
+      })
+      .catch((err) => {
+        console.log('Search failed:', err);
+        callback(searchValue, searchResult)
+      });
+    
+    function onClickAddress(id) {
+      fetch('https://geodata.nationaalgeoregister.nl/locatieserver/v3/lookup?fq=gemeentenaam:amsterdam&&id=' + id, {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      })
+			  .then((response) => {
+				  return response.json();
+			  })
+        .then( json => {
+          console.log(json);
+          if (json && json.response && json.response.docs && json.response.docs[0]) {
+            let centroide_ll = json.response.docs[0].centroide_ll;
+            let match = centroide_ll.match(/POINT\((\d+\.\d+) (\d+\.\d+)\)/);
+            self.map.map.panTo(new L.LatLng(match[2], match[1]));
+          }
+        })
+        .catch((err) => {
+          console.log('Search failed:', err);
+          callback(searchValue, searchResult)
+        });
+      
+    }
+		
 	}
 
   setCurrentPolygon(polygon) {
