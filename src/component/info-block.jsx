@@ -111,10 +111,8 @@ export default class InfoBlock extends React.Component {
               <p>Een locatie vlakbij</p>
               <h4>{self.state.newIdea.address}</h4>
               {/* <h4>{self.state.newIdea.location.coordinates[0]},{self.state.newIdea.location.coordinates[1]}</h4> */}
-              <p>Op deze exacte locatie is nog geen kans of knelpunt ingediend. Wellicht heeft een medebewoner wel al in de buurt een melding gedaan waar u aan wilt bijdragen, dit kunt u bekijken in de lijst hieronder. Wilt u een nieuw kans of knelpunt toevoegen? Klik dan hier:</p>
-              <div className="openstad-align-right-container">
-                {button}
-              </div>
+              <p>Op deze locatie is nog geen kans of knelpunt ingestuurd. Wellicht heeft een medebewoner al een vergelijkbare melding gedaan waaraan u kunt bijdragen. Bekijk de inzendingen in de buurt in onderstaande lijst. Wilt u een nieuw kans of knelpunt toevoegen? Klik dan hier:</p>
+              {button}
           </div>
         );
       } else {
@@ -175,7 +173,7 @@ export default class InfoBlock extends React.Component {
       defaultBlockHTML = (
 			  <div className="openstad-component-info-block-default-block">
           <div className="openstad-component-info-block-default-block-line openstad-component-line-1">
-            <strong>Selecteer een plaats</strong> op de kaart om een <strong>nieuwe kans of knelpunt toe te voegen</strong>, of hieronder een lijstje met inzendingen in die buurt te zien.
+            <strong>Klik op een plek</strong> op de kaart om een <strong>nieuwe kans of knelpunt toe te voegen</strong>.
           </div>
           <div className="openstad-component-info-block-default-block-line openstad-component-line-2">
             <strong>Selecteer een inzending</strong> op de kaart om <strong>meer informatie</strong> over de kans of het knelpunt te bekijken.
@@ -200,7 +198,7 @@ export default class InfoBlock extends React.Component {
 
     // TODO: kan de key weg uit IdeasList
     return (
-			<div id={self.id} className={self.props.className || 'openstad-component-info-block'} ref={el => (self.instance = el)}>
+			<div id={self.props.id} className={self.props.className || 'openstad-component-info-block'} ref={el => (self.instance = el)}>
         {mobileSwitcherHTML}
 			  <div className="osc-info-content">
           {defaultBlockHTML}

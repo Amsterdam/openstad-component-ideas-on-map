@@ -16,6 +16,7 @@ export default class OpenStadComponentFormfieldsInputWithCounter extends React.C
 			inputType: 'input',
 			minLength: 5,
 			maxLength: 10,
+      placeholder: '',
 		};
 
 		self.config = Object.assign(self.defaultConfig, self.config, props.config || {})
@@ -108,14 +109,14 @@ export default class OpenStadComponentFormfieldsInputWithCounter extends React.C
     switch(self.config.inputType) {
       case 'textarea':
         inputHTML = (
-				  <textarea ref={el => (self.input = el)} value={this.props.value} onChange={e => self.handleOnChange({ value: self.input.value })} onKeyUp={e => self.handleInputKeyUp(e)} onFocus={e => self.handleInputFocus(e)} onBlur={e => self.handleInputBlur(e)}></textarea>
+				  <textarea ref={el => (self.input = el)} value={this.props.value} disabled={this.props.disabled} placeholder={this.config.placeholder} onChange={e => self.handleOnChange({ value: self.input.value })} onKeyUp={e => self.handleInputKeyUp(e)} onFocus={e => self.handleInputFocus(e)} onBlur={e => self.handleInputBlur(e)}></textarea>
         );
         break;
 
       case 'input':
       default:
         inputHTML = (
-				  <input ref={el => (self.input = el)} value={this.props.value} onChange={e => self.handleOnChange({ value: self.input.value })} onKeyUp={e => self.handleInputKeyUp(e)} onFocus={e => self.handleInputFocus(e)} onBlur={e => self.handleInputBlur(e)}></input>
+				  <input ref={el => (self.input = el)} value={this.props.value} disabled={this.props.disabled} placeholder={this.config.placeholder} onChange={e => self.handleOnChange({ value: self.input.value })} onKeyUp={e => self.handleInputKeyUp(e)} onFocus={e => self.handleInputFocus(e)} onBlur={e => self.handleInputBlur(e)}></input>
         );
 
     }

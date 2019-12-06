@@ -1,3 +1,5 @@
+import merge from 'merge';
+import storage from '../lib/localstorage.js';
 import React from 'react';
 import Search from './search.jsx';
 
@@ -16,7 +18,7 @@ export default class VoteButton extends React.Component {
       text: 'like',
       opinion: 'yes',
 		};
-		this.config = Object.assign(defaultConfig, this.props.config || {})
+		this.config = merge.recursive(defaultConfig, this.config, this.props.config || {})
 
     this.state = {
       value: this.props.value,
@@ -27,9 +29,10 @@ export default class VoteButton extends React.Component {
 
 	componentDidMount(prevProps, prevState) {
     // return from anonymous login
-    let votePending = this.props.idea && this.props.idea.votePending;
+    let votePending = storage.get('osc-ideas-on-map-vote-pending');
     if (votePending) {
 			this.doVote(new Event('x'));
+      storage.remove('osc-ideas-on-map-vote-pending');
 		}
   }
 
@@ -46,7 +49,8 @@ export default class VoteButton extends React.Component {
 
     // if (!self.config.api.isUserLoggedIn) url += '?useOauth=anonymous'
     if (!self.config.api.isUserLoggedIn) {
-      let loginUrl =  '/oauth/login?returnTo=' + encodeURIComponent(document.location.href.replace('#', '?votePending=' + self.props.idea.id + '#')) + '&useOauth=anonymous';
+      storage.set('osc-ideas-on-map-vote-pending', true );
+      let loginUrl =  '/oauth/login?returnTo=' + encodeURIComponent(document.location.href) + '&useOauth=anonymous';
       return document.location.href = loginUrl;
     }
 

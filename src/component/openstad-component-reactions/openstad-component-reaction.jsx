@@ -154,7 +154,7 @@ export default class OpenStadComponentReaction extends React.Component {
     }
 
     return (
-			<div id={this.id} className="osc-reaction" ref={el => (this.instance = el)} >
+			<div id={`osc-reaction-${self.state.id}`} className="osc-reaction" ref={el => (this.instance = el)} >
 
         {menuHTML}
 

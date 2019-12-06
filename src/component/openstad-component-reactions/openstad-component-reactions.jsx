@@ -20,11 +20,15 @@ export default class OpenStadComponentReactions extends React.Component {
 			title: null,
       descriptionMinLength: 30,
       descriptionMaxLength: 500,
+      user: {},
       api: {
         url: null,
         headers: null,
         isUserLoggedIn: false,
       },
+      requiredUserRole: 'member',
+      placeholder: '',
+      formIntro: '',
 		};
 
 		self.config = Object.assign(self.defaultConfig, self.config, props.config || {})
@@ -95,8 +99,6 @@ export default class OpenStadComponentReactions extends React.Component {
 		let config = Object.assign({
 			onSubmit: self.handleOnSubmit.bind(this),
 		}, self.config || {});
-
-    console.log(config);
 
     return (
 			<div id={this.id} className={self.props.className || 'openstad-component-reactions'} ref={el => (this.instance = el)} >

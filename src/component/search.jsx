@@ -44,7 +44,16 @@ export default class Search extends React.Component {
 
   }
 
-	showSuggestions() {
+  handleButtonClick(event) {
+		let self = this;
+    if (self.state.searchValue) {
+      self.setState({ searchValue: '' }, () => {
+        self.inputfield.focus();
+      });
+    }
+  }
+
+  showSuggestions() {
     this.setState({ showSuggestions: this.state.searchValue.length >= 3 ? true : false });
 	}
 
@@ -90,7 +99,8 @@ export default class Search extends React.Component {
 			<div id={self.id} className={self.props.className || 'openstad-component-search'} ref={el => (self.instance = el)}>
 
 				{suggestionsHTML}
-				<input type="text" placeholder="Zoek op trefwoord" onChange={() => self.handleChange( self.inputfield.value )} onBlur={() => self.hideSuggestions()} onFocus={() => self.showSuggestions()} className="openstad-default-input openstad-component-search-input" ref={el => (self.inputfield = el)}/>
+				<input type="text" value={this.state.searchValue} placeholder="Zoek op trefwoord" onChange={() => self.handleChange( self.inputfield.value )} onBlur={() => self.hideSuggestions()} onFocus={() => self.showSuggestions()} className="openstad-default-input openstad-component-search-input" ref={el => (self.inputfield = el)}/>
+        <button className={`osc-search-button${ this.state.searchValue ? ' osc-active' : '' }`} onClick={(event) => self.handleButtonClick(event)} ref={el => (self.resetButton = el)}/>
 
 			</div>
     );

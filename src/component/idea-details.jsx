@@ -1,5 +1,7 @@
 // TODO: dit moet een eigen repo worden
 
+import merge from 'merge';
+import storage from '../lib/localstorage.js';
 import React from 'react';
 import VoteButton from './vote-button.jsx';
 import OpenStadComponentReactions from './openstad-component-reactions/openstad-component-reactions.jsx';
@@ -16,6 +18,7 @@ export default class IdeasDetails extends React.Component {
 		let defaultConfig = {
       siteId: null,
       ideaId: null,
+      user: {},
 			api: {
         url: null,
         headers: null,
@@ -24,10 +27,12 @@ export default class IdeasDetails extends React.Component {
       argument: {
         descriptionMinLength: 30,
         descriptionMaxLength: 500,
+        formIntro: 'Mijn reactie op deze inzending is ...',
+        placeholder: '',
+        requiredUserRole: 'member',
       },
 		};
-		this.config = Object.assign(defaultConfig, this.config, this.props.config || {})
-		// this.config.onIdeaClick = this.config.onIdeaClick || this.onIdeaClick.bind(this);
+		this.config = merge.recursive(defaultConfig, this.config, this.props.config || {})
 
     this.state = {
       idea: this.props.idea
@@ -69,7 +74,6 @@ export default class IdeasDetails extends React.Component {
 
   fetchData() {
 
-
     if (!( this.state.idea || this.state.idea.id )) return;
 
     let self = this;
@@ -83,7 +87,12 @@ export default class IdeasDetails extends React.Component {
       })
       .then( json => {
 
-        self.setState({ idea: json });
+        self.setState({ idea: json }, function() {
+          if(storage.get('osc-reactions-login-pending')) {
+            window.location.hash = `#reactions`;
+            storage.set('osc-reactions-login-pending', false)
+          }
+        });
 
       })
       .catch((err) => {
@@ -120,7 +129,7 @@ export default class IdeasDetails extends React.Component {
 
               {labelHTML}
 
-              <div className="openstad-component-details-sharebuttons openstad-align-right-container">
+              <div className="openstad-component-details-sharebuttons">
                 <ul>
 							    <li><a className="openstad-share-facebook" target="_blank" href={ 'https://www.facebook.com/sharer/sharer.php?u=' + encodeURIComponent(document.location.href) }>Facebook</a></li>
 							    <li><a className="openstad-share-twitter" target="_blank" href={ 'https://twitter.com/intent/tweet?text=' + encodeURIComponent(document.location.href) }>Twitter</a></li>
@@ -156,7 +165,7 @@ export default class IdeasDetails extends React.Component {
 
 			    </div>
 			    <div id="reactions" className="openstad-component-reactions-header"><h3>Reacties</h3></div>
-          <OpenStadComponentReactions config={{ ...self.config.argument, api: self.config.api, siteId: self.config.siteId, ideaId: self.props.idea.id }}/>
+          <OpenStadComponentReactions config={{ ...self.config.argument, api: self.config.api, user: self.config.user, siteId: self.config.siteId, ideaId: self.props.idea.id }}/>
 			  </div>
 			</div>
     );

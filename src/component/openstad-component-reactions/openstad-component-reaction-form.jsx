@@ -1,3 +1,5 @@
+import merge from 'merge';
+import storage from '../../lib/localstorage.js';
 import React from 'react';
 import ReactDOM from 'react-dom';
 
@@ -20,16 +22,19 @@ export default class OpenStadComponentReactions extends React.Component {
         headers: null,
         isUserLoggedIn: false,
       },
+      user: {},
       descriptionMinLength: 30,
       descriptionMaxLength: 500,
+      requiredUserRole: 'member',
+      formIntro: '',
+      placeholder: '',
 		};
 
-		self.config = Object.assign(self.defaultConfig, props.config || {})
+		self.config = merge.recursive(self.defaultConfig, props.config || {})
 
     self.state = {
       description: self.config.description || '',
 		};
-
 
   }
 
@@ -38,6 +43,15 @@ export default class OpenStadComponentReactions extends React.Component {
 		this.setState(data)
 	}
 
+  isUserLoggedIn() {
+    let requiredUserRole = this.config.requiredUserRole;
+    let userRole = this.config.user && this.config.user.role;
+    return this.config.api.isUserLoggedIn && 
+      (( requiredUserRole == 'anonymous' && userRole ) ||
+       ( requiredUserRole == 'member' && ( userRole == 'member' || userRole == 'admin' ) ) ||
+       ( requiredUserRole == 'admin' && userRole == 'admin' ));
+      }
+
 	submitForm() {
 
 		let self = this;
@@ -45,7 +59,7 @@ export default class OpenStadComponentReactions extends React.Component {
 		let isValid = self.description.validate();
 		if (!isValid) return;
 
-	  if (!self.config.api.isUserLoggedIn) return alert('Je bent niet ingelogd');
+	  if (!self.isUserLoggedIn()) return alert('Je bent niet ingelogd');
 
 		let url = ( self.config.api && self.config.api.url ) + "/api/site/" + self.config.siteId + "/idea/" + self.config.ideaId + "/argument" + ( self.config.argumentId ? '/' + self.config.argumentId : ''  );
 		let headers = Object.assign(( self.config.api && self.config.api.headers || {} ), { "Content-type": "application/json" });
@@ -73,10 +87,11 @@ export default class OpenStadComponentReactions extends React.Component {
 					self.config.onSubmit({ description: self.state.description });
 				}
 
-        self.setState({ description: '' });
+        self.setState({ description: '' }, () => {
+		      var event = new CustomEvent('reactionStored', { detail: json });
+		      document.dispatchEvent(event);
+        });
 
-		    var event = new CustomEvent('reactionStored', { detail: { ideaId: self.config.ideaId } });
-		    document.dispatchEvent(event);
 
 			})
 			.catch(function (error) {
@@ -98,10 +113,10 @@ export default class OpenStadComponentReactions extends React.Component {
     // todo: config of je ingelogd moet zijn
     let submitButtonHTML = (
       <div className="openstad-align-right-container">
-        <button onClick={() => { document.location.href = '/oauth/login?returnTo=' + encodeURIComponent(document.location.href) }} className="osc-button-blue openstad-not-logged-in-button">Inloggen</button>
+        <button onClick={() => { storage.set('osc-reactions-login-pending', true); document.location.href = '/oauth/login?returnTo=' + encodeURIComponent(document.location.href) }} className="osc-button-blue openstad-not-logged-in-button">Inloggen</button>
       </div>
     );
-    if (self.config.api.isUserLoggedIn) {
+    if (self.isUserLoggedIn()) {
       submitButtonHTML = (
         <div className="openstad-align-right-container">
 			    <button onClick={e => self.submitForm()} className="osc-button-blue" disabled={ self.state.isValid ? true : null }>Verzenden</button>
@@ -109,10 +124,18 @@ export default class OpenStadComponentReactions extends React.Component {
       );
     }
 
+    let formIntro = null;
+    if (self.config.formIntro) {
+      formIntro = (
+        <div className="osc-intro">{self.config.formIntro}</div>
+      );
+    }
+
     return (
 			<div id={self.id} className="osc-reaction-form osc-form" ref={el => (self.instance = el)} >
+        {formIntro}
         <div className="osc-form-group">
-				  <OpenStadComponentFormelementsInputWithCounter ref={el => (self.input = el)} config={{ inputType: 'textarea', minLength: config.descriptionMinLength, maxLength: config.descriptionMaxLength }} value={self.state.description} onChange={ (data) => self.handleOnChange({ description: data.value }) } ref={el => (self.description = el)}/>
+				  <OpenStadComponentFormelementsInputWithCounter ref={el => (self.input = el)} disabled={this.isUserLoggedIn() ? null : true} config={{ inputType: 'textarea', minLength: config.descriptionMinLength, maxLength: config.descriptionMaxLength, placeholder: self.config.placeholder }} value={self.state.description} onChange={ (data) => self.handleOnChange({ description: data.value }) } ref={el => (self.description = el)}/>
         </div>
         {submitButtonHTML}
 			</div>
