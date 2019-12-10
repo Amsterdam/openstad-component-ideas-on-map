@@ -12,15 +12,8 @@ export default class IdeasForm extends React.Component {
 
 		// config
 		let defaultConfig = {
+      user: {},
 			ideaId: null,
-      formfields: {
-        title: '',
-        summary: '',
-        description: '',
-        type: '',
-        theme: '',
-        images: [],
-      },
       titleMinLength: 10,
       titleMaxLength: 20,
       summaryMinLength: 20,
@@ -30,22 +23,22 @@ export default class IdeasForm extends React.Component {
     };
 
     // todo: normaal oplossen
-    let formfields = Object.assign(defaultConfig.formfields, this.props.config.formfields);
 		this.config = Object.assign(defaultConfig, this.config, this.props.config || {})
-		this.config.formfields = formfields;
-
-    // this.config.formfields.title = 'Morbi scelerisque';
-		// this.config.formfields.summary = 'Morbi scelerisque, libero in rutrum tincidunt, dui sapien feugiat justo, eget egestas ligula nulla nec erat. maecenas tempus tempor eros. ';
-		// this.config.formfields.description = 'Morbi scelerisque, libero in rutrum tincidunt, dui sapien feugiat justo, eget egestas ligula nulla nec erat. maecenas tempus tempor eros. donec a justo. curabitur tellus. pellentesque risus. fusce at arcu. ut lacinia mi vel lectus. phasellus imperdiet. fusce luctus lacus a odio. in et turpis at libero tristique vulputate. sed varius ipsum. suspendisse potenti. suspendisse potenti. donec tempus arcu quis metus.';
-		// this.config.formfields.type = 'Kans';
-		// this.config.formfields.theme = 'Groen';
-		// this.config.formfields.images = [];
 
     this.state = {
-      formfields: this.config.formfields,
-			ideaId: this.config.ideaId,
-      latlng: this.config.latlng,
-      address: this.config.address,
+      formfields: {
+        id: this.props.idea.id || '',
+        title: this.props.idea.title || '',
+        summary: this.props.idea.summary || '',
+        description: this.props.idea.description || '',
+        type: this.props.idea.extraData && this.props.idea.extraData.type || '',
+        theme: this.props.idea.extraData && this.props.idea.extraData.theme || '',
+  			userWhat: this.props.idea.extraData && this.props.idea.extraData['userWhat'],
+  			userAge: this.props.idea.extraData && this.props.idea.extraData['userAge'],
+        images: this.props.idea.extraData && this.props.idea.extraData.images || [],
+        modBreak: this.props.idea.modBreak || '',
+        user: this.props.idea.user || {},
+      },
     };
 
     this.handleFieldChange = this.handleFieldChange.bind(this);
@@ -63,27 +56,28 @@ export default class IdeasForm extends React.Component {
 
 	  // tmp: type
 	  if (name == 'type') {
-      if (!this.state.formfields['type']) {
-		    this['form-warning-type'].style.display = 'block';
-		    isValid = false;
-	    } else {
+      if (this.state.formfields['type']) {
 		    this['form-warning-type'].style.display = 'none';
 	    }
 	  }
 
 	  // tmp: theme
 	  if (name == 'theme') {
-      if (!this.state.formfields['theme']) {
-		    this['form-warning-theme'].style.display = 'block';
-		    isValid = false;
-	    } else {
+      if (this.state.formfields['theme']) {
 		    this['form-warning-theme'].style.display = 'none';
+	    }
+	  }
+
+	  // tmp: userWhat en userAge
+	  if (name == 'userWhat' || name == 'userAge') {
+	    if (this.state.formfields['userWhat'] && this.state.formfields['userAge']) {
+		    this['form-warning-userHelp'].style.display = 'none';
 	    }
 	  }
 
   }
 
-  // todo: als hadlefieldchange met meerder waarden in een { key: value } formaat gaat werken dan kan deze weg
+  // todo: als hanlefieldchange met meerder waarden in een { key: value } formaat gaat werken dan kan deze weg
   handleLocationChange({location, address}) {
     let state = { ...this.state };
     state.formfields['location'] = { coordinates: [ location.lat, location.lng ] };
@@ -143,6 +137,14 @@ export default class IdeasForm extends React.Component {
 		  self['form-warning-theme'].style.display = 'none';
 	  }
 
+	  // userWhat en userAge
+	  if (!self.state.formfields['userWhat'] || !self.state.formfields['userAge']) {
+		  self['form-warning-userHelp'].style.display = 'block';
+		  isValid = false;
+	  } else {
+		  self['form-warning-userHelp'].style.display = 'none';
+	  }
+
 	  // images
 	  // document.querySelector('#form-warning-images').style.display = 'none';
 	  // if ( imageuploader && imageuploader.getFiles ) {
@@ -165,7 +167,6 @@ export default class IdeasForm extends React.Component {
 
     var self = this;
 
-    console.log(1);
 	  if ( !self.validateIdea() ) return;
 
 	  if (!self.config.api.isUserLoggedIn) return alert('Je bent niet ingelogd');
@@ -182,11 +183,23 @@ export default class IdeasForm extends React.Component {
 				type: self.state.formfields['type'],
 				theme: self.state.formfields['theme'],
   			images: self.state.formfields['images'],
+  			userWhat: self.state.formfields['userWhat'],
+  			userAge: self.state.formfields['userAge'],
 			},
 	  }
 
+    if ( self.config.user && self.config.user.role == 'admin' ) {
+      body.modBreak = self.state.formfields['modBreak'];
+    }
+
+    let method = 'POST';
+    if (typeof this.state.formfields.id == 'number') {
+      method = 'PUT';
+      url = url + '/' + this.state.formfields.id;
+    }
+
     fetch(url, {
-      method: 'POST',
+      method,
       headers,
       body: JSON.stringify(body) // body data type must match "Content-Type" header
     })
@@ -209,7 +222,17 @@ export default class IdeasForm extends React.Component {
 
     let self = this;
 
-    console.log(self.state);
+    let modBreakHTML = null
+    if (self.config.user && self.config.user.role == 'admin') {
+      modBreakHTML = (
+          <div className="osc-form-group">
+					  <h2>
+						  Moderator reactie
+					  </h2>
+				    <OpenStadComponentFormelementsInputWithCounter ref={el => (self.input = el)} config={{ name: "modBreak", inputType: 'textarea', minLength: 0, maxLength: 2000 }} value={this.state.formfields.modBreak} onChange={(data) => self.handleFieldChange('modBreak', data.value)} ref={el => (self.modBreakField = el)}/>
+          </div>
+      );
+    }
 
     return (
 			<div id={self.id} className={self.props.className || 'openstad-component-info-block-idea-form'} ref={el => (self.instance = el)}>
@@ -218,15 +241,13 @@ export default class IdeasForm extends React.Component {
 
         <form className="osc-form">
 
-				  <input type="hidden" id="extraData" name="extraData" value=""/>
-          
 				  <h1>Kans of knelpunt toevoegen</h1>
 
           <div className="osc-form-group">
 					  <h2>
             Naam
 					  </h2>
-            {self.state.formfields.userName}
+            {self.state.formfields.user && self.state.formfields.user.fullName}
           </div>
 
           <div className="osc-form-group">
@@ -242,7 +263,7 @@ export default class IdeasForm extends React.Component {
 						  Titel
 					  </h2>
 					  <div className="osc-form-info">
-						  Geef je voorstel een duidelijke titel, zodat anderen jouw inzending makkelijk kunnen vinden en direct snappen waar het over gaat.
+						  Geef uw inzending een duidelijke naam, zodat anderen deze gemakkelijk kunnen vinden en direct snappen waar het over gaat.
 					  </div>
 				    <OpenStadComponentFormelementsInputWithCounter ref={el => (self.input = el)} config={{ name: "titel", minLength: self.config.titleMinLength, maxLength: self.config.titleMaxLength }} value={this.state.formfields.title} onChange={(data) => self.handleFieldChange('title', data.value)} ref={el => (self.titleField = el)}/>
           </div>
@@ -252,7 +273,7 @@ export default class IdeasForm extends React.Component {
 						  Kans of knelpunt?
 					  </h2>
 					  <div className="osc-form-info">
-						  Wilt u deze inzending bestempelen als een kans of als een knelpunt voor de wijk?
+						  Wilt u deze inzending bestempelen als een kans of als een knelpunt voor de buurt?
 					  </div>
             <select className="openstad-default-select" value={this.state.formfields.type} onChange={() => self.handleFieldChange('type', self.typeField.value)} ref={el => (self.typeField = el)}>
               <option value="">Maak een keuze</option>
@@ -267,7 +288,7 @@ export default class IdeasForm extends React.Component {
 						  Thema
 					  </h2>
 					  <div className="osc-form-info">
-						  Bij welk thema hoort uw inzending?
+						  Onder welk thema valt uw inzending?
 					  </div>
             <select className="openstad-default-select" value={this.state.formfields.theme} onChange={() => self.handleFieldChange('theme', self.themeField.value)} ref={el => (self.themeField = el)}>
               <option value="">Maak een keuze</option>
@@ -288,7 +309,7 @@ export default class IdeasForm extends React.Component {
 						  Samenvatting
 					  </h2>
 					  <div className="osc-form-info">
-						  Vertel in maximaal {this.config.summaryMinLength} tekens iets meer over je plan.
+              Geef hier eerst een korte samenvatting van de kans of het knelpunt. In de volgende stap heeft u ruimte om uw inzending uitgebreider toe te lichten.
 					  </div>
 				    <OpenStadComponentFormelementsInputWithCounter ref={el => (self.input = el)} config={{ name: "samenvatting", inputType: 'textarea', minLength: self.config.summaryMinLength, maxLength: self.config.summaryMaxLength }} value={this.state.formfields.summary} onChange={(data) => self.handleFieldChange('summary', data.value)} ref={el => (self.summaryField = el)}/>
           </div>
@@ -298,12 +319,47 @@ export default class IdeasForm extends React.Component {
 						  Beschrijving
 					  </h2>
 					  <div className="osc-form-info">
-						  Gebruik de ruimte hieronder om je voorstel verder uit te leggen. 
+						  Gebruik de ruimte hieronder om uw inzending uitgebreider te beschrijven.
 					  </div>
 				    <OpenStadComponentFormelementsInputWithCounter ref={el => (self.input = el)} config={{ name: "bechrijving", inputType: 'textarea', minLength: self.config.descriptionMinLength, maxLength: self.config.descriptionMaxLength }} value={this.state.formfields.description} onChange={(data) => self.handleFieldChange('description', data.value)} ref={el => (self.descriptionField = el)}/>
           </div>
 
-          <OpenStadComponentImageUpload config={{ title: 'Afbeeldingen', infoText: 'Let op: Stuur alleen een foto mee die je zelf gemaakt hebt! Foto\'s van anderen kunnen auteursrechtelijk beschermd zijn. Je hebt toestemming nodig van de fotograaf om die foto te uploaden.' }} name="images" value={this.state.formfields.title} handleFieldChange={self.handleFieldChange}/>
+          <OpenStadComponentImageUpload config={{ title: 'Afbeeldingen', infoText: 'Let op: Stuur alleen een foto in die u zelf gemaakt heeft. Foto’s van anderen kunnen auteursrechtelijk beschermd zijn. U heeft toestemming nodig van de fotograaf om die foto te uploaden.' }} name="images" value={this.state.formfields.title} handleFieldChange={self.handleFieldChange}/>
+
+          <br/>
+          <div className="osc-form-group">
+					  <h2>
+						  Wilt u ons helpen?
+					  </h2>
+					  <div className="osc-form-info">
+						  We willen graag weten of we alle doelgroepen in de buurt bereiken. Daarom vragen we u of u in de buurt woont of werkt, en in welke leeftijdscategorie u valt. Wilt u dit liever niet delen? Kies dan de optie ‘Zeg ik liever niet’.
+					  </div>
+					  <h4>
+						  Woont of werkt u in de buurt?
+					  </h4>
+            <select className="openstad-default-select" value={this.state.formfields.userWhat} onChange={() => self.handleFieldChange('userWhat', self.userWhatField.value)} ref={el => (self.userWhatField = el)}>
+              <option value="">Maak een keuze</option>
+              <option value="Ik woon in de buurt">Ik woon in de buurt</option>
+              <option value="Ik werk in de buurt">Ik werk in de buurt</option>
+              <option value="Anders">Anders</option>
+              <option value="Zeg ik liever niet">Zeg ik liever niet</option>
+            </select>
+					  <h4>
+						  Wat is uw leeftijd?
+					  </h4>
+            <select className="openstad-default-select" value={this.state.formfields.userAge} onChange={() => self.handleFieldChange('userAge', self.userAgeField.value)} ref={el => (self.userAgeField = el)}>
+              <option value="">Maak een keuze</option>
+              <option value="Jonger dan 18">Jonger dan 18</option>
+              <option value="18 - 24">18 - 24</option>
+              <option value="25 - 50">25 - 50</option>
+              <option value="51 - 65">51 - 65</option>
+              <option value="65+">65+</option>
+              <option value="Zeg ik liever niet">Zeg ik liever niet</option>
+            </select>
+						<div className="osc-form-warning" style={{ display: 'none' }} ref={ el => this['form-warning-userHelp'] = el  }>Je hebt nog geen keuze gemaakt</div>
+          </div>
+
+          {modBreakHTML}
 
           <br/>
           <br/>

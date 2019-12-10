@@ -513,6 +513,35 @@
       font-weight: 600;
     }
 
+    .osc-modbreak {
+
+		  position: relative;
+      width: 700px;
+		  margin: 25px 0;
+		  padding: 20px;
+		  border: 3px solid #FFE115;
+
+      @media @phone {
+        width: 100%;
+      }
+
+		  &:after {
+			  border-top: 3px solid #FFE115;
+			  border-right: 3px solid #FFE115;
+			  border-bottom: 0;
+			  border-left: 0;
+			  position: absolute;
+			  width: 30px;
+			  height: 30px;
+			  right: 4px;
+			  top: -19px;
+        background-color: white;
+        transform: rotate(-45deg);
+			  content: '';
+		  }
+    
+    }
+    
   }
 
   .openstad-component-ideas-on-map-idea-form {  

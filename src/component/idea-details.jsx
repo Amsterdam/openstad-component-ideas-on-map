@@ -61,6 +61,18 @@ export default class IdeasDetails extends React.Component {
 		document.removeEventListener('reactionStored', this.storedListener);
 		document.removeEventListener('reactionDeleted', this.deletedListener);
   }
+
+  dispatchEditIdeaClick(e) {
+    e.stopPropagation();
+		var event = new CustomEvent('editIdeaClick', { detail: this.state.idea });
+		document.dispatchEvent(event);
+  };
+
+  dispatchDeleteIdeaClick(e) {
+    e.stopPropagation();
+		var event = new CustomEvent('deleteIdeaClick', { detail: this.state.idea });
+		document.dispatchEvent(event);
+  };
   
   onReactionStored(data) {
     this.state.idea.argCount++;
@@ -102,6 +114,37 @@ export default class IdeasDetails extends React.Component {
 
   }
 
+  deleteIdea() {
+
+    let self = this;
+
+    if (!( self.config.user && self.config.user.role && self.config.user.role == 'admin' )) return;
+    if (!( this.state.idea || this.state.idea.id )) return;
+
+    let url = `${ self.config.api.url }/api/site/${  self.config.siteId  }/idea/${ this.state.idea.id }`;
+		let headers = Object.assign(( self.config.api && self.config.api.headers || {} ), { "Content-type": "application/json" });
+
+    let ideaId = this.state.idea.id; // backup
+		
+    fetch(url, {
+      method: 'DELETE',
+      headers
+    })
+      .then((response) => {
+        if (!response.ok) throw Error('Error deleting idea');
+        return response.json();
+      })
+      .then( json => {
+		    var event = new CustomEvent('ideaDeleted', { detail: { ideaId } });
+		    document.dispatchEvent(event);
+      })
+      .catch((err) => {
+        console.log('Niet goed');
+        console.log(err);
+      });
+
+  }
+
 	render() {
 
     let self = this;
@@ -110,6 +153,29 @@ export default class IdeasDetails extends React.Component {
     if (self.config.labels && self.props.label) {
       labelHTML = (
         <div className="ocs-idea-label" style={{ color: self.config.labels[ self.props.label ].color, backgroundColor: self.config.labels[ self.props.label ].backgroundColor }}>{self.props.label}</div>
+      );
+    }
+
+    let editButtonsHTML = null;
+    if ( self.config.user && self.config.user.role && self.config.user.role == 'admin' ) {
+      editButtonsHTML = (
+        <div className="osc-editbuttons-container">
+          <button className="osc-idea-details-editbutton osc-edit" onClick={(event) => self.dispatchEditIdeaClick(event)}>Bewerk idee</button>
+          <button className="osc-idea-details-editbutton osc-delete" onClick={(event) => { if ( confirm('Weet je het zeker') ) self.deleteIdea(event) }}>Verwijder idee</button>
+        </div>
+      );
+
+    }
+
+    let modBreakHTML = null;
+    if (self.props.idea.modBreak) {
+      console.log(self.props.idea);
+      modBreakHTML= (
+        <div className="osc-modbreak">
+          {self.props.idea.modBreakDateHumanized}<br/>
+          <br/>
+          {self.props.idea.modBreak}
+        </div>
       );
     }
 
@@ -148,6 +214,8 @@ export default class IdeasDetails extends React.Component {
                 <h3>Reacties</h3>
                 <a href="#reactions" className="openstad-component-no-of-reactions">{self.props.idea.argCount || 0} reacties</a>
 
+                {editButtonsHTML}
+
               </div>
 
             </div>
@@ -158,6 +226,8 @@ export default class IdeasDetails extends React.Component {
 						  <span className="ocs-gray-text">&nbsp;&nbsp;|&nbsp;&nbsp;</span>
 						  <span className="ocs-gray-text">Thema: </span>{self.props.idea.extraData.theme}
             </p>
+
+            {modBreakHTML}
 
             <p className="openstad-component-details-summary">{self.props.idea.summary}</p>
 
