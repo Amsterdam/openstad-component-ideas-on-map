@@ -80,8 +80,8 @@ export default class OpenStadComponentIdeasOnMap extends OpenStadComponent {
     self.config.map.clustering.onClusterClick = self.config.map.clustering.onClusterClick || self.onClusterClick.bind(self);
     this.config.map.autoZoomAndCenter = 'polygon';
     // Todo: configurabel
-    self.config.map.polygon = [{"lng": 4.8909384,"lat": 52.3579326},{"lng": 4.8904851,"lat": 52.3551035},{"lng": 4.8905142,"lat": 52.3551068},{"lng": 4.8921449,"lat": 52.3554115},{"lng": 4.8929767,"lat": 52.3555589},{"lng": 4.8949429,"lat": 52.3559537},{"lng": 4.8963726,"lat": 52.3563288},{"lng": 4.8993847,"lat": 52.3572216},{"lng": 4.8991835,"lat": 52.3576721},{"lng": 4.8983413,"lat": 52.357505},{"lng": 4.8909384,"lat": 52.3579326}];
-
+    self.config.map.polygon = [ { lng: 4.8923325, lat: 52.3578818 }, { lng: 4.8922574, lat: 52.3574723 }, { lng: 4.8920697, lat: 52.3574854 }, { lng: 4.8919410, lat: 52.3567908 }, { lng: 4.8906860, lat: 52.3568661 }, { lng: 4.8904125, lat: 52.3552313 }, { lng: 4.8928991, lat: 52.3556621 }, { lng: 4.8928025, lat: 52.3558538 }, { lng: 4.8930225, lat: 52.3558964 }, { lng: 4.8931164, lat: 52.3557162 }, { lng: 4.8953144, lat: 52.3562174 }, { lng: 4.8971003, lat: 52.3566958 }, { lng: 4.8969823, lat: 52.3568498 }, { lng: 4.8971968, lat: 52.3569055 }, { lng: 4.8973095, lat: 52.3567646 }, { lng: 4.8985805, lat: 52.3571577 }, { lng: 4.8984679, lat: 52.3572757 }, { lng: 4.8986020, lat: 52.3573281 }, { lng: 4.8985215, lat: 52.3575247 }, { lng: 4.8983499, lat: 52.3574952 }, { lng: 4.8982480, lat: 52.3574985 }, { lng: 4.8982748, lat: 52.3574362 }, { lng: 4.8972826, lat: 52.3571512 }, { lng: 4.8931691, lat: 52.3574493 }, { lng: 4.8932067, lat: 52.3576099 }, { lng: 4.8931262, lat: 52.3576131 }, { lng: 4.8931584, lat: 52.3578228 }, { lng: 4.8923325, lat: 52.3578810 } ]
+    
     self.state = {
       ideas: [],
       visibleIdeas: [],
