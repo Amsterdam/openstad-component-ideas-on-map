@@ -1,13 +1,14 @@
 import merge from 'merge';
-import storage from '../lib/localstorage.js';
 import React from 'react';
 import ReactDOM from 'react-dom';
-import OpenStadComponent from 'openstad-component/src/index.jsx';
 import Filterbar from './filterbar.jsx';
 import InfoBlock from './info-block.jsx';
 import IdeaForm from './idea-form.jsx';
 import IdeaDetails from './idea-details.jsx';
 import Map from './map.jsx';
+
+import OpenStadComponentLibs from 'openstad-component-libs/src/index.jsx';
+import OpenStadComponent from 'openstad-component/src/index.jsx';
 
 // TODO: clean up; ik gebruikte eerst setNewIdea en setSelected, maar nu onNewIdeaClick en onSelectedIdeaClick; trek dat gelijk
 
@@ -193,8 +194,8 @@ export default class OpenStadComponentIdeasOnMap extends OpenStadComponent {
         return response.json();
       })
       .then( json => {
-        showIdeaDetails = showIdeaDetails || storage.get('osc-ideas-on-map-details'); //  document.location.hash.replace(/.*details=(\d+).*/, "$1");
-        showIdeaSelected = showIdeaSelected || storage.get('osc-ideas-on-map-selected'); // document.location.hash.replace(/.*selected=(\d+).*/, "$1");
+        showIdeaDetails = showIdeaDetails || OpenStadComponentLibs.localStorage.get('osc-ideas-on-map-details'); //  document.location.hash.replace(/.*details=(\d+).*/, "$1");
+        showIdeaSelected = showIdeaSelected || OpenStadComponentLibs.localStorage.get('osc-ideas-on-map-selected'); // document.location.hash.replace(/.*selected=(\d+).*/, "$1");
         let ideas = json.filter( idea => idea.location )
         ideas.map( idea => {
           if ( idea.id == showIdeaDetails) {
@@ -243,8 +244,8 @@ export default class OpenStadComponentIdeasOnMap extends OpenStadComponent {
   showIdeaDetails(idea) {
     let self = this;
     self.setSelectedIdea(idea);
-    storage.set('osc-ideas-on-map-details', idea && idea.id );
-    storage.set('osc-ideas-on-map-selected', null);
+    OpenStadComponentLibs.localStorage.set('osc-ideas-on-map-details', idea && idea.id );
+    OpenStadComponentLibs.localStorage.set('osc-ideas-on-map-selected', null);
     // self.infoblock.setState({ mobileState: self.state.mobileState = 'opened' })
     self.setState({ status: 'idea-details', currentIdea: idea }, function() {
     // self.setState({ status: 'idea-details', currentIdea: idea, mobileState: self.state.mobileState = 'opened' }, function() {
@@ -427,8 +428,8 @@ export default class OpenStadComponentIdeasOnMap extends OpenStadComponent {
   }
 
   setSelectedIdea(idea) {
-    storage.set('osc-ideas-on-map-selected', idea && idea.id );
-    storage.set('osc-ideas-on-map-details', null);
+    OpenStadComponentLibs.localStorage.set('osc-ideas-on-map-selected', idea && idea.id );
+    OpenStadComponentLibs.localStorage.set('osc-ideas-on-map-details', null);
     this.selectedIdea = idea;
     if (idea) {
       this.map.fadeMarkers({exception: idea});
@@ -483,7 +484,7 @@ export default class OpenStadComponentIdeasOnMap extends OpenStadComponent {
           // }, 500 );
         }
         this.map.updateFading();
-        document.querySelector('#openstad-component-ideas-on-map-info').scrollTo(0,0)
+        document.querySelector('#osc-ideas-on-map-info').scrollTo(0,0)
     }
   }
 
@@ -516,7 +517,7 @@ export default class OpenStadComponentIdeasOnMap extends OpenStadComponent {
           this.setNewIdea(null);
           this.setSelectedIdea(event.target.data);
         }
-        document.querySelector('#openstad-component-ideas-on-map-info').scrollTo(0,0)
+        document.querySelector('#osc-ideas-on-map-info').scrollTo(0,0)
 
     }
   }
@@ -731,19 +732,19 @@ export default class OpenStadComponentIdeasOnMap extends OpenStadComponent {
           }
         };
         infoHTML = (
-			    <IdeaDetails id={this.divId + '-infoblock'} config={config} idea={this.state.currentIdea} label={this.state.currentIdea.extraData.type} id="openstad-component-ideas-on-map-info" className="openstad-component-ideas-on-map-info" mobileState={this.state.mobileState} ref={el => (this.ideadetails = el)}/>
+			    <IdeaDetails id={this.divId + '-infoblock'} config={config} idea={this.state.currentIdea} label={this.state.currentIdea.extraData.type} id="osc-ideas-on-map-info" className="osc-ideas-on-map-info" mobileState={this.state.mobileState} ref={el => (this.ideadetails = el)}/>
         );
         filterHTML = (
-				  <div className="openstad-component-ideas-on-map-filterbar"><div className="openstad-component-backbutton" onClick={() => this.hideIdeaDetails()}>Terug naar overzicht</div></div>
+				  <div className="osc-ideas-on-map-filterbar"><div className="osc-backbutton" onClick={() => this.hideIdeaDetails()}>Terug naar overzicht</div></div>
         );
         break;
 
       case 'idea-form':
         infoHTML = (
-			    <IdeaForm id={this.divId + '-infoblock'} config={{ siteId: this.config.siteId, user: this.config.user, api: this.config.api, ...this.config.idea }} idea={{ ...this.state.editIdea, user: this.state.editIdea && this.state.editIdea.user || this.config.user }} id="openstad-component-ideas-on-map-info" className="openstad-component-ideas-on-map-info" mobileState={this.state.mobileState} ref={el => (this.ideaform = el)}/>
+			    <IdeaForm id={this.divId + '-infoblock'} config={{ siteId: this.config.siteId, user: this.config.user, api: this.config.api, ...this.config.idea }} idea={{ ...this.state.editIdea, user: this.state.editIdea && this.state.editIdea.user || this.config.user }} id="osc-ideas-on-map-info" className="osc-ideas-on-map-info" mobileState={this.state.mobileState} ref={el => (this.ideaform = el)}/>
         );
         filterHTML = (
-				  <div className="openstad-component-ideas-on-map-filterbar"><div className="openstad-component-backbutton" onClick={() => this.hideIdeaForm()}>Terug naar {this.state.editIdea && typeof this.state.editIdea.id == 'number' ? 'idee' : 'overzicht'}</div></div>
+				  <div className="osc-ideas-on-map-filterbar"><div className="osc-backbutton" onClick={() => this.hideIdeaForm()}>Terug naar {this.state.editIdea && typeof this.state.editIdea.id == 'number' ? 'idee' : 'overzicht'}</div></div>
         );
         break;
 
@@ -752,7 +753,7 @@ export default class OpenStadComponentIdeasOnMap extends OpenStadComponent {
         if (this.state.status == 'location-selected') {
           if (this.state.editIdea && this.state.editIdea.isPointInPolygon) {
             let buttonHTML = this.config.api.isUserLoggedIn
-                ? (<button className="openstad-button openstad-button-blue" onClick={(event) => { this.onClickMobileSwitcher(event); this.onNewIdeaClick(event)} } ref={el => (self.newIdeaButton = el)}>Kans of knelpunt toevoegen</button>)
+                ? (<button className="osc-button osc-button-blue" onClick={(event) => { this.onClickMobileSwitcher(event); this.onNewIdeaClick(event)} } ref={el => (self.newIdeaButton = el)}>Kans of knelpunt toevoegen</button>)
                 : (<div>Wilt u een kans of knelpunt toevoegen? Dan moet u eerst <a href="javascript: document.location.href = '/oauth/login?returnTo=' + encodeURIComponent(document.location.href)">inloggen</a>.</div>);
             mobilePopupHTML = (
               <div className="ocs-mobile-popup">
@@ -765,25 +766,25 @@ export default class OpenStadComponentIdeasOnMap extends OpenStadComponent {
         } else {
           mobilePopupHTML = (
             <div className="ocs-mobile-popup ocs-clickable" onClick={ () =>  { this.setState({ mobileState: 'opened' }); this.infoblock.setState({ mobileState: 'opened' }); this.showIdeaDetails(this.state.currentIdea) } }>
-              <div className="openstad-component-image" style={{ backgroundImage: `url(${this.state.currentIdea && this.state.currentIdea.image})` }}></div>
+              <div className="osc-image" style={{ backgroundImage: `url(${this.state.currentIdea && this.state.currentIdea.image})` }}></div>
               { eval(this.state.currentIdea && `this.state.currentIdea.${this.config.titleField}`) }
             </div>
           );
         }
         infoHTML = (
-			    <InfoBlock id={this.divId + '-infoblock'} config={{ api: this.config.api, title: this.config.title, titleField: this.config.titleField, summaryField: this.config.summaryField, types: this.config.types  }} id="openstad-component-ideas-on-map-info" className="openstad-component-ideas-on-map-info" mobileState={this.state.mobileState} ref={el => (this.infoblock = el)}/>
+			    <InfoBlock id={this.divId + '-infoblock'} config={{ api: this.config.api, title: this.config.title, titleField: this.config.titleField, summaryField: this.config.summaryField, types: this.config.types  }} id="osc-ideas-on-map-info" className="osc-ideas-on-map-info" mobileState={this.state.mobileState} ref={el => (this.infoblock = el)}/>
         );
         filterHTML = (
-				  <Filterbar id={this.divId + '-filterbar'} config={{ types: this.config.types, areas: this.config.areas, doSearchFunction: this.config.doSearchFunction, title: this.config.title }} className="openstad-component-ideas-on-map-filterbar" ref={el => (this.filterbar = el)}/>
+				  <Filterbar id={this.divId + '-filterbar'} config={{ types: this.config.types, areas: this.config.areas, doSearchFunction: this.config.doSearchFunction, title: this.config.title }} className="osc-ideas-on-map-filterbar" ref={el => (this.filterbar = el)}/>
         );
         break;
 
       default:
         infoHTML = (
-			    <InfoBlock id={this.divId + '-infoblock'} config={{ api: this.config.api, title: this.config.title, titleField: this.config.titleField, summaryField: this.config.summaryField, types: this.config.types  }} id="openstad-component-ideas-on-map-info" className="openstad-component-ideas-on-map-info" mobileState={this.state.mobileState} ref={el => (this.infoblock = el)}/>
+			    <InfoBlock id={this.divId + '-infoblock'} config={{ api: this.config.api, title: this.config.title, titleField: this.config.titleField, summaryField: this.config.summaryField, types: this.config.types  }} id="osc-ideas-on-map-info" className="osc-ideas-on-map-info" mobileState={this.state.mobileState} ref={el => (this.infoblock = el)}/>
         );
         filterHTML = (
-				  <Filterbar id={this.divId + '-filterbar'} config={{ types: this.config.types, areas: this.config.areas, doSearchFunction: this.config.doSearchFunction, title: this.config.title }} className="openstad-component-ideas-on-map-filterbar" ref={el => (this.filterbar = el)}/>
+				  <Filterbar id={this.divId + '-filterbar'} config={{ types: this.config.types, areas: this.config.areas, doSearchFunction: this.config.doSearchFunction, title: this.config.title }} className="osc-ideas-on-map-filterbar" ref={el => (this.filterbar = el)}/>
         );
         mobilePopupHTML = null;
         break;
@@ -791,10 +792,10 @@ export default class OpenStadComponentIdeasOnMap extends OpenStadComponent {
     }
 
     return (
-			<div id={this.divId} className={`openstad-component-ideas-on-map openstad-component-ideas-on-map-${this.state.status} osc-mobile-${this.state.mobileState}`} ref={el => (this.instance = el)}>
+			<div id={this.divId} className={`osc-ideas-on-map osc-ideas-on-map-${this.state.status} osc-mobile-${this.state.mobileState}`} ref={el => (this.instance = el)}>
         {filterHTML}
         {infoHTML}
-        <div className="openstad-component-ideas-on-map-map">
+        <div className="osc-ideas-on-map-map">
 				  <Map id={this.divId + '-map'} className="" config={{ ...this.config.map, types: this.config.types, typeField: this.config.typeField }} ref={el => (this.map = el)}/>
         </div>
         {mobilePopupHTML}

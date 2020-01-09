@@ -235,7 +235,7 @@ export default class IdeasForm extends React.Component {
     }
 
     return (
-			<div id={self.id} className={self.props.className || 'openstad-component-info-block-idea-form'} ref={el => (self.instance = el)}>
+			<div id={self.id} className={self.props.className || 'osc-info-block-idea-form'} ref={el => (self.instance = el)}>
 
 			  <div className="osc-spacer"></div>
 
@@ -275,7 +275,7 @@ export default class IdeasForm extends React.Component {
 					  <div className="osc-form-info">
 						  Wilt u deze inzending bestempelen als een kans of als een knelpunt voor de buurt?
 					  </div>
-            <select className="openstad-default-select" value={this.state.formfields.type} onChange={() => self.handleFieldChange('type', self.typeField.value)} ref={el => (self.typeField = el)}>
+            <select className="osc-default-select" value={this.state.formfields.type} onChange={() => self.handleFieldChange('type', self.typeField.value)} ref={el => (self.typeField = el)}>
               <option value="">Maak een keuze</option>
               <option value="Kans">Kans</option>
               <option value="Knelpunt">Knelpunt</option>
@@ -290,7 +290,7 @@ export default class IdeasForm extends React.Component {
 					  <div className="osc-form-info">
 						  Onder welk thema valt uw inzending?
 					  </div>
-            <select className="openstad-default-select" value={this.state.formfields.theme} onChange={() => self.handleFieldChange('theme', self.themeField.value)} ref={el => (self.themeField = el)}>
+            <select className="osc-default-select" value={this.state.formfields.theme} onChange={() => self.handleFieldChange('theme', self.themeField.value)} ref={el => (self.themeField = el)}>
               <option value="">Maak een keuze</option>
               <option value="Auto">Auto</option>
               <option value="Fiets">Fiets</option>
@@ -337,7 +337,7 @@ export default class IdeasForm extends React.Component {
 					  <h4>
 						  Woont of werkt u in de buurt?
 					  </h4>
-            <select className="openstad-default-select" value={this.state.formfields.userWhat} onChange={() => self.handleFieldChange('userWhat', self.userWhatField.value)} ref={el => (self.userWhatField = el)}>
+            <select className="osc-default-select" value={this.state.formfields.userWhat} onChange={() => self.handleFieldChange('userWhat', self.userWhatField.value)} ref={el => (self.userWhatField = el)}>
               <option value="">Maak een keuze</option>
               <option value="Ik woon in de buurt">Ik woon in de buurt</option>
               <option value="Ik werk in de buurt">Ik werk in de buurt</option>
@@ -347,7 +347,7 @@ export default class IdeasForm extends React.Component {
 					  <h4>
 						  Wat is uw leeftijd?
 					  </h4>
-            <select className="openstad-default-select" value={this.state.formfields.userAge} onChange={() => self.handleFieldChange('userAge', self.userAgeField.value)} ref={el => (self.userAgeField = el)}>
+            <select className="osc-default-select" value={this.state.formfields.userAge} onChange={() => self.handleFieldChange('userAge', self.userAgeField.value)} ref={el => (self.userAgeField = el)}>
               <option value="">Maak een keuze</option>
               <option value="Jonger dan 18">Jonger dan 18</option>
               <option value="18 - 24">18 - 24</option>
@@ -363,7 +363,7 @@ export default class IdeasForm extends React.Component {
 
           <br/>
           <br/>
-          <a className="openstad-button openstad-button-blue" onClick={() => self.submitIdea()} ref={el => (self.submitButton = el)}>Versturen</a>
+          <a className="osc-button osc-button-blue" onClick={() => self.submitIdea()} ref={el => (self.submitButton = el)}>Versturen</a>
           <br/>
           <br/>
           <br/>

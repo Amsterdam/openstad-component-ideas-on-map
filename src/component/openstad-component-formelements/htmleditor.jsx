@@ -29,7 +29,7 @@ export default class HTMLEditor extends React.Component {
     let self = this;
 
     return (
-			<div id={self.id} className={self.props.className || 'openstad-component-info-block-idea-details'} ref={el => (self.instance = el)}>
+			<div id={self.id} className={self.props.className || 'osc-info-block-idea-details'} ref={el => (self.instance = el)}>
 
 				<h3>HTML Editor</h3>
         

@@ -1,8 +1,8 @@
 import merge from 'merge';
-import storage from '../../lib/localstorage.js';
 import React from 'react';
 import ReactDOM from 'react-dom';
 
+import OpenStadComponentLibs from 'openstad-component-libs/src/index.jsx';
 import OpenStadComponentFormelementsInputWithCounter from '../openstad-component-formelements/input-with-counter.jsx';
 
 'use strict';
@@ -13,7 +13,7 @@ export default class OpenStadComponentReactions extends React.Component {
     super(props);
 
 		let self = this;
-		self.id = props.id || 'openstad-component-reaction-form-' + parseInt( 1000000 * Math.random() )
+		self.id = props.id || 'osc-reaction-form-' + parseInt( 1000000 * Math.random() )
 
 		self.defaultConfig = {
       argumentId: null,
@@ -112,13 +112,13 @@ export default class OpenStadComponentReactions extends React.Component {
 
     // todo: config of je ingelogd moet zijn
     let submitButtonHTML = (
-      <div className="openstad-align-right-container">
-        <button onClick={() => { storage.set('osc-reactions-login-pending', true); document.location.href = '/oauth/login?returnTo=' + encodeURIComponent(document.location.href) }} className="osc-button-blue openstad-not-logged-in-button">Inloggen</button>
+      <div className="osc-align-right-container">
+        <button onClick={() => { OpenStadComponentLibs.localStorage.set('osc-reactions-login-pending', true); document.location.href = '/oauth/login?returnTo=' + encodeURIComponent(document.location.href) }} className="osc-button-blue osc-not-logged-in-button">Inloggen</button>
       </div>
     );
     if (self.isUserLoggedIn()) {
       submitButtonHTML = (
-        <div className="openstad-align-right-container">
+        <div className="osc-align-right-container">
 			    <button onClick={e => self.submitForm()} className="osc-button-blue" disabled={ self.state.isValid ? true : null }>Verzenden</button>
         </div>
       );

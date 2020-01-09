@@ -85,11 +85,11 @@ export default class Filterbar extends React.Component {
     // TODO: niet state maar config
     if (self.state.areas && self.state.areas.length) {
       areasButtonHTML = (
-        <div className="openstad-component-area-selector-button" onClick={() => self.toggleMobileActiveSelector('area')}></div>
+        <div className="osc-area-selector-button" onClick={() => self.toggleMobileActiveSelector('area')}></div>
       );
       areasHTML = (
-          <div className={`openstad-component-area-selector-container${self.state.mobileActiveSelector == 'area' ? ' osc-is-active' : ''}`}>
-            <select value={self.state.selectedArea} onChange={() => self.handleAreaChange( self.areaSelector.value )} className="openstad-default-select openstad-margin-right openstad-component-area-selector" ref={el => (self.areaSelector = el)}>
+          <div className={`osc-area-selector-container${self.state.mobileActiveSelector == 'area' ? ' osc-is-active' : ''}`}>
+            <select value={self.state.selectedArea} onChange={() => self.handleAreaChange( self.areaSelector.value )} className="osc-default-select osc-margin-right osc-area-selector" ref={el => (self.areaSelector = el)}>
               <option value="0">Alle gebieden</option>;
               { self.state.areas.map((area, i) => {
                 return <option key={'area-option-' + i}>{ area.name }</option>;
@@ -100,18 +100,18 @@ export default class Filterbar extends React.Component {
     }
 
     return (
-			<div id={self.id} className={self.props.className || 'openstad-component-filterbar'} ref={el => (self.instance = el)}>
+			<div id={self.id} className={self.props.className || 'osc-filterbar'} ref={el => (self.instance = el)}>
 
-        <div className="openstad-component-search-container">
-          <div className="openstad-component-search-button" onClick={() => self.toggleMobileActiveSelector('search')}></div>
-				  <Search config={{ ...this.config }} className={`openstad-component-search${self.state.mobileActiveSelector == 'search' ? ' osc-is-active' : ''}`}/>
+        <div className="osc-search-container">
+          <div className="osc-search-button" onClick={() => self.toggleMobileActiveSelector('search')}></div>
+				  <Search config={{ ...this.config }} className={`osc-search${self.state.mobileActiveSelector == 'search' ? ' osc-is-active' : ''}`}/>
         </div>
 
-        <div className="openstad-component-selectors-container openstad-align-right-container">
+        <div className="osc-selectors-container osc-align-right-container">
 
-          <div className={`openstad-component-type-selector-button${ self.state.selectedType && self.state.selectedType != '0'  ? ' osc-active' : '' }`} onClick={() => self.toggleMobileActiveSelector('type')}></div>
-          <div className={`openstad-component-type-selector-container${self.state.mobileActiveSelector == 'type' ? ' osc-is-active' : ''}`}>
-            <select value={self.state.selectedType} onChange={() => self.handleTypeChange( self.typeSelector.value )} className="openstad-default-select openstad-margin-right openstad-component-type-selector" ref={el => (self.typeSelector = el)}>
+          <div className={`osc-type-selector-button${ self.state.selectedType && self.state.selectedType != '0'  ? ' osc-active' : '' }`} onClick={() => self.toggleMobileActiveSelector('type')}></div>
+          <div className={`osc-type-selector-container${self.state.mobileActiveSelector == 'type' ? ' osc-is-active' : ''}`}>
+            <select value={self.state.selectedType} onChange={() => self.handleTypeChange( self.typeSelector.value )} className="osc-default-select osc-margin-right osc-type-selector" ref={el => (self.typeSelector = el)}>
               <option value="0">Alle thema's</option>;
               { self.state.types.map((type, i) => {
                 return <option key={'type-option-' + i}>{ type.name }</option>;
@@ -122,7 +122,7 @@ export default class Filterbar extends React.Component {
           {areasButtonHTML}
           {areasHTML}
 
-          <button value="reset" onClick={() => self.resetTypeAndArea()} className="openstad-button openstad-reset-button" ref={el => (self.resetButton = el)}>Alles tonen</button>
+          <button value="reset" onClick={() => self.resetTypeAndArea()} className="osc-button osc-reset-button" ref={el => (self.resetButton = el)}>Alles tonen</button>
           
 			  </div>
 			</div>

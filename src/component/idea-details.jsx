@@ -1,9 +1,10 @@
 // TODO: dit moet een eigen repo worden
 
 import merge from 'merge';
-import storage from '../lib/localstorage.js';
 import React from 'react';
 import VoteButton from './vote-button.jsx';
+
+import OpenStadComponentLibs from 'openstad-component-libs/src/index.jsx';
 import OpenStadComponentReactions from './openstad-component-reactions/openstad-component-reactions.jsx';
 
 'use strict';
@@ -100,9 +101,9 @@ export default class IdeasDetails extends React.Component {
       .then( json => {
 
         self.setState({ idea: json }, function() {
-          if(storage.get('osc-reactions-login-pending')) {
+          if(OpenStadComponentLibs.localStorage.get('osc-reactions-login-pending')) {
             window.location.hash = `#reactions`;
-            storage.set('osc-reactions-login-pending', false)
+            OpenStadComponentLibs.localStorage.set('osc-reactions-login-pending', false)
           }
         });
 
@@ -180,31 +181,31 @@ export default class IdeasDetails extends React.Component {
     }
 
     return (
-			<div id={self.id} className={self.props.className || 'openstad-component-info-block-idea-details'} ref={el => (self.instance = el)}>
+			<div id={self.id} className={self.props.className || 'osc-info-block-idea-details'} ref={el => (self.instance = el)}>
 
 			  <div className="osc-spacer"></div>
 
-			  <div className="openstad-component-idea-details-container">
-			    <div className="openstad-component-idea-details">
+			  <div className="osc-idea-details-container">
+			    <div className="osc-idea-details">
 
 				    <h2>{eval(`self.props.idea.${self.config.titleField}`)}</h2>
 
-            <div className="openstad-component-details-image-and-stats">
+            <div className="osc-details-image-and-stats">
 
-              <div className="openstad-component-image" style={{ backgroundImage: `url(${self.props.idea.image})` }}></div>
+              <div className="osc-image" style={{ backgroundImage: `url(${self.props.idea.image})` }}></div>
 
               {labelHTML}
 
-              <div className="openstad-component-details-sharebuttons">
+              <div className="osc-details-sharebuttons">
                 <ul>
-							    <li><a className="openstad-share-facebook" target="_blank" href={ 'https://www.facebook.com/sharer/sharer.php?u=' + encodeURIComponent(document.location.href) }>Facebook</a></li>
-							    <li><a className="openstad-share-twitter" target="_blank" href={ 'https://twitter.com/intent/tweet?text=' + encodeURIComponent(document.location.href) }>Twitter</a></li>
-							    <li><a className="openstad-share-email" target="_blank" href={ 'mailto:?subject=' + encodeURIComponent(eval(`self.props.idea.${self.config.titleField}`)) + '&body=' + encodeURIComponent(document.location.href)}>Email</a></li>
-							    <li><a className="openstad-share-whatsapp" target="_blank" href={ 'https://wa.me/?text=' + encodeURIComponent(document.location.href) }>WhatsApp</a></li>
+							    <li><a className="osc-share-facebook" target="_blank" href={ 'https://www.facebook.com/sharer/sharer.php?u=' + encodeURIComponent(document.location.href) }>Facebook</a></li>
+							    <li><a className="osc-share-twitter" target="_blank" href={ 'https://twitter.com/intent/tweet?text=' + encodeURIComponent(document.location.href) }>Twitter</a></li>
+							    <li><a className="osc-share-email" target="_blank" href={ 'mailto:?subject=' + encodeURIComponent(eval(`self.props.idea.${self.config.titleField}`)) + '&body=' + encodeURIComponent(document.location.href)}>Email</a></li>
+							    <li><a className="osc-share-whatsapp" target="_blank" href={ 'https://wa.me/?text=' + encodeURIComponent(document.location.href) }>WhatsApp</a></li>
 						    </ul>
               </div>
 
-              <div className="openstad-component-details-stats">
+              <div className="osc-details-stats">
 
                 <h3>Likes</h3>
                 <VoteButton config={{ text: 'eens', opinion: 'yes', api: this.config.api, siteId: this.config.siteId }} idea={this.state.idea} name="likebutton" value={self.props.idea.yes}/>
@@ -212,7 +213,7 @@ export default class IdeasDetails extends React.Component {
                 <br/>
 
                 <h3>Reacties</h3>
-                <a href="#reactions" className="openstad-component-no-of-reactions">{self.props.idea.argCount || 0} reacties</a>
+                <a href="#reactions" className="osc-no-of-reactions">{self.props.idea.argCount || 0} reacties</a>
 
                 {editButtonsHTML}
 
@@ -229,12 +230,12 @@ export default class IdeasDetails extends React.Component {
 
             {modBreakHTML}
 
-            <p className="openstad-component-details-summary">{self.props.idea.summary}</p>
+            <p className="osc-details-summary">{self.props.idea.summary}</p>
 
-            <p className="openstad-component-details-description">{self.props.idea.description}</p>
+            <p className="osc-details-description">{self.props.idea.description}</p>
 
 			    </div>
-			    <div id="reactions" className="openstad-component-reactions-header"><h3>Reacties</h3></div>
+			    <div id="reactions" className="osc-reactions-header"><h3>Reacties</h3></div>
           <OpenStadComponentReactions config={{ ...self.config.argument, api: self.config.api, user: self.config.user, siteId: self.config.siteId, ideaId: self.props.idea.id }}/>
 			  </div>
 			</div>
