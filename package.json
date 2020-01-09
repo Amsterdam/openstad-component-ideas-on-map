@@ -46,7 +46,7 @@
   "dependencies": {
     "merge": "^1.2.1",
     "openstad-component": "git+ssh://git@github.com/Amsterdam/openstad-component.git",
-    "openstad-component-libs": "git+ssh://git@github.com:Amsterdam/openstad-component-libs.git"
+    "openstad-component-libs": "git+ssh://git@github.com:Amsterdam/openstad-component-libs.git",
     "openstad-component-nlmap": "git+ssh://git@github.com/Amsterdam/openstad-component-nlmap.git"
   }
 }
