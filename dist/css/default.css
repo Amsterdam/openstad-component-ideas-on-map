@@ -1062,6 +1062,7 @@ form.osc-form {
   float: left;
   width: 70px;
   padding-left: 30px;
+  padding-right: 0;
   line-height: 25px;
 }
 .osc-ideas-on-map .osc-ideas-on-map-info .osc-info-block-new-idea .osc-stats .osc-type,
