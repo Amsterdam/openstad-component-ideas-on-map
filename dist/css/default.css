@@ -19,6 +19,9 @@
 .osc-button:focus {
   outline: 0;
 }
+.osc-button.osc-disabled {
+  opacity: 0.3;
+}
 .osc-button:hover {
   text-decoration: underline;
   background-color: #aaa;
@@ -41,6 +44,10 @@
 .osc-button-blue:focus,
 .osc-button-blue:focus {
   outline: 0;
+}
+.osc-button-blue.osc-disabled,
+.osc-button-blue.osc-disabled {
+  opacity: 0.3;
 }
 .osc-button-blue:hover,
 .osc-button-blue:hover {
@@ -161,6 +168,9 @@
 .osc-number-button .osc-number-button-text:focus {
   outline: 0;
 }
+.osc-number-button .osc-number-button-text.osc-disabled {
+  opacity: 0.3;
+}
 .osc-number-button .osc-number-button-text:hover {
   text-decoration: underline;
 }
@@ -274,6 +284,10 @@ form.osc-form {
   width: 30px;
   height: 30px;
   content: "";
+}
+.osc-form .osc-form-errors-warning {
+  font-size: 14px;
+  color: #ea1d25;
 }
 .osc-reactions {
   width: 100%;
@@ -968,6 +982,12 @@ form.osc-form {
     padding: 0;
   }
 }
+.osc-ideas-on-map .osc-ideas-on-map-info .osc-info-block-ideas-list .osc-info-block-ideas-list-idea .osc-title {
+  padding: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
 .osc-ideas-on-map .osc-ideas-on-map-info .osc-info-block-ideas-list .osc-info-block-ideas-list-idea .osc-content {
   position: relative;
   height: 133px;
@@ -1370,4 +1390,233 @@ form.osc-form {
 }
 
 
+.osc-align-right-container {
+  text-align: right;
+}
+.osc-margin-right {
+  margin-right: 15px;
+}
+.osc-button {
+  position: relative;
+  display: inline-block;
+  padding: 12px 15px;
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 20px;
+  border: 0 none;
+  cursor: pointer;
+  background-color: #c4c4c4;
+}
+.osc-button:active,
+.osc-button:focus {
+  outline: 0;
+}
+.osc-button.osc-disabled {
+  opacity: 0.3;
+}
+.osc-button:hover {
+  text-decoration: underline;
+  background-color: #aaa;
+}
+.osc-button-blue,
+.osc-button-blue {
+  position: relative;
+  display: inline-block;
+  padding: 12px 15px;
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 20px;
+  border: 0 none;
+  cursor: pointer;
+  color: white;
+  background-color: #164995;
+}
+.osc-button-blue:active,
+.osc-button-blue:active,
+.osc-button-blue:focus,
+.osc-button-blue:focus {
+  outline: 0;
+}
+.osc-button-blue.osc-disabled,
+.osc-button-blue.osc-disabled {
+  opacity: 0.3;
+}
+.osc-button-blue:hover,
+.osc-button-blue:hover {
+  text-decoration: underline;
+  background-color: #003066;
+}
+.osc-close-button {
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-image: url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyMCIgaGVpZ2h0PSIyMCIgdmlld0JveD0iMCAwIDIwIDIwIj48cGF0aCBmaWxsPSIjMDAwMDAwIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiIGQ9Ik0xNy45MTcgMEwxMCA3LjkxNyAyLjA4MyAwIDAgMi4wODMgNy45MTcgMTAgMCAxNy45MTYgMi4wODMgMjAgMTAgMTIuMDg0IDE3LjkxNyAyMCAyMCAxNy45MTYgMTIuMDgzIDEwIDIwIDIuMDgzeiIvPjwvc3ZnPgo=);
+  position: absolute;
+  top: 20px;
+  right: 15px;
+  width: 20px;
+  height: 20px;
+  background-color: transparent;
+  border: 0 none;
+  cursor: pointer;
+  z-index: 20;
+}
+.osc-close-button:active,
+.osc-close-button:focus {
+  outline: 0;
+}
+.ocs-gray-text {
+  color: #9a9a9a;
+}
+.osc-not-logged-in-button {
+  background-position: center left 10px;
+  background-size: 20px 20px;
+  background-repeat: no-repeat;
+  background-image: url(data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAiIGhlaWdodD0iMjAiIHZpZXdCb3g9IjAgMCAyMCAyMCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZmlsbC1ydWxlPSJldmVub2RkIiBjbGlwLXJ1bGU9ImV2ZW5vZGQiIGQ9Ik0yMCAwVjIwSDExLjI1VjE3LjVIMTcuNVYyLjVIMTEuMjVWMEgyMFpNMTAuNTEyNSA0LjI1NjI1TDE2LjI2MjUgMTBMMTAuNTEyNSAxNS43NDM3TDguNzUgMTMuOTc1TDExLjQ3NSAxMS4yNUgwVjguNzVIMTEuNDc1TDguNzUgNi4wMjVMMTAuNTEyNSA0LjI1NjI1WiIgZmlsbD0id2hpdGUiLz4KPC9zdmc+Cg==);
+  padding-left: 40px;
+}
+.osc-default-select {
+  background-position: center right 10px;
+  background-size: 13px 9px;
+  background-repeat: no-repeat;
+  background-image: url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjEyNTkuNzc5IDk1Ni4yMjEgMTMuODMzIDkuMzkxIiB3aWR0aD0iMTMuOCIgaGVpZ2h0PSI5LjQiPgogIDxkZWZzPgogICAgPHN0eWxlPgogICAgICAuY2xzLTEgewogICAgICAgIGZpbGw6ICMzMjMzMzM7CiAgICAgIH0KICAgIDwvc3R5bGU+CiAgPC9kZWZzPgogIDxwYXRoIGlkPSJQYXRoXzc2IiBkYXRhLW5hbWU9IlBhdGggNzYiIGNsYXNzPSJjbHMtMSIgZD0iTTEuNTQ3LDEzLjgzMy4xMSwxMi4xNzNsNS44NTYtNS4yTDAsMS42NiwxLjQzNiwwLDkuMzkxLDYuOTcyWiIgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoMTI3My42MTIgOTU2LjIyMSkgcm90YXRlKDkwKSIvPgo8L3N2Zz4=);
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  height: 44px;
+  padding: 0 20px;
+  padding-right: 40px;
+  border: solid 1px #434343;
+  outline: none;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 44px;
+  text-align: left;
+  background-color: white;
+}
+.osc-default-input {
+  appearance: none;
+  height: 44px;
+  padding: 0 20px;
+  padding-right: 40px;
+  border: solid 1px #434343;
+  outline: none;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 44px;
+  text-align: left;
+  background-color: white;
+}
+.osc-clear-both {
+  clear: both;
+}
+.osc-number-button {
+  display: block;
+  width: 250px;
+  font-size: 0px;
+  font-weight: 600;
+  text-decoration: none;
+  height: 43px;
+  margin-right: 2px;
+}
+.osc-number-button .osc-number-plates {
+  padding: 7px 6px 7px 10px;
+  font-size: 0px;
+  margin-right: 0px;
+  float: left;
+}
+.osc-number-button .osc-number-plate {
+  margin-right: 4px;
+  font-size: 18px;
+  background: #e8e8e8;
+  background: linear-gradient(#e8e8e8 50%, #ffffff 50%);
+  padding: 0;
+  display: inline-block;
+  height: 29px;
+  line-height: 31px;
+  width: 20px;
+  text-align: center;
+  color: black;
+  border-radius: 3px;
+  font-weight: 800;
+  vertical-align: middle;
+}
+.osc-number-button .osc-number-button-text {
+  position: relative;
+  display: inline-block;
+  padding: 12px 15px;
+  font-size: 16px;
+  font-weight: 600;
+  border: 0 none;
+  cursor: pointer;
+  display: block;
+  float: left;
+  width: 118px;
+  height: 43px;
+  margin-left: 2px;
+  font-size: 18px;
+  line-height: 20px;
+}
+.osc-number-button .osc-number-button-text:active,
+.osc-number-button .osc-number-button-text:focus {
+  outline: 0;
+}
+.osc-number-button .osc-number-button-text.osc-disabled {
+  opacity: 0.3;
+}
+.osc-number-button .osc-number-button-text:hover {
+  text-decoration: underline;
+}
+.osc-idea-details-editbutton {
+  display: block;
+  position: relative;
+  appearance: none;
+  width: 100%;
+  height: 46px;
+  margin-top: 20px;
+  margin-left: 0;
+  padding-left: 46px;
+  padding-right: 3px;
+  font-size: 16px;
+  font-weight: 500;
+  text-overflow: ellipsis;
+  text-align: center;
+  border-radius: 0;
+  border-right: 2px solid #e8e8e8;
+  border-bottom: 2px solid #e8e8e8;
+  background-color: whitesmoke;
+  background-position: 5px 5px;
+  background-repeat: no-repeat;
+  background-size: 36px 36px;
+  color: black;
+  overflow: hidden;
+  cursor: pointer;
+}
+.osc-idea-details-editbutton:after {
+  position: absolute;
+  top: 5px;
+  left: 5px;
+  width: 34px;
+  height: 34px;
+  background-color: black;
+  content: '';
+}
+.osc-idea-details-editbutton.osc-delete:after {
+  background-image: url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzNiIgaGVpZ2h0PSIzNiIgdmlld0JveD0iMCAwIDM2IDM2Ij4KICAgIDxnIGZpbGw9Im5vbmUiIGZpbGwtcnVsZT0iZXZlbm9kZCI+CiAgICAgICAgPHBhdGggZmlsbD0idHJhbnNwYXJlbnQiIGQ9Ik0wIDBoMzZ2MzZIMHoiLz4KICAgICAgICA8cGF0aCBkPSJNMTcuNzE5IDE2LjI2MmEuOTMxLjkzMSAwIDAgMC0xIC44NDN2Ny43MTlhLjkzMi45MzIgMCAwIDAgMSAuODQ0LjkzMi45MzIgMCAwIDAgMS0uODQ0di03LjcxOWEuOTMyLjkzMiAwIDAgMC0xLS44NDN6TTE5LjYyOSAxMC44NjFIMTUuODFhLjcuNyAwIDAgMC0uNy43di44aDUuMjJ2LS44YS43LjcgMCAwIDAtLjcwMS0uN3pNMTMuNzU1IDE2LjI2MmEuOTMyLjkzMiAwIDAgMC0xIC44NDN2Ny43MTlhLjkzMi45MzIgMCAwIDAgMSAuODQ0LjkzMi45MzIgMCAwIDAgMS0uODQ0di03LjcxOWEuOTMxLjkzMSAwIDAgMC0xLS44NDN6TTIxLjY4MiAxNi4yNjJhLjkzMi45MzIgMCAwIDAtMSAuODQzdjcuNzE5YS45MzIuOTMyIDAgMCAwIDEgLjg0NC45MzIuOTMyIDAgMCAwIDEtLjg0NHYtNy43MTlhLjkzMS45MzEgMCAwIDAtMS0uODQzeiIvPgogICAgICAgIDxwYXRoIGZpbGw9IiNGRkYiIGZpbGwtcnVsZT0ibm9uemVybyIgZD0iTTI1LjUwOSAxMi4zNTlIMjIuMTl2LTEuNTg3QTEuNzcyIDEuNzcyIDAgMCAwIDIwLjQxOCA5SDE1LjAyYy0uOTc4IDAtMS43NzEuNzkzLTEuNzcxIDEuNzcxdjEuNTg4SDkuOTNhLjkzMS45MzEgMCAwIDAgMCAxLjg2MWguNTUydjExLjc0NGEyIDIgMCAwIDAgMiAyaDEwLjQ3NmEyIDIgMCAwIDAgMi0yVjE0LjIyaC41NTJhLjkzMS45MzEgMCAwIDAgMC0xLjg2MWgtLjAwMXpNMTQuNzU1IDI0LjgyNGEuOTMyLjkzMiAwIDAgMS0xIC44NDQuOTMyLjkzMiAwIDAgMS0xLS44NDR2LTcuNzE5YS45MzIuOTMyIDAgMCAxIDEtLjg0My45MzEuOTMxIDAgMCAxIDEgLjg0M3Y3LjcxOXptMy45NjQgMGEuOTMyLjkzMiAwIDAgMS0xIC44NDQuOTMyLjkzMiAwIDAgMS0xLS44NDR2LTcuNzE5YS45MzEuOTMxIDAgMCAxIDEtLjg0My45MzIuOTMyIDAgMCAxIDEgLjg0M3Y3LjcxOXptMS42MS0xMi40NjVoLTUuMjJ2LS44YS43LjcgMCAwIDEgLjctLjdoMy44MTlhLjcuNyAwIDAgMSAuNy43bC4wMDEuOHptMi4zNTMgMTIuNDY1YS45MzIuOTMyIDAgMCAxLTEgLjg0NC45MzIuOTMyIDAgMCAxLTEtLjg0NHYtNy43MTlhLjkzMi45MzIgMCAwIDEgMS0uODQzLjkzMS45MzEgMCAwIDEgMSAuODQzdjcuNzE5eiIvPgogICAgPC9nPgo8L3N2Zz4=);
+}
+.osc-idea-details-editbutton.osc-edit:after {
+  background-image: url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzNiIgaGVpZ2h0PSIzNiIgdmlld0JveD0iMCAwIDM2IDM2Ij4KICAgIDxnIGZpbGw9Im5vbmUiIGZpbGwtcnVsZT0iZXZlbm9kZCI+CiAgICAgICAgPHBhdGggZmlsbD0idHJhbnNwYXJlbnQiIGQ9Ik0wIDBoMzZ2MzZIMHoiLz4KICAgICAgICA8ZyBmaWxsPSIjRkZGIiBmaWxsLXJ1bGU9Im5vbnplcm8iPgogICAgICAgICAgICA8cGF0aCBkPSJNOS43NzUgMjMuNTY0bC4wMTIuMDE0Yy0uMTguMTI4LS4zMjEuMzAzLS40MS41MDVsLTEuNDMgMy40ODVhLjU0NC41NDQgMCAwIDAgLjA1NS42MDQuNDkuNDkgMCAwIDAgLjQ1Mi4xMDMuODQxLjg0MSAwIDAgMCAuMTU1LS4wNDhsMy41MDUtMS40MjNhMS4yMiAxLjIyIDAgMCAwIC41MDktLjQwN2wuMDEyLjAxMi40NzItLjQ2Ny0yLjg2Mi0yLjg0Ny0uNDcuNDd6TTExLjM0MyAyMS45OWwxMS41LTExLjQ5NyAyLjg5NSAyLjg5Ni0xMS41IDExLjQ5OHpNMjkuMDc3IDkuMjczbC0xLjk5Mi0xLjk4MmMtLjM2OS0uMzY2LS42MTktLjM4Mi0uOTI3LS4wNzVsLTIuMTYyIDIuMTUgMi45MTIgMi44OTYgMi4xNzQtMi4xNjJhLjQ5Mi40OTIgMCAwIDAtLjAwNS0uODI3eiIvPgogICAgICAgIDwvZz4KICAgIDwvZz4KPC9zdmc+);
+}
+.osc-component {
+  box-sizing: border-box;
+  font-family: 'Avenir_Custom', Helvetica, Arial, sans-serif;
+  font-size: 16px;
+  font-weight: normal;
+  line-height: 20px;
+}
+.osc-component h3 {
+  font-size: 24px;
+  font-weight: 600;
+  font-style: normal;
+  line-height: 1.25;
+}
 

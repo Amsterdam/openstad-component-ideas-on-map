@@ -208,7 +208,7 @@ export default class IdeasDetails extends React.Component {
               <div className="osc-details-stats">
 
                 <h3>Likes</h3>
-                <VoteButton config={{ text: 'eens', opinion: 'yes', api: this.config.api, siteId: this.config.siteId }} idea={this.state.idea} name="likebutton" value={self.props.idea.yes}/>
+                <VoteButton config={{ text: 'eens', opinion: 'yes', api: this.config.api, user: this.config.user, siteId: this.config.siteId }} idea={this.state.idea} name="likebutton" value={self.props.idea.yes}/>
 
                 <br/>
 

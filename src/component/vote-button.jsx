@@ -49,7 +49,7 @@ export default class VoteButton extends React.Component {
 		let headers = Object.assign(( self.config.api && self.config.api.headers || {} ), { "Content-type": "application/json" });
 
     // if (!self.config.api.isUserLoggedIn) url += '?useOauth=anonymous'
-    if (!self.config.api.isUserLoggedIn) {
+    if (!( self.config.user && self.config.user.role )) {
       OpenStadComponentLibs.localStorage.set('osc-ideas-on-map-vote-pending', true );
       let loginUrl =  '/oauth/login?returnTo=' + encodeURIComponent(document.location.href) + '&useOauth=anonymous';
       return document.location.href = loginUrl;
@@ -64,7 +64,7 @@ export default class VoteButton extends React.Component {
       })
     })
       .then((response) => {
-        if (!response.ok) throw Error(response)
+        if (!response.ok) throw Error('Stemmen is niet gelukt')
         return response.json();
       })
       .then( json => {
@@ -81,8 +81,7 @@ export default class VoteButton extends React.Component {
 		    document.dispatchEvent(event);
       })
       .catch((err) => {
-        console.log('Niet goed');
-        console.log(err);
+        alert(err.message);
       });
     
   }

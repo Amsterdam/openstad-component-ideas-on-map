@@ -1,6 +1,6 @@
 // polyfills
-import 'core-js/es/map';
-import 'core-js/es/set';
+//import 'core-js/es/map';
+//import 'core-js/es/set';
 import 'whatwg-fetch';
 
 import React from 'react';

@@ -146,16 +146,12 @@ export default class IdeasForm extends React.Component {
 	  }
 
 	  // images
-	  // document.querySelector('#form-warning-images').style.display = 'none';
-	  // if ( imageuploader && imageuploader.getFiles ) {
-		//   var images = imageuploader.getFiles();
-		//   images.forEach(function(image) {
-		//     if (!image.serverId) {
-		//   	  document.querySelector('#form-warning-images').style.display = 'block';
-		//   	  isValid = false;
-		//     }
-		//   });
-	  // }
+	  if (!self.imageField.validate()) {
+		  self['form-warning-image'].style.display = 'block';
+		  isValid = false;
+	  } else {
+		  self['form-warning-image'].style.display = 'none';
+    }
 
 	  // time ?
 
@@ -167,7 +163,12 @@ export default class IdeasForm extends React.Component {
 
     var self = this;
 
-	  if ( !self.validateIdea() ) return;
+	  if ( !self.validateIdea() ) {
+      self.setState({ showFormErrorsWarning: true });
+      return;
+    }
+
+    self.setState({ showFormErrorsWarning: false });
 
 	  if (!self.config.api.isUserLoggedIn) return alert('Je bent niet ingelogd');
 
@@ -231,6 +232,15 @@ export default class IdeasForm extends React.Component {
 					  </h2>
 				    <OpenStadComponentFormelementsInputWithCounter ref={el => (self.input = el)} config={{ name: "modBreak", inputType: 'textarea', minLength: 0, maxLength: 2000 }} value={this.state.formfields.modBreak} onChange={(data) => self.handleFieldChange('modBreak', data.value)} ref={el => (self.modBreakField = el)}/>
           </div>
+      );
+    }
+
+    let formErrorsWarningHTML = null;
+    if (self.state.showFormErrorsWarning) {
+      formErrorsWarningHTML = (
+        <div className="osc-form-errors-warning">
+          Niet alle velden zijn correct ingevuld. Scroll naar boven om te zien wat er mis gaat.
+        </div>
       );
     }
 
@@ -324,7 +334,10 @@ export default class IdeasForm extends React.Component {
 				    <OpenStadComponentFormelementsInputWithCounter ref={el => (self.input = el)} config={{ name: "bechrijving", inputType: 'textarea', minLength: self.config.descriptionMinLength, maxLength: self.config.descriptionMaxLength }} value={this.state.formfields.description} onChange={(data) => self.handleFieldChange('description', data.value)} ref={el => (self.descriptionField = el)}/>
           </div>
 
-          <OpenStadComponentImageUpload config={{ title: 'Afbeeldingen', infoText: 'Let op: Stuur alleen een foto in die u zelf gemaakt heeft. Foto’s van anderen kunnen auteursrechtelijk beschermd zijn. U heeft toestemming nodig van de fotograaf om die foto te uploaden.' }} name="images" value={this.state.formfields.title} handleFieldChange={self.handleFieldChange}/>
+          <div className="osc-form-group">
+            <OpenStadComponentImageUpload config={{ title: 'Afbeeldingen', infoText: 'Let op: Stuur alleen een foto in die u zelf gemaakt heeft. Foto’s van anderen kunnen auteursrechtelijk beschermd zijn. U heeft toestemming nodig van de fotograaf om die foto te uploaden.' }} name="images" value={this.state.formfields.title} handleFieldChange={self.handleFieldChange} ref={el => (self.imageField = el)}/>
+				    <div className="osc-form-warning" style={{ display: 'none' }} ref={ el => this['form-warning-image'] = el  }>Afbeelding upload is nog niet afgerond</div>
+          </div>
 
           <br/>
           <div className="osc-form-group">
@@ -362,6 +375,7 @@ export default class IdeasForm extends React.Component {
           {modBreakHTML}
 
           <br/>
+          {formErrorsWarningHTML}
           <br/>
           <a className="osc-button osc-button-blue" onClick={() => self.submitIdea()} ref={el => (self.submitButton = el)}>Versturen</a>
           <br/>

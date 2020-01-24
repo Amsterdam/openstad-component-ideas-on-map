@@ -33,6 +33,19 @@ export default class OpenStadComponentImageUpload extends OpenStadComponentForme
     this.loadNextFile();
 	}
 
+  validate() {
+    let isValid = true;
+		if ( this.imageuploader && this.imageuploader.getFiles ) {
+			var images = this.imageuploader.getFiles();
+			images.forEach(function(image) {
+				if (!image.serverId) {
+					isValid = false;
+				}
+			});
+		}
+    return isValid;
+  }
+  
   loadNextFile() {
     var self = this;
     var file = self.files[self._loadedFiles];

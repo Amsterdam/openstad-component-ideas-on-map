@@ -117,7 +117,7 @@ export default class IdeasList extends React.Component {
             <div className="osc-info-block-ideas-list-idea" onClick={(event) => self.config.onIdeaClick(event, idea)} key={'info-block-' + i}>
               <div className="osc-content">
                 <div className="osc-image" style={{ backgroundImage: `url(${idea.image})` }}></div>
-                <h4>{ eval(`idea.${self.config.titleField}`) }</h4>
+                <h4 className="osc-title">{ eval(`idea.${self.config.titleField}`) }</h4>
                 <div className="osc-summary">
                   { eval(`idea.${self.config.summaryField}`) }
                 </div>
