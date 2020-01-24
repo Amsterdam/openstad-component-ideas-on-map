@@ -9,7 +9,7 @@ export default class OpenStadComponentFormfieldsInputWithCounter extends React.C
     super(props);
 
 		let self = this;
-		self.id = props.id || 'openstad-component-formfields-plaintext-with-counter-' + parseInt( 1000000 * Math.random() )
+		self.id = props.id || 'osc-formfields-plaintext-with-counter-' + parseInt( 1000000 * Math.random() )
 
 		self.defaultConfig = {
 			name: 'tekst',

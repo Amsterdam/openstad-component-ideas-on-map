@@ -97,16 +97,16 @@ export default class InfoBlock extends React.Component {
         let button = null;
         if (self.config.api.isUserLoggedIn) {
           button = (
-            <button className="openstad-button openstad-button-blue" onClick={(event) => self.dispatchNewIdeaClick(event)} ref={el => (self.newIdeaButton = el)}>Nieuwe kans of knelpunt toevoegen</button>
+            <button className="osc-button osc-button-blue" onClick={(event) => self.dispatchNewIdeaClick(event)} ref={el => (self.newIdeaButton = el)}>Nieuwe kans of knelpunt toevoegen</button>
           );
         } else {
           button = (
-            <button onClick={() => { document.location.href = '/oauth/login?returnTo=' + encodeURIComponent(document.location.href) }} className="openstad-button-blue openstad-not-logged-in-button">Inloggen</button>
+            <button onClick={() => { document.location.href = '/oauth/login?returnTo=' + encodeURIComponent(document.location.href) }} className="osc-button-blue osc-not-logged-in-button">Inloggen</button>
           );
         }
         newIdeaHTML = (
-			    <div className="openstad-component-info-block-new-idea">
-            <button className="openstad-close-button" onClick={(event) => self.dispatchCloseSelectedLocation(event, null)} ref={el => (self.resetButton = el)}/>
+			    <div className="osc-info-block-new-idea">
+            <button className="osc-close-button" onClick={(event) => self.dispatchCloseSelectedLocation(event, null)} ref={el => (self.resetButton = el)}/>
               <h3>Geselecteerd</h3>
               <p>Een locatie vlakbij</p>
               <h4>{self.state.newIdea.address}</h4>
@@ -117,12 +117,12 @@ export default class InfoBlock extends React.Component {
         );
       } else {
         newIdeaHTML = (
-			    <div className="openstad-component-info-block-new-idea">
-            <button className="openstad-close-button" onClick={(event) => self.dispatchCloseSelectedLocation(event, null)} ref={el => (self.resetButton = el)}/>
+			    <div className="osc-info-block-new-idea">
+            <button className="osc-close-button" onClick={(event) => self.dispatchCloseSelectedLocation(event, null)} ref={el => (self.resetButton = el)}/>
             <h3>Geselecteerd</h3>
             <p>U heeft een locatie geselecteerd buiten het begrensde gebied. U kunt via deze website geen melding op deze locatie inzenden.</p>
             <p>Wilt u iets melden over de omliggende straten en pleinen? Dan horen we dit graag van u via e-mail. Klik daarvoor op de link hieronder of stuur direct een e-mail naar gerarddoubuurt@amsterdam.nl.</p>
-            <a className="openstad-link" href="mailto: gerarddoubuurt@amsterdam.nl">Meld een kans of knelpunt via e-mail</a>
+            <a className="osc-link" href="mailto: gerarddoubuurt@amsterdam.nl">Meld een kans of knelpunt via e-mail</a>
           </div>
         );
       }
@@ -136,29 +136,29 @@ export default class InfoBlock extends React.Component {
       let typeDef = self.config.types.find(entry => idea.extraData && entry.name == idea.extraData.theme);
       if (!typeDef) { typeDef = { listicon: { html: '' } }; console.log(idea.extraData.theme + ' niet gevonden'); }
       selectedIdeaHTML = (
-			  <div className="openstad-component-info-block-selected-idea" onClick={(event) => self.dispatchSelectedIdeaClick(event, self.state.selectedIdea)}>
-          <button className="openstad-close-button" onClick={(event) => self.dispatchUpdateSelectedIdea(event, null)} ref={el => (self.resetButton = el)}/>
+			  <div className="osc-info-block-selected-idea" onClick={(event) => self.dispatchSelectedIdeaClick(event, self.state.selectedIdea)}>
+          <button className="osc-close-button" onClick={(event) => self.dispatchUpdateSelectedIdea(event, null)} ref={el => (self.resetButton = el)}/>
           <h3>Geselecteerd</h3>
-          <div className="openstad-component-info-block-selected-idea-idea">
-            <div className="openstad-component-image" style={{ backgroundImage: `url(${idea.image})` }}></div>
-            <div className="openstad-component-content">
+          <div className="osc-info-block-selected-idea-idea">
+            <div className="osc-image" style={{ backgroundImage: `url(${idea.image})` }}></div>
+            <div className="osc-content">
               <h4>{ eval(`idea.${self.config.titleField}`) }</h4>
-              <div className="openstad-summary">
+              <div className="osc-summary">
                 { eval(`idea.${self.config.summaryField}`) }
               </div>
-              <div className="openstad-stats">
-                <div className="openstad-likes">
+              <div className="osc-stats">
+                <div className="osc-likes">
                   {idea.yes || 0}
                 </div>
-                <div className="openstad-reactions">
+                <div className="osc-reactions">
                   {idea.argCount || 0}
                 </div>
-                <div className="openstad-type">
-                  <div className="openstad-type-content" dangerouslySetInnerHTML={{ __html: typeDef.listicon.html }}></div>
+                <div className="osc-type">
+                  <div className="osc-type-content" dangerouslySetInnerHTML={{ __html: typeDef.listicon.html }}></div>
                 </div>
               </div>
             </div>
-            <div className="openstad-clear-both"></div>
+            <div className="osc-clear-both"></div>
           </div>
         </div>
       );
@@ -171,14 +171,14 @@ export default class InfoBlock extends React.Component {
     let defaultBlockHTML = null;
     if (!newIdeaHTML && !selectedIdeaHTML) {
       defaultBlockHTML = (
-			  <div className="openstad-component-info-block-default-block">
-          <div className="openstad-component-info-block-default-block-line openstad-component-line-1">
+			  <div className="osc-info-block-default-block">
+          <div className="osc-info-block-default-block-line osc-line-1">
             <strong>Klik op een plek</strong> op de kaart om een <strong>nieuwe kans of knelpunt toe te voegen</strong>.
           </div>
-          <div className="openstad-component-info-block-default-block-line openstad-component-line-2">
+          <div className="osc-info-block-default-block-line osc-line-2">
             <strong>Selecteer een inzending</strong> op de kaart om <strong>meer informatie</strong> over de kans of het knelpunt te bekijken.
           </div>
-          <div className="openstad-component-info-block-default-block-line openstad-component-line-3">
+          <div className="osc-info-block-default-block-line osc-line-3">
             Bekijk hieronder de inzendingen die nu zichtbaar zijn op de kaart.
           </div>
         </div>
@@ -198,13 +198,13 @@ export default class InfoBlock extends React.Component {
 
     // TODO: kan de key weg uit IdeasList
     return (
-			<div id={self.props.id} className={self.props.className || 'openstad-component-info-block'} ref={el => (self.instance = el)}>
+			<div id={self.props.id} className={self.props.className || 'osc-info-block'} ref={el => (self.instance = el)}>
         {mobileSwitcherHTML}
 			  <div className="osc-info-content">
           {defaultBlockHTML}
           {newIdeaHTML}
           {selectedIdeaHTML}
-			    <IdeasList config={{ ...self.config, onIdeaClick: ( event, idea ) => self.dispatchOnIdeaClick(event, idea) }} ideas={self.state.ideas} title={self.config.title + ' ' + titleAddition} key={`openstad-component-ideas-list-321`} ref={el => (self.list = el)}/>
+			    <IdeasList config={{ ...self.config, onIdeaClick: ( event, idea ) => self.dispatchOnIdeaClick(event, idea) }} ideas={self.state.ideas} title={self.config.title + ' ' + titleAddition} key={`osc-ideas-list-321`} ref={el => (self.list = el)}/>
 			  </div>
 			</div>
 

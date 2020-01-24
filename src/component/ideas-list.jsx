@@ -85,9 +85,9 @@ export default class IdeasList extends React.Component {
     let sortSelector = null;
     if (this.state.showSortButton) {
       sortSelector = (
-        <div className="osc-sort openstad-align-right-container openstad-margin-right">
+        <div className="osc-sort osc-align-right-container osc-margin-right">
           Sorteer op:&nbsp;&nbsp;&nbsp;&nbsp;
-          <select value={self.state.currentSortOrder} onChange={() => self.setSortOrder({ sortOrder: self.sortSelector.value })} className="openstad-default-select" ref={el => (self.sortSelector = el)}>
+          <select value={self.state.currentSortOrder} onChange={() => self.setSortOrder({ sortOrder: self.sortSelector.value })} className="osc-default-select" ref={el => (self.sortSelector = el)}>
             { self.config.sortOptions.map((option, i) => {
               return <option value={ option.value } key={'sort-option-' + i}>{ option.name }</option>;
             })}
@@ -98,10 +98,10 @@ export default class IdeasList extends React.Component {
       sortSelector = (<div style={{height: 20}}></div>)
     }
 
-    let titleHML = (<h3 className="openstad-title">{self.props.title} ({self.state.ideas.length})</h3>);
+    let titleHML = (<h3 className="osc-title">{self.props.title} ({self.state.ideas.length})</h3>);
 
     return (
-			<div id={self.id} className={self.props.className || 'openstad-component-info-block-ideas-list'} ref={el => (self.instance = el)}>
+			<div id={self.id} className={self.props.className || 'osc-info-block-ideas-list'} ref={el => (self.instance = el)}>
 
         {sortSelector}
 
@@ -114,26 +114,26 @@ export default class IdeasList extends React.Component {
           let typeDef = self.config.types.find(entry => idea.extraData && entry.name == idea.extraData.theme);
           if (!typeDef) { typeDef = { listicon: { html: '' } }; console.log(idea.extraData.theme + ' niet gevonden'); }
           return (
-            <div className="openstad-component-info-block-ideas-list-idea" onClick={(event) => self.config.onIdeaClick(event, idea)} key={'info-block-' + i}>
-              <div className="openstad-component-content">
-                <div className="openstad-component-image" style={{ backgroundImage: `url(${idea.image})` }}></div>
-                <h4>{ eval(`idea.${self.config.titleField}`) }</h4>
-                <div className="openstad-summary">
+            <div className="osc-info-block-ideas-list-idea" onClick={(event) => self.config.onIdeaClick(event, idea)} key={'info-block-' + i}>
+              <div className="osc-content">
+                <div className="osc-image" style={{ backgroundImage: `url(${idea.image})` }}></div>
+                <h4 className="osc-title">{ eval(`idea.${self.config.titleField}`) }</h4>
+                <div className="osc-summary">
                   { eval(`idea.${self.config.summaryField}`) }
                 </div>
-                <div className="openstad-stats">
-                <div className="openstad-likes">
+                <div className="osc-stats">
+                <div className="osc-likes">
                   {idea.yes || 0}
                 </div>
-                <div className="openstad-reactions">
+                <div className="osc-reactions">
                   {idea.argCount || 0}
                 </div>
-                <div className="openstad-type">
-                  <div className="openstad-type-content" dangerouslySetInnerHTML={{ __html: typeDef.listicon.html }}></div>
+                <div className="osc-type">
+                  <div className="osc-type-content" dangerouslySetInnerHTML={{ __html: typeDef.listicon.html }}></div>
                 </div>
                 </div>
               </div>
-              <div className="openstad-clear-both"></div>
+              <div className="osc-clear-both"></div>
             </div>
           );
         })}

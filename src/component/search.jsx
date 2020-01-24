@@ -79,27 +79,27 @@ export default class Search extends React.Component {
 		let suggestionsHTML = null;
 		if (self.state.showSuggestions) {
 			suggestionsHTML = (
-				<div className="openstad-component-search-suggestions" ref={el => (self.suggestions = el)}>
+				<div className="osc-search-suggestions" ref={el => (self.suggestions = el)}>
 					Adressen:
           { self.state.searchResult.locations.map((result, i) => {
 						let text = result.text.replace(new RegExp(self.state.searchValue, 'ig'), ($0) => '<strong>' + $0 + '</strong>');
-            return <div className="openstad-component-search-suggestion openstad-component-search-suggestion-idea" onClick={ result.onClick } key={'search-result-' + i} dangerouslySetInnerHTML={{__html: text}}></div>;
+            return <div className="osc-search-suggestion osc-search-suggestion-idea" onClick={ result.onClick } key={'search-result-' + i} dangerouslySetInnerHTML={{__html: text}}></div>;
           })}
-					<div className="openstad-component-search-suggestions-hr"/>
+					<div className="osc-search-suggestions-hr"/>
 					{ this.config.title }:
           { self.state.searchResult.ideas.map((result, i) => {
 						let text = result.text.replace(new RegExp(self.state.searchValue, 'ig'), ($0) => '<strong>' + $0 + '</strong>');
-            return <div className="openstad-component-search-suggestion openstad-component-search-suggestion-idea" onClick={ result.onClick } key={'search-result-' + i} dangerouslySetInnerHTML={{__html: text}}></div>;
+            return <div className="osc-search-suggestion osc-search-suggestion-idea" onClick={ result.onClick } key={'search-result-' + i} dangerouslySetInnerHTML={{__html: text}}></div>;
           })}
 				</div>
 			);
 		}
 		
     return (
-			<div id={self.id} className={self.props.className || 'openstad-component-search'} ref={el => (self.instance = el)}>
+			<div id={self.id} className={self.props.className || 'osc-search'} ref={el => (self.instance = el)}>
 
 				{suggestionsHTML}
-				<input type="text" value={this.state.searchValue} placeholder="Zoek op trefwoord" onChange={() => self.handleChange( self.inputfield.value )} onBlur={() => self.hideSuggestions()} onFocus={() => self.showSuggestions()} className="openstad-default-input openstad-component-search-input" ref={el => (self.inputfield = el)}/>
+				<input type="text" value={this.state.searchValue} placeholder="Zoek op trefwoord" onChange={() => self.handleChange( self.inputfield.value )} onBlur={() => self.hideSuggestions()} onFocus={() => self.showSuggestions()} className="osc-default-input osc-search-input" ref={el => (self.inputfield = el)}/>
         <button className={`osc-search-button${ this.state.searchValue ? ' osc-active' : '' }`} onClick={(event) => self.handleButtonClick(event)} ref={el => (self.resetButton = el)}/>
 
 			</div>

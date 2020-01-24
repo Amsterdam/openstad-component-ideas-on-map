@@ -111,7 +111,7 @@
   clear: both;
 }
 
-.openstad-component-number-button {
+.osc-number-button {
 
 	display: block;
 	width: 250px;
@@ -121,14 +121,14 @@
 	height: 43px;
 	margin-right: 2px;
 	
-	.openstad-component-number-plates {
+	.osc-number-plates {
 	  padding: 7px 6px 7px 10px;
 		font-size: 0px;
 		margin-right: 0px;
     float: left;
 	}
 	
-	.openstad-component-number-plate {
+	.osc-number-plate {
 		margin-right: 4px;
 		display: inline-block;
 		font-size: 18px;
@@ -146,7 +146,7 @@
 		vertical-align: middle;
 	}
 
-	.openstad-component-number-button-text {
+	.osc-number-button-text {
     .openstad-button-basics;
     display: block;
     float: left;

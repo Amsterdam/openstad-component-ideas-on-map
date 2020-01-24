@@ -1,7 +1,8 @@
 import merge from 'merge';
-import storage from '../lib/localstorage.js';
 import React from 'react';
 import Search from './search.jsx';
+
+import OpenStadComponentLibs from 'openstad-component-libs/src/index.jsx';
 
 'use strict';
 
@@ -29,10 +30,10 @@ export default class VoteButton extends React.Component {
 
 	componentDidMount(prevProps, prevState) {
     // return from anonymous login
-    let votePending = storage.get('osc-ideas-on-map-vote-pending');
+    let votePending = OpenStadComponentLibs.localStorage.get('osc-ideas-on-map-vote-pending');
     if (votePending) {
 			this.doVote(new Event('x'));
-      storage.remove('osc-ideas-on-map-vote-pending');
+      OpenStadComponentLibs.localStorage.remove('osc-ideas-on-map-vote-pending');
 		}
   }
 
@@ -48,8 +49,8 @@ export default class VoteButton extends React.Component {
 		let headers = Object.assign(( self.config.api && self.config.api.headers || {} ), { "Content-type": "application/json" });
 
     // if (!self.config.api.isUserLoggedIn) url += '?useOauth=anonymous'
-    if (!self.config.api.isUserLoggedIn) {
-      storage.set('osc-ideas-on-map-vote-pending', true );
+    if (!( self.config.user && self.config.user.role )) {
+      OpenStadComponentLibs.localStorage.set('osc-ideas-on-map-vote-pending', true );
       let loginUrl =  '/oauth/login?returnTo=' + encodeURIComponent(document.location.href) + '&useOauth=anonymous';
       return document.location.href = loginUrl;
     }
@@ -63,7 +64,7 @@ export default class VoteButton extends React.Component {
       })
     })
       .then((response) => {
-        if (!response.ok) throw Error(response)
+        if (!response.ok) throw Error('Stemmen is niet gelukt')
         return response.json();
       })
       .then( json => {
@@ -80,8 +81,7 @@ export default class VoteButton extends React.Component {
 		    document.dispatchEvent(event);
       })
       .catch((err) => {
-        console.log('Niet goed');
-        console.log(err);
+        alert(err.message);
       });
     
   }
@@ -97,16 +97,16 @@ export default class VoteButton extends React.Component {
 	  let value0   = value - value000 * 100 - value00 * 10;
 
     return (
-	    <div id={self.id} className={self.props.className || 'openstad-component-vote-button openstad-component-number-button'} ref={el => (self.instance = el)}>
-		    <div className="openstad-component-number-plates" style={{ color: this.config.color, backgroundColor: this.config.backgroundColor }}>
-			    <div id={`${this.config.name}-number-plate-000`} className="openstad-component-number-plate">{value000}</div>
-			    <div id={`${this.config.name}-number-plate-00`} className="openstad-component-number-plate">{value00}</div>
-			    <div id={`${this.config.name}-number-plate-0`} className="openstad-component-number-plate">{value0}</div>
+	    <div id={self.id} className={self.props.className || 'osc-vote-button osc-number-button'} ref={el => (self.instance = el)}>
+		    <div className="osc-number-plates" style={{ color: this.config.color, backgroundColor: this.config.backgroundColor }}>
+			    <div id={`${this.config.name}-number-plate-000`} className="osc-number-plate">{value000}</div>
+			    <div id={`${this.config.name}-number-plate-00`} className="osc-number-plate">{value00}</div>
+			    <div id={`${this.config.name}-number-plate-0`} className="osc-number-plate">{value0}</div>
 		    </div>
-        <div className={`openstad-component-number-button-text ${this.config.name}-name ${this.props.idea.userVote ? ' ocs-user-has-voted' : ''} ${this.state.busy ? ' ocs-busy' : ''}`} style={{ color: this.config.color, backgroundColor: this.config.backgroundColor }} onClick={ (e) => self.doVote(e) }>
+        <div className={`osc-number-button-text ${this.config.name}-name ${this.props.idea.userVote ? ' ocs-user-has-voted' : ''} ${this.state.busy ? ' ocs-busy' : ''}`} style={{ color: this.config.color, backgroundColor: this.config.backgroundColor }} onClick={ (e) => self.doVote(e) }>
 			    {self.config.text}
 		    </div>
-        <div className="openstad-clear-both"></div>
+        <div className="osc-clear-both"></div>
 	    </div>
     );
 

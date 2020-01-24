@@ -10,7 +10,7 @@ export default class OpenStadComponentReaction extends React.Component {
     super(props);
 
 		var self = this;
-		self.id = props.id || 'openstad-component-reaction-' + parseInt( 1000000 * Math.random() )
+		self.id = props.id || 'osc-reaction-' + parseInt( 1000000 * Math.random() )
 
 		self.defaultConfig = {
       siteId: null,

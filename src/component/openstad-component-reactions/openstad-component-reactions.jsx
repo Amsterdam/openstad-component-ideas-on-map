@@ -12,7 +12,7 @@ export default class OpenStadComponentReactions extends React.Component {
     super(props);
 
 		let self = this;
-		self.id = props.id || 'openstad-component-reaction-form-' + parseInt( 1000000 * Math.random() )
+		self.id = props.id || 'osc-reaction-form-' + parseInt( 1000000 * Math.random() )
 
 		self.defaultConfig = {
       siteId: null,
@@ -81,10 +81,10 @@ export default class OpenStadComponentReactions extends React.Component {
 		let self = this;
 
 		let reactions =  (
-      <ul className="openstad-component-reactions-list">
+      <ul className="osc-reactions-list">
         {self.state.reactions.map((reaction) => {
 
-					let key = 'openstad-component-reaction-key-' + ( reaction.id || parseInt( 1000000 * Math.random() ) );
+					let key = 'osc-reaction-key-' + ( reaction.id || parseInt( 1000000 * Math.random() ) );
           return (
             <li key={key}>
               <OpenStadComponentReaction config={self.config} data={reaction}/>
@@ -101,7 +101,7 @@ export default class OpenStadComponentReactions extends React.Component {
 		}, self.config || {});
 
     return (
-			<div id={this.id} className={self.props.className || 'openstad-component-reactions'} ref={el => (this.instance = el)} >
+			<div id={this.id} className={self.props.className || 'osc-reactions'} ref={el => (this.instance = el)} >
 
 				{title}
 

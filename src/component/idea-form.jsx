@@ -146,16 +146,12 @@ export default class IdeasForm extends React.Component {
 	  }
 
 	  // images
-	  // document.querySelector('#form-warning-images').style.display = 'none';
-	  // if ( imageuploader && imageuploader.getFiles ) {
-		//   var images = imageuploader.getFiles();
-		//   images.forEach(function(image) {
-		//     if (!image.serverId) {
-		//   	  document.querySelector('#form-warning-images').style.display = 'block';
-		//   	  isValid = false;
-		//     }
-		//   });
-	  // }
+	  if (!self.imageField.validate()) {
+		  self['form-warning-image'].style.display = 'block';
+		  isValid = false;
+	  } else {
+		  self['form-warning-image'].style.display = 'none';
+    }
 
 	  // time ?
 
@@ -167,7 +163,12 @@ export default class IdeasForm extends React.Component {
 
     var self = this;
 
-	  if ( !self.validateIdea() ) return;
+	  if ( !self.validateIdea() ) {
+      self.setState({ showFormErrorsWarning: true });
+      return;
+    }
+
+    self.setState({ showFormErrorsWarning: false });
 
 	  if (!self.config.api.isUserLoggedIn) return alert('Je bent niet ingelogd');
 
@@ -234,8 +235,17 @@ export default class IdeasForm extends React.Component {
       );
     }
 
+    let formErrorsWarningHTML = null;
+    if (self.state.showFormErrorsWarning) {
+      formErrorsWarningHTML = (
+        <div className="osc-form-errors-warning">
+          Niet alle velden zijn correct ingevuld. Scroll naar boven om te zien wat er mis gaat.
+        </div>
+      );
+    }
+
     return (
-			<div id={self.id} className={self.props.className || 'openstad-component-info-block-idea-form'} ref={el => (self.instance = el)}>
+			<div id={self.id} className={self.props.className || 'osc-info-block-idea-form'} ref={el => (self.instance = el)}>
 
 			  <div className="osc-spacer"></div>
 
@@ -275,7 +285,7 @@ export default class IdeasForm extends React.Component {
 					  <div className="osc-form-info">
 						  Wilt u deze inzending bestempelen als een kans of als een knelpunt voor de buurt?
 					  </div>
-            <select className="openstad-default-select" value={this.state.formfields.type} onChange={() => self.handleFieldChange('type', self.typeField.value)} ref={el => (self.typeField = el)}>
+            <select className="osc-default-select" value={this.state.formfields.type} onChange={() => self.handleFieldChange('type', self.typeField.value)} ref={el => (self.typeField = el)}>
               <option value="">Maak een keuze</option>
               <option value="Kans">Kans</option>
               <option value="Knelpunt">Knelpunt</option>
@@ -290,7 +300,7 @@ export default class IdeasForm extends React.Component {
 					  <div className="osc-form-info">
 						  Onder welk thema valt uw inzending?
 					  </div>
-            <select className="openstad-default-select" value={this.state.formfields.theme} onChange={() => self.handleFieldChange('theme', self.themeField.value)} ref={el => (self.themeField = el)}>
+            <select className="osc-default-select" value={this.state.formfields.theme} onChange={() => self.handleFieldChange('theme', self.themeField.value)} ref={el => (self.themeField = el)}>
               <option value="">Maak een keuze</option>
               <option value="Auto">Auto</option>
               <option value="Fiets">Fiets</option>
@@ -324,7 +334,10 @@ export default class IdeasForm extends React.Component {
 				    <OpenStadComponentFormelementsInputWithCounter ref={el => (self.input = el)} config={{ name: "bechrijving", inputType: 'textarea', minLength: self.config.descriptionMinLength, maxLength: self.config.descriptionMaxLength }} value={this.state.formfields.description} onChange={(data) => self.handleFieldChange('description', data.value)} ref={el => (self.descriptionField = el)}/>
           </div>
 
-          <OpenStadComponentImageUpload config={{ title: 'Afbeeldingen', infoText: 'Let op: Stuur alleen een foto in die u zelf gemaakt heeft. Foto’s van anderen kunnen auteursrechtelijk beschermd zijn. U heeft toestemming nodig van de fotograaf om die foto te uploaden.' }} name="images" value={this.state.formfields.title} handleFieldChange={self.handleFieldChange}/>
+          <div className="osc-form-group">
+            <OpenStadComponentImageUpload config={{ title: 'Afbeeldingen', infoText: 'Let op: Stuur alleen een foto in die u zelf gemaakt heeft. Foto’s van anderen kunnen auteursrechtelijk beschermd zijn. U heeft toestemming nodig van de fotograaf om die foto te uploaden.' }} name="images" value={this.state.formfields.title} handleFieldChange={self.handleFieldChange} ref={el => (self.imageField = el)}/>
+				    <div className="osc-form-warning" style={{ display: 'none' }} ref={ el => this['form-warning-image'] = el  }>Afbeelding upload is nog niet afgerond</div>
+          </div>
 
           <br/>
           <div className="osc-form-group">
@@ -337,7 +350,7 @@ export default class IdeasForm extends React.Component {
 					  <h4>
 						  Woont of werkt u in de buurt?
 					  </h4>
-            <select className="openstad-default-select" value={this.state.formfields.userWhat} onChange={() => self.handleFieldChange('userWhat', self.userWhatField.value)} ref={el => (self.userWhatField = el)}>
+            <select className="osc-default-select" value={this.state.formfields.userWhat} onChange={() => self.handleFieldChange('userWhat', self.userWhatField.value)} ref={el => (self.userWhatField = el)}>
               <option value="">Maak een keuze</option>
               <option value="Ik woon in de buurt">Ik woon in de buurt</option>
               <option value="Ik werk in de buurt">Ik werk in de buurt</option>
@@ -347,7 +360,7 @@ export default class IdeasForm extends React.Component {
 					  <h4>
 						  Wat is uw leeftijd?
 					  </h4>
-            <select className="openstad-default-select" value={this.state.formfields.userAge} onChange={() => self.handleFieldChange('userAge', self.userAgeField.value)} ref={el => (self.userAgeField = el)}>
+            <select className="osc-default-select" value={this.state.formfields.userAge} onChange={() => self.handleFieldChange('userAge', self.userAgeField.value)} ref={el => (self.userAgeField = el)}>
               <option value="">Maak een keuze</option>
               <option value="Jonger dan 18">Jonger dan 18</option>
               <option value="18 - 24">18 - 24</option>
@@ -362,8 +375,9 @@ export default class IdeasForm extends React.Component {
           {modBreakHTML}
 
           <br/>
+          {formErrorsWarningHTML}
           <br/>
-          <a className="openstad-button openstad-button-blue" onClick={() => self.submitIdea()} ref={el => (self.submitButton = el)}>Versturen</a>
+          <a className="osc-button osc-button-blue" onClick={() => self.submitIdea()} ref={el => (self.submitButton = el)}>Versturen</a>
           <br/>
           <br/>
           <br/>
