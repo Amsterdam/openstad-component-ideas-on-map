@@ -12,7 +12,7 @@
 
     .osc-search-button {
 
-      display: none;
+      display: block;
 
       @media @phone {
         .osc-search-black-background();
@@ -86,6 +86,10 @@
 
         &:active, &:focus {
           outline: 0;
+        }
+
+        @media @phone {
+          background-position: 0 0;
         }
 
       }

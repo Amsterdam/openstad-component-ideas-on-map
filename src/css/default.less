@@ -2,7 +2,7 @@
 @import 'openstad-formelements';
 @import 'openstad-reaction';
 
-@phone: ~'only screen and (max-width: 700px)';
+@phone: ~'only screen and (max-width: 880px)';
 
 .osc-ideas-on-map {
 
@@ -365,7 +365,7 @@
 
   .osc-idea-details {
 
-    width: 920px;
+    width: 700px;
     margin: 0 auto;
 
     @media @phone {
@@ -404,20 +404,31 @@
 
       .osc-details-stats {
 
-        position: absolute;
-        top: 0;
-        left: 720px;
+        position: relative;
+        left: 0;
         width: 200px;
-        height: 375px;
+        height: auto;
+        margin-top: 10px;
+        margin-bottom: 20px;
 
         @media @phone {
-          position: relative;
-          left: 0;
           width: 100%;
-          height: auto;
-          margin-top: 10px;
-          margin-bottom: 20px;
         }
+
+        // position: absolute;
+        // top: 0;
+        // left: 720px;
+        // width: 200px;
+        // height: 375px;
+
+        // @media @phone {
+        //   position: relative;
+        //   left: 0;
+        //   width: 100%;
+        //   height: auto;
+        //   margin-top: 10px;
+        //   margin-bottom: 20px;
+        // }
 
         .osc-vote-button {
 	        box-sizing: border-box;
@@ -592,7 +603,7 @@
     margin: 20px 0;
 
     h3 {
-      width: 920px;
+      width: 700px;
       margin: 0 auto;
       line-height: 44px;
 
@@ -607,8 +618,8 @@
 
   .osc-reactions {
 
-    width: 920px;
-    padding-right: 395px;
+    width: 700px;
+    padding-right: 195px;
     margin: 0 auto;
 
     @media @phone {

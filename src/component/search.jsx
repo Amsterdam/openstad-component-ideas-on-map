@@ -28,11 +28,7 @@ export default class Search extends React.Component {
 
   handleChange(value) {
 
-    this.setState({
-			...this.state,
-			searchValue: value,
-			showSuggestions: value.length >=3 ? true : false,
-		});
+    this.updateSearchValue(value);
 
 		if (value.length >=3) {
 			this.config.doSearchFunction(value, this.updateSearchResult.bind(this));
@@ -53,6 +49,14 @@ export default class Search extends React.Component {
     }
   }
 
+  updateSearchValue(value) {
+    console.log('++', value);
+    this.setState({
+			searchValue: value,
+			showSuggestions: value.length >=3 ? true : false,
+		});
+  }
+
   showSuggestions() {
     this.setState({ showSuggestions: this.state.searchValue.length >= 3 ? true : false });
 	}
@@ -65,12 +69,17 @@ export default class Search extends React.Component {
 
 	updateSearchResult(searchValue, searchResult) {
 		// console.log('update', searchValue, searchResult);
-    this.setState({...this.state, searchValue, searchResult, showSuggestions: searchValue.length >= 3 ? true : false });
+    this.setState({...this.state, searchResult, showSuggestions: searchValue.length >= 3 ? true : false });
 	}
 
 	doSearchx(value) {
 		console.log('search function not defined');
 	}
+
+  onSuggestionClick(text, event, next) {
+    this.updateSearchValue(text)
+    if (next) next(event)
+  }
 
 	render() {
 
@@ -83,13 +92,13 @@ export default class Search extends React.Component {
 					Adressen:
           { self.state.searchResult.locations.map((result, i) => {
 						let text = result.text.replace(new RegExp(self.state.searchValue, 'ig'), ($0) => '<strong>' + $0 + '</strong>');
-            return <div className="osc-search-suggestion osc-search-suggestion-idea" onClick={ result.onClick } key={'search-result-' + i} dangerouslySetInnerHTML={{__html: text}}></div>;
+            return <div className="osc-search-suggestion osc-search-suggestion-idea" onClick={ event => self.onSuggestionClick(result.text, event, result.onClick) } key={'search-result-' + i} dangerouslySetInnerHTML={{__html: text}}></div>;
           })}
 					<div className="osc-search-suggestions-hr"/>
 					{ this.config.title }:
           { self.state.searchResult.ideas.map((result, i) => {
 						let text = result.text.replace(new RegExp(self.state.searchValue, 'ig'), ($0) => '<strong>' + $0 + '</strong>');
-            return <div className="osc-search-suggestion osc-search-suggestion-idea" onClick={ result.onClick } key={'search-result-' + i} dangerouslySetInnerHTML={{__html: text}}></div>;
+            return <div className="osc-search-suggestion osc-search-suggestion-idea" onClick={ event => self.onSuggestionClick(result.text, event, result.onClick) } key={'search-result-' + i} dangerouslySetInnerHTML={{__html: text}}></div>;
           })}
 				</div>
 			);

@@ -306,7 +306,9 @@ export default class OpenStadComponentIdeasOnMap extends OpenStadComponent {
 			if (titlelLc.match(searchValueLc) || summaryLc.match(searchValueLc)) {
 				searchResult.ideas.push({
 					text: title,
-					onClick: function() { self.onUpdateSelectedIdea(idea) },
+					onClick: function() {
+            self.onUpdateSelectedIdea(idea)
+          },
 				})
 			}
 		});
@@ -348,6 +350,7 @@ export default class OpenStadComponentIdeasOnMap extends OpenStadComponent {
             let centroide_ll = json.response.docs[0].centroide_ll;
             let match = centroide_ll.match(/POINT\((\d+\.\d+) (\d+\.\d+)\)/);
             self.map.map.panTo(new L.LatLng(match[2], match[1]));
+            self.onMapClick({ latlng: { lat: match[2], lng: match[1] } }, true)
           }
         })
         .catch((err) => {
@@ -447,7 +450,7 @@ export default class OpenStadComponentIdeasOnMap extends OpenStadComponent {
     }
   }
   
-	onMapClick(event) {
+	onMapClick(event, forceSelectLocation) {
 
 		if ( this.state.mobileState == 'opened' ) { // werkt omdat hij alleen op mobiel opend kan zijn
 			this.infoblock.setState({ mobileState: 'closed' })
@@ -468,7 +471,7 @@ export default class OpenStadComponentIdeasOnMap extends OpenStadComponent {
         break;
 
       default:
-        if (this.selectedIdea || this.map.selectedLocation) {
+        if (( this.selectedIdea || this.map.selectedLocation ) && !forceSelectLocation) {
           this.setState({ ...this.state, status: 'default', currentIdea: null });
           this.setSelectedIdea(null);
           this.setNewIdea(null);
