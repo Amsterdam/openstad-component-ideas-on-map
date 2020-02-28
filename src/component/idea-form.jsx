@@ -68,10 +68,17 @@ export default class IdeasForm extends React.Component {
 	    }
 	  }
 
-	  // tmp: userWhat en userAge
-	  if (name == 'userWhat' || name == 'userAge') {
-	    if (this.state.formfields['userWhat'] && this.state.formfields['userAge']) {
-		    this['form-warning-userHelp'].style.display = 'none';
+	  // tmp: userWhat
+	  if (name == 'userWhat') {
+	    if (this.state.formfields['userWhat']) {
+		    this['form-warning-userWhat'].style.display = 'none';
+	    }
+	  }
+
+	  // tmp: userAge
+	  if (name == 'userAge') {
+	    if (this.state.formfields['userAge']) {
+		    this['form-warning-userAge'].style.display = 'none';
 	    }
 	  }
 
@@ -137,12 +144,20 @@ export default class IdeasForm extends React.Component {
 		  self['form-warning-theme'].style.display = 'none';
 	  }
 
-	  // userWhat en userAge
-	  if (!self.state.formfields['userWhat'] || !self.state.formfields['userAge']) {
-		  self['form-warning-userHelp'].style.display = 'block';
+	  // userWhat
+	  if (!self.state.formfields['userWhat']) {
+		  self['form-warning-userWhat'].style.display = 'block';
 		  isValid = false;
 	  } else {
-		  self['form-warning-userHelp'].style.display = 'none';
+		  self['form-warning-userWhat'].style.display = 'none';
+	  }
+
+	  // userAge
+	  if (!self.state.formfields['userAge']) {
+		  self['form-warning-userAge'].style.display = 'block';
+		  isValid = false;
+	  } else {
+		  self['form-warning-userAge'].style.display = 'none';
 	  }
 
 	  // images
@@ -251,11 +266,11 @@ export default class IdeasForm extends React.Component {
 
         <form className="osc-form">
 
-				  <h1>Kans of knelpunt toevoegen</h1>
+				  <h1>Nieuw punt toevoegen</h1>
 
           <div className="osc-form-group">
 					  <h2>
-            Naam
+              Naam
 					  </h2>
             {self.state.formfields.user && self.state.formfields.user.fullName}
           </div>
@@ -280,15 +295,15 @@ export default class IdeasForm extends React.Component {
 
           <div className="osc-form-group">
 					  <h2>
-						  Kans of knelpunt?
+						  Gaat dit goed of kan dit beter?
 					  </h2>
 					  <div className="osc-form-info">
-						  Wilt u deze inzending bestempelen als een kans of als een knelpunt voor de buurt?
+						  Wilt u deze inzending bestempelen als iets dat goed gaat of iets dat beter kan in de buurt?
 					  </div>
             <select className="osc-default-select" value={this.state.formfields.type} onChange={() => self.handleFieldChange('type', self.typeField.value)} ref={el => (self.typeField = el)}>
               <option value="">Maak een keuze</option>
-              <option value="Kans">Kans</option>
-              <option value="Knelpunt">Knelpunt</option>
+              <option value="Kans">Dit gaat goed</option>
+              <option value="Knelpunt">Dit kan beter</option>
             </select>
 						<div className="osc-form-warning" style={{ display: 'none' }} ref={ el => this['form-warning-type'] = el  }>Je hebt nog geen keuze gemaakt</div>
           </div>
@@ -319,7 +334,7 @@ export default class IdeasForm extends React.Component {
 						  Samenvatting
 					  </h2>
 					  <div className="osc-form-info">
-              Geef hier eerst een korte samenvatting van de kans of het knelpunt. In de volgende stap heeft u ruimte om uw inzending uitgebreider toe te lichten.
+              Geef hier eerst een korte samenvatting. In de volgende stap heeft u ruimte om uw inzending uitgebreider toe te lichten.
 					  </div>
 				    <OpenStadComponentFormelementsInputWithCounter ref={el => (self.input = el)} config={{ name: "samenvatting", inputType: 'textarea', minLength: self.config.summaryMinLength, maxLength: self.config.summaryMaxLength }} value={this.state.formfields.summary} onChange={(data) => self.handleFieldChange('summary', data.value)} ref={el => (self.summaryField = el)}/>
           </div>
@@ -345,7 +360,7 @@ export default class IdeasForm extends React.Component {
 						  Wilt u ons helpen?
 					  </h2>
 					  <div className="osc-form-info">
-						  We willen graag weten of we alle doelgroepen in de buurt bereiken. Daarom vragen we u of u in de buurt woont of werkt, en in welke leeftijdscategorie u valt. Wilt u dit liever niet delen? Kies dan de optie ‘Zeg ik liever niet’.
+						  We willen graag weten of we alle doelgroepen in de buurt bereiken. Daarom vragen we u of u in de buurt woont of werkt, of de buurt regelmatig bezoekt, en in welke leeftijdscategorie u valt. Wilt u dit liever niet delen? Kies dan de optie 'Zeg ik liever niet'.
 					  </div>
 					  <h4>
 						  Woont of werkt u in de buurt?
@@ -354,9 +369,13 @@ export default class IdeasForm extends React.Component {
               <option value="">Maak een keuze</option>
               <option value="Ik woon in de buurt">Ik woon in de buurt</option>
               <option value="Ik werk in de buurt">Ik werk in de buurt</option>
+              <option value="Ik ben een bezoeker van de buurt">Ik ben een bezoeker van de buurt</option>
               <option value="Anders">Anders</option>
               <option value="Zeg ik liever niet">Zeg ik liever niet</option>
             </select>
+						<div className="osc-form-warning" style={{ display: 'none' }} ref={ el => this['form-warning-userWhat'] = el  }>Je hebt nog geen keuze gemaakt</div>
+          </div>
+          <div className="osc-form-group">
 					  <h4>
 						  Wat is uw leeftijd?
 					  </h4>
@@ -369,7 +388,7 @@ export default class IdeasForm extends React.Component {
               <option value="65+">65+</option>
               <option value="Zeg ik liever niet">Zeg ik liever niet</option>
             </select>
-						<div className="osc-form-warning" style={{ display: 'none' }} ref={ el => this['form-warning-userHelp'] = el  }>Je hebt nog geen keuze gemaakt</div>
+						<div className="osc-form-warning" style={{ display: 'none' }} ref={ el => this['form-warning-userAge'] = el  }>Je hebt nog geen keuze gemaakt</div>
           </div>
 
           {modBreakHTML}

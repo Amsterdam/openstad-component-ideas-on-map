@@ -97,7 +97,7 @@ export default class InfoBlock extends React.Component {
         let button = null;
         if (self.config.api.isUserLoggedIn) {
           button = (
-            <button className="osc-button osc-button-blue" onClick={(event) => self.dispatchNewIdeaClick(event)} ref={el => (self.newIdeaButton = el)}>Nieuwe kans of knelpunt toevoegen</button>
+            <button className="osc-button osc-button-blue" onClick={(event) => self.dispatchNewIdeaClick(event)} ref={el => (self.newIdeaButton = el)}>Nieuw punt toevoegen</button>
           );
         } else {
           button = (
@@ -107,11 +107,9 @@ export default class InfoBlock extends React.Component {
         newIdeaHTML = (
 			    <div className="osc-info-block-new-idea">
             <button className="osc-close-button" onClick={(event) => self.dispatchCloseSelectedLocation(event, null)} ref={el => (self.resetButton = el)}/>
-              <h3>Geselecteerd</h3>
-              <p>Een locatie vlakbij</p>
-              <h4>{self.state.newIdea.address}</h4>
+            <p><strong>Geselecteerd:</strong> Een locatie vlakbij <strong>{self.state.newIdea.address}</strong></p>
               {/* <h4>{self.state.newIdea.location.coordinates[0]},{self.state.newIdea.location.coordinates[1]}</h4> */}
-              <p>Op deze locatie is nog geen kans of knelpunt ingestuurd. Wellicht heeft een medebewoner al een vergelijkbare melding gedaan waaraan u kunt bijdragen. Bekijk de inzendingen in de buurt in onderstaande lijst. Wilt u een nieuw kans of knelpunt toevoegen? Klik dan hier:</p>
+              <p>Op deze locatie is nog geen punt ingestuurd. Maar misschien heeft een medebewoner wel een vergelijkbare melding gedaan in de omgeving waaraan u kunt bijdragen. Bekijk daarom eerst de inzendingen in onderstaande lijst. Wilt u een nieuw punt toevoegen? Klik dan hier:</p>
               {button}
           </div>
         );
@@ -121,8 +119,8 @@ export default class InfoBlock extends React.Component {
             <button className="osc-close-button" onClick={(event) => self.dispatchCloseSelectedLocation(event, null)} ref={el => (self.resetButton = el)}/>
             <h3>Geselecteerd</h3>
             <p>U heeft een locatie geselecteerd buiten het begrensde gebied. U kunt via deze website geen melding op deze locatie inzenden.</p>
-            <p>Wilt u iets melden over de omliggende straten en pleinen? Dan horen we dit graag van u via e-mail. Klik daarvoor op de link hieronder of stuur direct een e-mail naar gerarddoubuurt@amsterdam.nl.</p>
-            <a className="osc-link" href="mailto: gerarddoubuurt@amsterdam.nl">Meld een kans of knelpunt via e-mail</a>
+            <p>Wilt u melden wat er goed is of wat er beter kan in de omliggende straten en pleinen? Dan horen we dit graag van u via e-mail. Klik daarvoor op de link hieronder of stuur direct een e-mail naar gerarddoubuurt@amsterdam.nl.</p>
+            <a className="osc-link" href="mailto: gerarddoubuurt@amsterdam.nl">Stuur een e-mail</a>
           </div>
         );
       }
@@ -173,10 +171,10 @@ export default class InfoBlock extends React.Component {
       defaultBlockHTML = (
 			  <div className="osc-info-block-default-block">
           <div className="osc-info-block-default-block-line osc-line-1">
-            <strong>Klik op een plek</strong> op de kaart om een <strong>nieuwe kans of knelpunt toe te voegen</strong>.
+            Klik op een plek op de kaart om een nieuw punt toe te voegen.
           </div>
           <div className="osc-info-block-default-block-line osc-line-2">
-            <strong>Selecteer een inzending</strong> op de kaart om <strong>meer informatie</strong> over de kans of het knelpunt te bekijken.
+            Selecteer een inzending op de kaart om meer informatie over de inzending te bekijken.
           </div>
           <div className="osc-info-block-default-block-line osc-line-3">
             Bekijk hieronder de inzendingen die nu zichtbaar zijn op de kaart.

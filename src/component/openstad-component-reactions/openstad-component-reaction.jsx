@@ -138,11 +138,13 @@ export default class OpenStadComponentReaction extends React.Component {
       );
     }
 
-    let likeButtonHTML = (
-			<button className={ 'osc-reaction-like-button' + ( self.state.hasUserVoted ? ' osc-reaction-like-button-hasvoted' : '' ) } onClick={ () => self.submitLike() }>
-				Mee eens (<span>{self.state.yes | 0}</span>)
-      </button>
-    );
+    // voor nu staat dit uit
+    // let likeButtonHTML = (
+		//   <button className={ 'osc-reaction-like-button' + ( self.state.hasUserVoted ? ' osc-reaction-like-button-hasvoted' : '' ) } onClick={ () => self.submitLike() }>
+		//   	Mee eens (<span>{self.state.yes | 0}</span>)
+    //   </button>
+    // );
+    let likeButtonHTML = null;
 
     let descriptionHTML = (<div className="osc-reaction-description">{self.state.description}</div>);
     if (self.state.editMode) {

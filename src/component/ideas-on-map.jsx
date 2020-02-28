@@ -730,8 +730,8 @@ export default class OpenStadComponentIdeasOnMap extends OpenStadComponent {
           api: this.config.api,
           argument: this.config.argument,
           labels: {
-            Kans: { text: 'Kans', color: 'black', backgroundColor: '#bed200' },
-            Knelpunt: { text: 'Knelpunt', color: 'black', backgroundColor: '#ff9100' },
+            Kans: { text: 'Dit gaat goed', color: 'black', backgroundColor: '#bed200' },
+            Knelpunt: { text: 'Dit kan beter', color: 'black', backgroundColor: '#ff9100' },
           }
         };
         infoHTML = (
@@ -756,8 +756,8 @@ export default class OpenStadComponentIdeasOnMap extends OpenStadComponent {
         if (this.state.status == 'location-selected') {
           if (this.state.editIdea && this.state.editIdea.isPointInPolygon) {
             let buttonHTML = this.config.api.isUserLoggedIn
-                ? (<button className="osc-button osc-button-blue" onClick={(event) => { this.onClickMobileSwitcher(event); this.onNewIdeaClick(event)} } ref={el => (self.newIdeaButton = el)}>Kans of knelpunt toevoegen</button>)
-                : (<div>Wilt u een kans of knelpunt toevoegen? Dan moet u eerst <a href="javascript: document.location.href = '/oauth/login?returnTo=' + encodeURIComponent(document.location.href)">inloggen</a>.</div>);
+                ? (<button className="osc-button osc-button-blue" onClick={(event) => { this.onClickMobileSwitcher(event); this.onNewIdeaClick(event)} } ref={el => (self.newIdeaButton = el)}>Nieuw punt toevoegen</button>)
+                : (<div>Wilt u een nieuw punt toevoegen? Dan moet u eerst <a href="javascript: document.location.href = '/oauth/login?returnTo=' + encodeURIComponent(document.location.href)">inloggen</a>.</div>);
             mobilePopupHTML = (
               <div className="ocs-mobile-popup">
                 Een locatie vlakbij
